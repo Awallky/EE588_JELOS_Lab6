@@ -1,0 +1,93 @@
+#ifndef MYLIB_H
+#define MYLIB_H
+//*****************************************************************************
+//
+// A few useful defines
+//
+//*****************************************************************************
+#define TARGET_IS_BLIZZARD_RB1 
+#include <stdlib.h>
+#include <stdint.h>
+#include <stdio.h>
+
+#include <stdbool.h>
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/inc/hw_memmap.h"  
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/debug.h" 
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/gpio.h" 
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/rom.h" 
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/sysctl.h" 
+#include "./../include/jelos.h"
+
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/inc/hw_ints.h"
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/inc/hw_nvic.h"
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/inc/hw_types.h"
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/fpu.h"
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/interrupt.h"
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/pin_map.h"
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/systick.h"
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/uart.h"
+
+//
+// Base Address for Data Registers
+//
+#define PORTA_BASE_ADDR 0x40004000
+#define PORTB_BASE_ADDR 0x40005000
+#define PORTC_BASE_ADDR 0x40006000 // BEWARE: JTAG spans bits 0-3, Data bits span bits 4-7
+#define PORTD_BASE_ADDR 0x40007000
+#define PORTE_BASE_ADDR 0x40024000 // Note: Data bits only span bits 0-5, instead of 0-7
+#define PORTF_BASE_ADDR 0x40025000 // Note: Data bits only span bits 0-4, instead of 0-7
+
+//
+// LOCK REGISTER
+//
+#define GPIO_PORTD_LOCK_R (*((volatile unsigned long *)(PORTD_BASE_ADDR + GPIO_O_LOCK))) // LOCK_R
+#define GPIO_PORTD_COMMIT_R (*((volatile unsigned long *)(PORTD_BASE_ADDR + GPIO_O_CR))) // CR
+#define UNLOCK_VAL 0x4C4F434B
+#define GPIO_PORTF_LOCK_R       (*((volatile unsigned long *)0x40025520))
+#define GPIO_PORTF_CR_R         (*((volatile unsigned long *)0x40025524))
+#define SYSCTL_RCGCGPIO_R       (*((volatile unsigned long *)0x400FE608))
+#define SYSCTL_PRGPIO_R         (*((volatile unsigned long *)0x400FEA08))
+
+//
+// Pin definitions
+//
+#define PIN_0_OFFSET 0x0004
+#define PIN_1_OFFSET 0x0008
+#define PIN_2_OFFSET 0x0010
+#define PIN_3_OFFSET 0x0020
+#define PIN_4_OFFSET 0x0040
+#define PIN_5_OFFSET 0x0080
+#define PIN_6_OFFSET 0x0100
+#define PIN_7_OFFSET 0x0200
+
+#define PIN_0 0x0001
+#define PIN_1 0x0002
+#define PIN_2 0x0004
+#define PIN_3 0x0008
+#define PIN_4 0x0010
+#define PIN_5 0x0020
+#define PIN_6 0x0040
+#define PIN_7 0x0080
+#define PINS_0_1_2 (PIN_0 | PIN_1 | PIN_2)
+#define PINS_1_2_3 (PIN_1 | PIN_2 | PIN_3)
+
+#define GREEN_LED PIN_0
+#define RED_LED PIN_1
+#define BLUE_LED PIN_2
+
+#define PORTA_CLOCK_BIT 0x0001
+#define PORTB_CLOCK_BIT 0x0002
+#define PORTC_CLOCK_BIT 0x0004
+#define PORTD_CLOCK_BIT 0x0008
+#define PORTE_CLOCK_BIT 0x0010
+#define PORTF_CLOCK_BIT 0x0020
+
+void ps(void);
+void OS_Sem_Init(unsigned int *s, unsigned int count);
+void OS_Sem_Signal(unsigned int *sem);
+void OS_Sem_Wait(unsigned int *sem);
+float get_percent_cpu(void);
+
+#define TICKS_PER_S	50000000
+
+#endif

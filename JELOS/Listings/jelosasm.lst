@@ -1,0 +1,320 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;****************** 303osASM.s ***************
+    2 00000000         ;
+    3 00000000         ; JELOS S16
+    4 00000000         ; James Lumpp
+    5 00000000         ; 4/11/2016
+    6 00000000         ;
+    7 00000000         ; Useful declarations
+    8 00000000         
+    9 00000000 4002541C 
+                       GPIO_PORTF_ICR_R
+                               EQU              0x4002541C  ; interrupt flag fo
+                                                            r PortF
+   10 00000000 E000E010 
+                       SYSTICK_CTL_R
+                               EQU              0xE000E010  ; SysTick Control F
+                                                            lag
+   11 00000000         
+   12 00000000 00000000 
+                       SWITCH_COUNT
+                               EQU              0           ; Number of SYstick
+                                                             interrupts before 
+                                                            a context switch
+   13 00000000 FFFFFFF9 
+                       INTERRUPT_LR
+                               EQU              0xfffffff9  ; Number of SYstick
+                                                             interrupts before 
+                                                            a context switch
+   14 00000000                 THUMB
+   15 00000000         
+   16 00000000         
+   17 00000000                 AREA             DATA, ALIGN=2
+   18 00000000         ; Global variables go here
+   19 00000000         
+   20 00000000 00 00 00 
+              00       INT_COUNT
+                               SPACE            4
+   21 00000004         
+   22 00000004                 EXTERN           Schedule
+   23 00000004         
+   24 00000004                 ALIGN                        ; make sure the end
+                                                             of this section is
+                                                             aligned
+   25 00000004                 AREA             |.text|, CODE, READONLY, ALIGN=
+2
+   26 00000000         
+   27 00000000                 EXPORT           GPIOPortF_Handler
+   28 00000000                 EXPORT           StartNewTask
+   29 00000000                 EXPORT           SysTick_Handler
+   30 00000000         ; EXPORT OS_Suspend
+   31 00000000         
+   32 00000000         GPIOPortF_Handler
+   33 00000000         ; This isr will context switch every SWITCH_COUNT ticks
+   34 00000000 481A            ldr              r0, =GPIO_PORTF_ICR_R
+   35 00000002 F04F 0110       mov              r1, #0x10
+   36 00000006 6001            str              r1,[r0]     ; acknowledge flag4
+                                                            
+   37 00000008 4819            ldr              r0,=INT_COUNT
+   38 0000000A 6801            ldr              r1,[r0]
+   39 0000000C 1E49            subs             r1,r1,#1
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   40 0000000E D301            blo              context_sw  ; perform context s
+                                                            witch
+   41 00000010 6001            str              r1,[r0]
+   42 00000012 4770            bx               lr          ; return from ISR
+   43 00000014         context_sw
+   44 00000014 F04F 0100       mov              r1,#SWITCH_COUNT
+   45 00000018 6001            str              r1,[r0]     ;reset INT_COUNT
+   46 0000001A E92D 0FF0       push{r4-r11}                 ; save rest of stat
+                                                            e of the task swith
+                                                            cing out
+   47 0000001E 4668            mov              r0,sp
+   48 00000020 F7FF FFFE       bl               Schedule    ; will call schedul
+                                                            er to select new ta
+                                                            sk
+   49 00000024 4685            mov              sp,r0       ; load new tasks sp
+                                                            
+   50 00000026 E8BD 0FF0       pop              {r4-r11}
+   51 0000002A F06F 0E06       ldr              lr,=INTERRUPT_LR
+   52 0000002E 4770            bx               lr          ; context switch!
+   53 00000030         
+   54 00000030                 ALIGN
+   55 00000030         
+   56 00000030         StartNewTask
+   57 00000030 4685            mov              sp,r0       ; stack top for thi
+                                                            s new task
+   58 00000032 F04F 7280       mov              r2,#0x01000000
+   59 00000036 B404            push             {r2}        ; PSR (mark as thum
+                                                            b)
+   60 00000038 B402            push             {r1}        ; PC start address 
+                                                            of the task
+   61 0000003A 490E            ldr              r1, =task_exit
+   62 0000003C B402            push             {r1}        ; LR (if task ever 
+                                                            returns)
+   63 0000003E F04F 0100       mov              r1,#0       ; don't care value 
+                                                            of 0 for the other 
+                                                            regs
+   64 00000042 B402            push             {r1}        ; r12
+   65 00000044 B402            push             {r1}        ; r3 could be arg t
+                                                            o func
+   66 00000046 B402            push             {r1}        ; r2 could be arg t
+                                                            o func
+   67 00000048 B402            push             {r1}        ; r1 could be arg t
+                                                            o func
+   68 0000004A B402            push             {r1}        ; r0 could be arg t
+                                                            o func
+   69 0000004C F06F 0E06       ldr              lr,=INTERRUPT_LR
+   70 00000050 4770            bx               lr          ; context switch to
+                                                             this new tas
+   71 00000052         
+   72 00000052         task_exit
+   73 00000052 E7FE            b                task_exit   ; if a task ever re
+                                                            turns it 
+   74 00000054         ; gets stuck here for debugging
+   75 00000054         
+   76 00000054                 ALIGN                        ; make sure the end
+                                                             of this section is
+                                                             aligned (For the c
+                                                            ode/data to follow
+   77 00000054         
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+   78 00000054         ;;
+   79 00000054         ;; AMW
+   80 00000054         ;;
+   81 00000054         SysTick_Handler
+   82 00000054 E92D 0FF0       push{r4-r11}                 ;save rest of state
+                                                             of the task switch
+                                                            ing out
+   83 00000058 4668            mov              r0,sp
+   84 0000005A F7FF FFFE       bl               Schedule    ; will call schedul
+                                                            er to select new ta
+                                                            sk
+   85 0000005E 4685            mov              sp,r0       ; load new tasks sp
+                                                            
+   86 00000060 E8BD 0FF0       pop              {r4-r11}
+   87 00000064 F06F 0E06       ldr              lr,=INTERRUPT_LR
+   88 00000068 4770            bx               lr          ; context switch!
+   89 0000006A         
+   90 0000006A 00 00           ALIGN                        ; make sure the end
+                                                             of this section is
+                                                             aligned (For the c
+                                                            ode/data to follow)
+                                                            
+   91 0000006C         
+   92 0000006C         
+   93 0000006C         ;OS_Suspend
+   94 0000006C         ; ldr r0,=SYSTICK_CTL_R
+   95 0000006C         ; ;orr SYSTICK_CTL_R, #0x02
+   96 0000006C         ; ldr r1, [r0]
+   97 0000006C         ; orr r1, #0x02
+   98 0000006C         ; str [r0], r1
+   99 0000006C         ; bx lr
+  100 0000006C         
+  101 0000006C                 ALIGN                        ; make sure the end
+                                                             of this section is
+                                                             aligned (For the c
+                                                            ode/data to follow)
+                                                            
+  102 0000006C                 END                          ; mark end of file
+              4002541C 
+              00000000 
+              00000000 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4 --apcs=interw
+ork --depend=.\objects\jelosasm.d -o.\objects\jelosasm.o -I.\RTE\_Target_1 -IC:
+\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -IC:\Keil_v5\ARM\C
+MSIS\Include --predefine="__EVAL SETA 1" --predefine="__MICROLIB SETA 1" --pred
+efine="__UVISION_VERSION SETA 524" --predefine="TM4C123GH6PM SETA 1" --list=.\l
+istings\jelosasm.lst src\jelosASM.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+DATA 00000000
+
+Symbol: DATA
+   Definitions
+      At line 17 in file src\jelosASM.s
+   Uses
+      None
+Comment: DATA unused
+INT_COUNT 00000000
+
+Symbol: INT_COUNT
+   Definitions
+      At line 20 in file src\jelosASM.s
+   Uses
+      At line 37 in file src\jelosASM.s
+Comment: INT_COUNT used once
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 25 in file src\jelosASM.s
+   Uses
+      None
+Comment: .text unused
+GPIOPortF_Handler 00000000
+
+Symbol: GPIOPortF_Handler
+   Definitions
+      At line 32 in file src\jelosASM.s
+   Uses
+      At line 27 in file src\jelosASM.s
+Comment: GPIOPortF_Handler used once
+StartNewTask 00000030
+
+Symbol: StartNewTask
+   Definitions
+      At line 56 in file src\jelosASM.s
+   Uses
+      At line 28 in file src\jelosASM.s
+Comment: StartNewTask used once
+SysTick_Handler 00000054
+
+Symbol: SysTick_Handler
+   Definitions
+      At line 81 in file src\jelosASM.s
+   Uses
+      At line 29 in file src\jelosASM.s
+Comment: SysTick_Handler used once
+context_sw 00000014
+
+Symbol: context_sw
+   Definitions
+      At line 43 in file src\jelosASM.s
+   Uses
+      At line 40 in file src\jelosASM.s
+Comment: context_sw used once
+task_exit 00000052
+
+Symbol: task_exit
+   Definitions
+      At line 72 in file src\jelosASM.s
+   Uses
+      At line 61 in file src\jelosASM.s
+      At line 73 in file src\jelosASM.s
+
+6 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+GPIO_PORTF_ICR_R 4002541C
+
+Symbol: GPIO_PORTF_ICR_R
+   Definitions
+      At line 9 in file src\jelosASM.s
+   Uses
+      At line 34 in file src\jelosASM.s
+Comment: GPIO_PORTF_ICR_R used once
+INTERRUPT_LR FFFFFFF9
+
+Symbol: INTERRUPT_LR
+   Definitions
+      At line 13 in file src\jelosASM.s
+   Uses
+      At line 51 in file src\jelosASM.s
+      At line 69 in file src\jelosASM.s
+      At line 87 in file src\jelosASM.s
+
+SWITCH_COUNT 00000000
+
+Symbol: SWITCH_COUNT
+   Definitions
+      At line 12 in file src\jelosASM.s
+   Uses
+      At line 44 in file src\jelosASM.s
+Comment: SWITCH_COUNT used once
+SYSTICK_CTL_R E000E010
+
+Symbol: SYSTICK_CTL_R
+   Definitions
+      At line 10 in file src\jelosASM.s
+   Uses
+      None
+Comment: SYSTICK_CTL_R unused
+4 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+Schedule 00000000
+
+Symbol: Schedule
+   Definitions
+      At line 22 in file src\jelosASM.s
+   Uses
+      At line 48 in file src\jelosASM.s
+      At line 84 in file src\jelosASM.s
+
+1 symbol
+349 symbols in table

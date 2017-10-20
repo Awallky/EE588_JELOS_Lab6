@@ -1,0 +1,981 @@
+Component: ARM Compiler 5.06 update 5 (build 528) Tool: armlink [4d35e2]
+
+==============================================================================
+
+Section Cross References
+
+    uart.o(i.UART_InString) refers to uart.o(i.UART_InChar) for UART_InChar
+    uart.o(i.UART_InString) refers to uart.o(i.UART_OutChar) for UART_OutChar
+    uart.o(i.UART_InUDec) refers to uart.o(i.UART_InChar) for UART_InChar
+    uart.o(i.UART_InUDec) refers to uart.o(i.UART_OutChar) for UART_OutChar
+    uart.o(i.UART_InUHex) refers to uart.o(i.UART_InChar) for UART_InChar
+    uart.o(i.UART_InUHex) refers to uart.o(i.UART_OutChar) for UART_OutChar
+    uart.o(i.UART_OutString) refers to uart.o(i.UART_OutChar) for UART_OutChar
+    uart.o(i.UART_OutUDec) refers to uart.o(i.UART_OutChar) for UART_OutChar
+    uart.o(i.UART_OutUHex) refers to uart.o(i.UART_OutChar) for UART_OutChar
+    startup.o(RESET) refers to startup.o(STACK) for StackMem
+    startup.o(RESET) refers to jelosasm.o(.text) for SysTick_Handler
+    startup.o(RESET) refers to entry.o(.ARM.Collect$$$$00000000) for __main
+    serialio.o(i.fgetc) refers to uart.o(i.UART_InChar) for UART_InChar
+    serialio.o(i.fgetc) refers to uart.o(i.UART_OutChar) for UART_OutChar
+    serialio.o(i.fputc) refers to uart.o(i.UART_OutChar) for UART_OutChar
+    serialio.o(i.gets) refers to getc.o(i.getc) for getc
+    serialio.o(i.gets) refers to stdin.o(.data) for __stdin
+    serialio.o(i.prmsg) refers to putc.o(i.putc) for putc
+    serialio.o(i.prmsg) refers to stdout.o(.data) for __stdout
+    shell.o(i.execute) refers to printf8.o(i.__0printf$8) for __2printf
+    shell.o(i.execute) refers to serialio.o(i.prmsg) for prmsg
+    shell.o(i.execute) refers to putc.o(i.putc) for putc
+    shell.o(i.execute) refers to stdout.o(.data) for __stdout
+    shell.o(i.settime) refers to printf8.o(i.__0printf$8) for __2printf
+    shell.o(i.shell) refers to memseta.o(.text) for __aeabi_memclr4
+    shell.o(i.shell) refers to jelos.o(i.OS_Sem_Wait) for OS_Sem_Wait
+    shell.o(i.shell) refers to printf8.o(i.__0printf$8) for __2printf
+    shell.o(i.shell) refers to serialio.o(i.gets) for gets
+    shell.o(i.shell) refers to shell.o(i.parse) for parse
+    shell.o(i.shell) refers to serialio.o(i.strcmp) for strcmp
+    shell.o(i.shell) refers to jelos.o(i.OS_Sem_Signal) for OS_Sem_Signal
+    shell.o(i.shell) refers to shell.o(i.time) for time
+    shell.o(i.shell) refers to jelos.o(i.ps) for ps
+    shell.o(i.shell) refers to shell.o(i.settime) for settime
+    shell.o(i.shell) refers to shell.o(i.temp) for temp
+    shell.o(i.shell) refers to puts.o(i.puts) for puts
+    shell.o(i.shell) refers to shell.o(i.execute) for execute
+    shell.o(i.shell) refers to putc.o(i.putc) for putc
+    shell.o(i.shell) refers to jelos.o(.data) for sem
+    shell.o(i.shell) refers to stdout.o(.data) for __stdout
+    shell.o(i.temp) refers to printf8.o(i.__0printf$8) for __2printf
+    shell.o(i.time) refers to printf8.o(i.__0printf$8) for __2printf
+    edgeinterrupt.o(i.EdgeCounter_Init) refers to startup.o(.text) for EnableInterrupts
+    edgeinterrupt.o(i.EdgeCounter_Init) refers to edgeinterrupt.o(.data) for FallingEdges
+    ostestmain.o(i.One) refers to jelos.o(i.OS_Sem_Wait) for OS_Sem_Wait
+    ostestmain.o(i.One) refers to putc.o(i.putc) for putc
+    ostestmain.o(i.One) refers to jelos.o(i.OS_Sem_Signal) for OS_Sem_Signal
+    ostestmain.o(i.One) refers to jelos.o(.data) for sem
+    ostestmain.o(i.One) refers to stdout.o(.data) for __stdout
+    ostestmain.o(i.Two) refers to putc.o(i.putc) for putc
+    ostestmain.o(i.Two) refers to stdout.o(.data) for __stdout
+    ostestmain.o(i.Zero) refers to jelos.o(i.OS_Sem_Wait) for OS_Sem_Wait
+    ostestmain.o(i.Zero) refers to putc.o(i.putc) for putc
+    ostestmain.o(i.Zero) refers to jelos.o(i.OS_Sem_Signal) for OS_Sem_Signal
+    ostestmain.o(i.Zero) refers to jelos.o(.data) for sem
+    ostestmain.o(i.Zero) refers to stdout.o(.data) for __stdout
+    ostestmain.o(i.main) refers to pll.o(i.PLL_Init) for PLL_Init
+    ostestmain.o(i.main) refers to uart.o(i.UART_Init) for UART_Init
+    ostestmain.o(i.main) refers to puts.o(i.puts) for puts
+    ostestmain.o(i.main) refers to jelos.o(i.CreateTask) for CreateTask
+    ostestmain.o(i.main) refers to jelos.o(i.StartScheduler) for StartScheduler
+    ostestmain.o(i.main) refers to ostestmain.o(.bss) for task_shell_stack
+    ostestmain.o(i.main) refers to shell.o(i.shell) for shell
+    ostestmain.o(i.main) refers to ostestmain.o(i.Zero) for Zero
+    ostestmain.o(i.main) refers to ostestmain.o(i.One) for One
+    ostestmain.o(i.main) refers to ostestmain.o(i.Two) for Two
+    jelos.o(i.CreateTask) refers to jelos.o(i.InitSystem) for InitSystem
+    jelos.o(i.CreateTask) refers to jelos.o(.data) for TASK_LIST_PTR
+    jelos.o(i.InitSystem) refers to jelos.o(i.CreateTask) for CreateTask
+    jelos.o(i.InitSystem) refers to jelos.o(.bss) for task_list
+    jelos.o(i.InitSystem) refers to jelos.o(.data) for TASK_LIST_PTR
+    jelos.o(i.InitSystem) refers to jelos.o(i.NullTask) for NullTask
+    jelos.o(i.OS_Sem_Init) refers to startup.o(.text) for DisableInterrupts
+    jelos.o(i.OS_Sem_Signal) refers to startup.o(.text) for DisableInterrupts
+    jelos.o(i.OS_Sem_Wait) refers to startup.o(.text) for DisableInterrupts
+    jelos.o(i.PS_Calcs) refers to jelos.o(.data) for total_num_ticks
+    jelos.o(i.PS_Calcs) refers to jelos.o(.bss) for task_ticks
+    jelos.o(i.Schedule) refers to jelosasm.o(.text) for StartNewTask
+    jelos.o(i.Schedule) refers to jelos.o(i.PS_Calcs) for PS_Calcs
+    jelos.o(i.Schedule) refers to jelos.o(.data) for CURRENT_TASK
+    jelos.o(i.Schedule) refers to jelos.o(.bss) for task_state
+    jelos.o(i.StartScheduler) refers to jelos.o(i.OS_Sem_Init) for OS_Sem_Init
+    jelos.o(i.StartScheduler) refers to jelos.o(i.PortF_Init) for PortF_Init
+    jelos.o(i.StartScheduler) refers to jelos.o(i.SysTick_Init) for SysTick_Init
+    jelos.o(i.StartScheduler) refers to startup.o(.text) for EnableInterrupts
+    jelos.o(i.StartScheduler) refers to jelos.o(i.NullTask) for NullTask
+    jelos.o(i.StartScheduler) refers to jelos.o(.data) for CURRENT_TASK
+    jelos.o(i.ps) refers to printf8.o(i.__0printf$8) for __2printf
+    jelos.o(i.ps) refers to jelos.o(.data) for i
+    jelos.o(i.ps) refers to jelos.o(.bss) for percent_cpu
+    jelosasm.o(.text) refers to jelos.o(i.Schedule) for Schedule
+    jelosasm.o(.text) refers to jelosasm.o(DATA) for INT_COUNT
+    entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry10a.o(.ARM.Collect$$$$0000000D) for __rt_final_cpp
+    entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry11a.o(.ARM.Collect$$$$0000000F) for __rt_final_exit
+    entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry7b.o(.ARM.Collect$$$$00000008) for _main_clock
+    entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry8b.o(.ARM.Collect$$$$0000000A) for _main_cpp_init
+    entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry9a.o(.ARM.Collect$$$$0000000B) for _main_init
+    entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry5.o(.ARM.Collect$$$$00000004) for _main_scatterload
+    entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry2.o(.ARM.Collect$$$$00000001) for _main_stk
+    puts.o(i.puts) refers to serialio.o(i.fputc) for fputc
+    puts.o(i.puts) refers to stdout.o(.data) for __stdout
+    getc.o(i.getc) refers to serialio.o(i.fgetc) for fgetc
+    putc.o(i.putc) refers to serialio.o(i.fputc) for fputc
+    puts_e.o(.text) refers to serialio.o(i.fputc) for fputc
+    puts_e.o(.text) refers to stdout.o(.data) for __stdout
+    printfb.o(i.__0fprintf$bare) refers to printfb.o(i._printf_core) for _printf_core
+    printfb.o(i.__0fprintf$bare) refers to serialio.o(i.fputc) for fputc
+    printfb.o(i.__0printf$bare) refers to printfb.o(i._printf_core) for _printf_core
+    printfb.o(i.__0printf$bare) refers to serialio.o(i.fputc) for fputc
+    printfb.o(i.__0printf$bare) refers to stdout.o(.data) for __stdout
+    printfb.o(i.__0snprintf$bare) refers to printfb.o(i._printf_core) for _printf_core
+    printfb.o(i.__0snprintf$bare) refers to printfb.o(i._snputc) for _snputc
+    printfb.o(i.__0sprintf$bare) refers to printfb.o(i._printf_core) for _printf_core
+    printfb.o(i.__0sprintf$bare) refers to printfb.o(i._sputc) for _sputc
+    printfb.o(i.__0vfprintf$bare) refers to printfb.o(i._printf_core) for _printf_core
+    printfb.o(i.__0vfprintf$bare) refers to serialio.o(i.fputc) for fputc
+    printfb.o(i.__0vprintf$bare) refers to printfb.o(i._printf_core) for _printf_core
+    printfb.o(i.__0vprintf$bare) refers to serialio.o(i.fputc) for fputc
+    printfb.o(i.__0vprintf$bare) refers to stdout.o(.data) for __stdout
+    printfb.o(i.__0vsnprintf$bare) refers to printfb.o(i._printf_core) for _printf_core
+    printfb.o(i.__0vsnprintf$bare) refers to printfb.o(i._snputc) for _snputc
+    printfb.o(i.__0vsprintf$bare) refers to printfb.o(i._printf_core) for _printf_core
+    printfb.o(i.__0vsprintf$bare) refers to printfb.o(i._sputc) for _sputc
+    printf0.o(i.__0fprintf$0) refers to printf0.o(i._printf_core) for _printf_core
+    printf0.o(i.__0fprintf$0) refers to serialio.o(i.fputc) for fputc
+    printf0.o(i.__0printf$0) refers to printf0.o(i._printf_core) for _printf_core
+    printf0.o(i.__0printf$0) refers to serialio.o(i.fputc) for fputc
+    printf0.o(i.__0printf$0) refers to stdout.o(.data) for __stdout
+    printf0.o(i.__0snprintf$0) refers to printf0.o(i._printf_core) for _printf_core
+    printf0.o(i.__0snprintf$0) refers to printf0.o(i._snputc) for _snputc
+    printf0.o(i.__0sprintf$0) refers to printf0.o(i._printf_core) for _printf_core
+    printf0.o(i.__0sprintf$0) refers to printf0.o(i._sputc) for _sputc
+    printf0.o(i.__0vfprintf$0) refers to printf0.o(i._printf_core) for _printf_core
+    printf0.o(i.__0vfprintf$0) refers to serialio.o(i.fputc) for fputc
+    printf0.o(i.__0vprintf$0) refers to printf0.o(i._printf_core) for _printf_core
+    printf0.o(i.__0vprintf$0) refers to serialio.o(i.fputc) for fputc
+    printf0.o(i.__0vprintf$0) refers to stdout.o(.data) for __stdout
+    printf0.o(i.__0vsnprintf$0) refers to printf0.o(i._printf_core) for _printf_core
+    printf0.o(i.__0vsnprintf$0) refers to printf0.o(i._snputc) for _snputc
+    printf0.o(i.__0vsprintf$0) refers to printf0.o(i._printf_core) for _printf_core
+    printf0.o(i.__0vsprintf$0) refers to printf0.o(i._sputc) for _sputc
+    printf1.o(i.__0fprintf$1) refers to printf1.o(i._printf_core) for _printf_core
+    printf1.o(i.__0fprintf$1) refers to serialio.o(i.fputc) for fputc
+    printf1.o(i.__0printf$1) refers to printf1.o(i._printf_core) for _printf_core
+    printf1.o(i.__0printf$1) refers to serialio.o(i.fputc) for fputc
+    printf1.o(i.__0printf$1) refers to stdout.o(.data) for __stdout
+    printf1.o(i.__0snprintf$1) refers to printf1.o(i._printf_core) for _printf_core
+    printf1.o(i.__0snprintf$1) refers to printf1.o(i._snputc) for _snputc
+    printf1.o(i.__0sprintf$1) refers to printf1.o(i._printf_core) for _printf_core
+    printf1.o(i.__0sprintf$1) refers to printf1.o(i._sputc) for _sputc
+    printf1.o(i.__0vfprintf$1) refers to printf1.o(i._printf_core) for _printf_core
+    printf1.o(i.__0vfprintf$1) refers to serialio.o(i.fputc) for fputc
+    printf1.o(i.__0vprintf$1) refers to printf1.o(i._printf_core) for _printf_core
+    printf1.o(i.__0vprintf$1) refers to serialio.o(i.fputc) for fputc
+    printf1.o(i.__0vprintf$1) refers to stdout.o(.data) for __stdout
+    printf1.o(i.__0vsnprintf$1) refers to printf1.o(i._printf_core) for _printf_core
+    printf1.o(i.__0vsnprintf$1) refers to printf1.o(i._snputc) for _snputc
+    printf1.o(i.__0vsprintf$1) refers to printf1.o(i._printf_core) for _printf_core
+    printf1.o(i.__0vsprintf$1) refers to printf1.o(i._sputc) for _sputc
+    printf1.o(i._printf_core) refers to uidiv.o(.text) for __aeabi_uidivmod
+    printf2.o(i.__0fprintf$2) refers to printf2.o(i._printf_core) for _printf_core
+    printf2.o(i.__0fprintf$2) refers to serialio.o(i.fputc) for fputc
+    printf2.o(i.__0printf$2) refers to printf2.o(i._printf_core) for _printf_core
+    printf2.o(i.__0printf$2) refers to serialio.o(i.fputc) for fputc
+    printf2.o(i.__0printf$2) refers to stdout.o(.data) for __stdout
+    printf2.o(i.__0snprintf$2) refers to printf2.o(i._printf_core) for _printf_core
+    printf2.o(i.__0snprintf$2) refers to printf2.o(i._snputc) for _snputc
+    printf2.o(i.__0sprintf$2) refers to printf2.o(i._printf_core) for _printf_core
+    printf2.o(i.__0sprintf$2) refers to printf2.o(i._sputc) for _sputc
+    printf2.o(i.__0vfprintf$2) refers to printf2.o(i._printf_core) for _printf_core
+    printf2.o(i.__0vfprintf$2) refers to serialio.o(i.fputc) for fputc
+    printf2.o(i.__0vprintf$2) refers to printf2.o(i._printf_core) for _printf_core
+    printf2.o(i.__0vprintf$2) refers to serialio.o(i.fputc) for fputc
+    printf2.o(i.__0vprintf$2) refers to stdout.o(.data) for __stdout
+    printf2.o(i.__0vsnprintf$2) refers to printf2.o(i._printf_core) for _printf_core
+    printf2.o(i.__0vsnprintf$2) refers to printf2.o(i._snputc) for _snputc
+    printf2.o(i.__0vsprintf$2) refers to printf2.o(i._printf_core) for _printf_core
+    printf2.o(i.__0vsprintf$2) refers to printf2.o(i._sputc) for _sputc
+    printf3.o(i.__0fprintf$3) refers to printf3.o(i._printf_core) for _printf_core
+    printf3.o(i.__0fprintf$3) refers to serialio.o(i.fputc) for fputc
+    printf3.o(i.__0printf$3) refers to printf3.o(i._printf_core) for _printf_core
+    printf3.o(i.__0printf$3) refers to serialio.o(i.fputc) for fputc
+    printf3.o(i.__0printf$3) refers to stdout.o(.data) for __stdout
+    printf3.o(i.__0snprintf$3) refers to printf3.o(i._printf_core) for _printf_core
+    printf3.o(i.__0snprintf$3) refers to printf3.o(i._snputc) for _snputc
+    printf3.o(i.__0sprintf$3) refers to printf3.o(i._printf_core) for _printf_core
+    printf3.o(i.__0sprintf$3) refers to printf3.o(i._sputc) for _sputc
+    printf3.o(i.__0vfprintf$3) refers to printf3.o(i._printf_core) for _printf_core
+    printf3.o(i.__0vfprintf$3) refers to serialio.o(i.fputc) for fputc
+    printf3.o(i.__0vprintf$3) refers to printf3.o(i._printf_core) for _printf_core
+    printf3.o(i.__0vprintf$3) refers to serialio.o(i.fputc) for fputc
+    printf3.o(i.__0vprintf$3) refers to stdout.o(.data) for __stdout
+    printf3.o(i.__0vsnprintf$3) refers to printf3.o(i._printf_core) for _printf_core
+    printf3.o(i.__0vsnprintf$3) refers to printf3.o(i._snputc) for _snputc
+    printf3.o(i.__0vsprintf$3) refers to printf3.o(i._printf_core) for _printf_core
+    printf3.o(i.__0vsprintf$3) refers to printf3.o(i._sputc) for _sputc
+    printf3.o(i._printf_core) refers to uidiv.o(.text) for __aeabi_uidivmod
+    printf4.o(i.__0fprintf$4) refers to printf4.o(i._printf_core) for _printf_core
+    printf4.o(i.__0fprintf$4) refers to serialio.o(i.fputc) for fputc
+    printf4.o(i.__0printf$4) refers to printf4.o(i._printf_core) for _printf_core
+    printf4.o(i.__0printf$4) refers to serialio.o(i.fputc) for fputc
+    printf4.o(i.__0printf$4) refers to stdout.o(.data) for __stdout
+    printf4.o(i.__0snprintf$4) refers to printf4.o(i._printf_core) for _printf_core
+    printf4.o(i.__0snprintf$4) refers to printf4.o(i._snputc) for _snputc
+    printf4.o(i.__0sprintf$4) refers to printf4.o(i._printf_core) for _printf_core
+    printf4.o(i.__0sprintf$4) refers to printf4.o(i._sputc) for _sputc
+    printf4.o(i.__0vfprintf$4) refers to printf4.o(i._printf_core) for _printf_core
+    printf4.o(i.__0vfprintf$4) refers to serialio.o(i.fputc) for fputc
+    printf4.o(i.__0vprintf$4) refers to printf4.o(i._printf_core) for _printf_core
+    printf4.o(i.__0vprintf$4) refers to serialio.o(i.fputc) for fputc
+    printf4.o(i.__0vprintf$4) refers to stdout.o(.data) for __stdout
+    printf4.o(i.__0vsnprintf$4) refers to printf4.o(i._printf_core) for _printf_core
+    printf4.o(i.__0vsnprintf$4) refers to printf4.o(i._snputc) for _snputc
+    printf4.o(i.__0vsprintf$4) refers to printf4.o(i._printf_core) for _printf_core
+    printf4.o(i.__0vsprintf$4) refers to printf4.o(i._sputc) for _sputc
+    printf4.o(i._printf_core) refers to uldiv.o(.text) for __aeabi_uldivmod
+    printf5.o(i.__0fprintf$5) refers to printf5.o(i._printf_core) for _printf_core
+    printf5.o(i.__0fprintf$5) refers to serialio.o(i.fputc) for fputc
+    printf5.o(i.__0printf$5) refers to printf5.o(i._printf_core) for _printf_core
+    printf5.o(i.__0printf$5) refers to serialio.o(i.fputc) for fputc
+    printf5.o(i.__0printf$5) refers to stdout.o(.data) for __stdout
+    printf5.o(i.__0snprintf$5) refers to printf5.o(i._printf_core) for _printf_core
+    printf5.o(i.__0snprintf$5) refers to printf5.o(i._snputc) for _snputc
+    printf5.o(i.__0sprintf$5) refers to printf5.o(i._printf_core) for _printf_core
+    printf5.o(i.__0sprintf$5) refers to printf5.o(i._sputc) for _sputc
+    printf5.o(i.__0vfprintf$5) refers to printf5.o(i._printf_core) for _printf_core
+    printf5.o(i.__0vfprintf$5) refers to serialio.o(i.fputc) for fputc
+    printf5.o(i.__0vprintf$5) refers to printf5.o(i._printf_core) for _printf_core
+    printf5.o(i.__0vprintf$5) refers to serialio.o(i.fputc) for fputc
+    printf5.o(i.__0vprintf$5) refers to stdout.o(.data) for __stdout
+    printf5.o(i.__0vsnprintf$5) refers to printf5.o(i._printf_core) for _printf_core
+    printf5.o(i.__0vsnprintf$5) refers to printf5.o(i._snputc) for _snputc
+    printf5.o(i.__0vsprintf$5) refers to printf5.o(i._printf_core) for _printf_core
+    printf5.o(i.__0vsprintf$5) refers to printf5.o(i._sputc) for _sputc
+    printf5.o(i._printf_core) refers to uldiv.o(.text) for __aeabi_uldivmod
+    printf6.o(i.__0fprintf$6) refers to printf6.o(i._printf_core) for _printf_core
+    printf6.o(i.__0fprintf$6) refers to serialio.o(i.fputc) for fputc
+    printf6.o(i.__0printf$6) refers to printf6.o(i._printf_core) for _printf_core
+    printf6.o(i.__0printf$6) refers to serialio.o(i.fputc) for fputc
+    printf6.o(i.__0printf$6) refers to stdout.o(.data) for __stdout
+    printf6.o(i.__0snprintf$6) refers to printf6.o(i._printf_core) for _printf_core
+    printf6.o(i.__0snprintf$6) refers to printf6.o(i._snputc) for _snputc
+    printf6.o(i.__0sprintf$6) refers to printf6.o(i._printf_core) for _printf_core
+    printf6.o(i.__0sprintf$6) refers to printf6.o(i._sputc) for _sputc
+    printf6.o(i.__0vfprintf$6) refers to printf6.o(i._printf_core) for _printf_core
+    printf6.o(i.__0vfprintf$6) refers to serialio.o(i.fputc) for fputc
+    printf6.o(i.__0vprintf$6) refers to printf6.o(i._printf_core) for _printf_core
+    printf6.o(i.__0vprintf$6) refers to serialio.o(i.fputc) for fputc
+    printf6.o(i.__0vprintf$6) refers to stdout.o(.data) for __stdout
+    printf6.o(i.__0vsnprintf$6) refers to printf6.o(i._printf_core) for _printf_core
+    printf6.o(i.__0vsnprintf$6) refers to printf6.o(i._snputc) for _snputc
+    printf6.o(i.__0vsprintf$6) refers to printf6.o(i._printf_core) for _printf_core
+    printf6.o(i.__0vsprintf$6) refers to printf6.o(i._sputc) for _sputc
+    printf6.o(i._printf_core) refers to printf6.o(i._printf_pre_padding) for _printf_pre_padding
+    printf6.o(i._printf_core) refers to uidiv.o(.text) for __aeabi_uidivmod
+    printf6.o(i._printf_core) refers to printf6.o(i._printf_post_padding) for _printf_post_padding
+    printf7.o(i.__0fprintf$7) refers to printf7.o(i._printf_core) for _printf_core
+    printf7.o(i.__0fprintf$7) refers to serialio.o(i.fputc) for fputc
+    printf7.o(i.__0printf$7) refers to printf7.o(i._printf_core) for _printf_core
+    printf7.o(i.__0printf$7) refers to serialio.o(i.fputc) for fputc
+    printf7.o(i.__0printf$7) refers to stdout.o(.data) for __stdout
+    printf7.o(i.__0snprintf$7) refers to printf7.o(i._printf_core) for _printf_core
+    printf7.o(i.__0snprintf$7) refers to printf7.o(i._snputc) for _snputc
+    printf7.o(i.__0sprintf$7) refers to printf7.o(i._printf_core) for _printf_core
+    printf7.o(i.__0sprintf$7) refers to printf7.o(i._sputc) for _sputc
+    printf7.o(i.__0vfprintf$7) refers to printf7.o(i._printf_core) for _printf_core
+    printf7.o(i.__0vfprintf$7) refers to serialio.o(i.fputc) for fputc
+    printf7.o(i.__0vprintf$7) refers to printf7.o(i._printf_core) for _printf_core
+    printf7.o(i.__0vprintf$7) refers to serialio.o(i.fputc) for fputc
+    printf7.o(i.__0vprintf$7) refers to stdout.o(.data) for __stdout
+    printf7.o(i.__0vsnprintf$7) refers to printf7.o(i._printf_core) for _printf_core
+    printf7.o(i.__0vsnprintf$7) refers to printf7.o(i._snputc) for _snputc
+    printf7.o(i.__0vsprintf$7) refers to printf7.o(i._printf_core) for _printf_core
+    printf7.o(i.__0vsprintf$7) refers to printf7.o(i._sputc) for _sputc
+    printf7.o(i._printf_core) refers to printf7.o(i._printf_pre_padding) for _printf_pre_padding
+    printf7.o(i._printf_core) refers to uldiv.o(.text) for __aeabi_uldivmod
+    printf7.o(i._printf_core) refers to printf7.o(i._printf_post_padding) for _printf_post_padding
+    printf8.o(i.__0fprintf$8) refers to printf8.o(i._printf_core) for _printf_core
+    printf8.o(i.__0fprintf$8) refers to serialio.o(i.fputc) for fputc
+    printf8.o(i.__0printf$8) refers to printf8.o(i._printf_core) for _printf_core
+    printf8.o(i.__0printf$8) refers to serialio.o(i.fputc) for fputc
+    printf8.o(i.__0printf$8) refers to stdout.o(.data) for __stdout
+    printf8.o(i.__0snprintf$8) refers to printf8.o(i._printf_core) for _printf_core
+    printf8.o(i.__0snprintf$8) refers to printf8.o(i._snputc) for _snputc
+    printf8.o(i.__0sprintf$8) refers to printf8.o(i._printf_core) for _printf_core
+    printf8.o(i.__0sprintf$8) refers to printf8.o(i._sputc) for _sputc
+    printf8.o(i.__0vfprintf$8) refers to printf8.o(i._printf_core) for _printf_core
+    printf8.o(i.__0vfprintf$8) refers to serialio.o(i.fputc) for fputc
+    printf8.o(i.__0vprintf$8) refers to printf8.o(i._printf_core) for _printf_core
+    printf8.o(i.__0vprintf$8) refers to serialio.o(i.fputc) for fputc
+    printf8.o(i.__0vprintf$8) refers to stdout.o(.data) for __stdout
+    printf8.o(i.__0vsnprintf$8) refers to printf8.o(i._printf_core) for _printf_core
+    printf8.o(i.__0vsnprintf$8) refers to printf8.o(i._snputc) for _snputc
+    printf8.o(i.__0vsprintf$8) refers to printf8.o(i._printf_core) for _printf_core
+    printf8.o(i.__0vsprintf$8) refers to printf8.o(i._sputc) for _sputc
+    printf8.o(i._printf_core) refers to printf8.o(i._printf_pre_padding) for _printf_pre_padding
+    printf8.o(i._printf_core) refers to uldiv.o(.text) for __aeabi_uldivmod
+    printf8.o(i._printf_core) refers to printf8.o(i._printf_post_padding) for _printf_post_padding
+    printfa.o(i.__0fprintf) refers (Special) to iusefp.o(.text) for __I$use$fp
+    printfa.o(i.__0fprintf) refers to printfa.o(i._printf_core) for _printf_core
+    printfa.o(i.__0fprintf) refers to serialio.o(i.fputc) for fputc
+    printfa.o(i.__0printf) refers (Special) to iusefp.o(.text) for __I$use$fp
+    printfa.o(i.__0printf) refers to printfa.o(i._printf_core) for _printf_core
+    printfa.o(i.__0printf) refers to serialio.o(i.fputc) for fputc
+    printfa.o(i.__0printf) refers to stdout.o(.data) for __stdout
+    printfa.o(i.__0snprintf) refers (Special) to iusefp.o(.text) for __I$use$fp
+    printfa.o(i.__0snprintf) refers to printfa.o(i._printf_core) for _printf_core
+    printfa.o(i.__0snprintf) refers to printfa.o(i._snputc) for _snputc
+    printfa.o(i.__0sprintf) refers (Special) to iusefp.o(.text) for __I$use$fp
+    printfa.o(i.__0sprintf) refers to printfa.o(i._printf_core) for _printf_core
+    printfa.o(i.__0sprintf) refers to printfa.o(i._sputc) for _sputc
+    printfa.o(i.__0vfprintf) refers (Special) to iusefp.o(.text) for __I$use$fp
+    printfa.o(i.__0vfprintf) refers to printfa.o(i._printf_core) for _printf_core
+    printfa.o(i.__0vfprintf) refers to serialio.o(i.fputc) for fputc
+    printfa.o(i.__0vprintf) refers (Special) to iusefp.o(.text) for __I$use$fp
+    printfa.o(i.__0vprintf) refers to printfa.o(i._printf_core) for _printf_core
+    printfa.o(i.__0vprintf) refers to serialio.o(i.fputc) for fputc
+    printfa.o(i.__0vprintf) refers to stdout.o(.data) for __stdout
+    printfa.o(i.__0vsnprintf) refers (Special) to iusefp.o(.text) for __I$use$fp
+    printfa.o(i.__0vsnprintf) refers to printfa.o(i._printf_core) for _printf_core
+    printfa.o(i.__0vsnprintf) refers to printfa.o(i._snputc) for _snputc
+    printfa.o(i.__0vsprintf) refers (Special) to iusefp.o(.text) for __I$use$fp
+    printfa.o(i.__0vsprintf) refers to printfa.o(i._printf_core) for _printf_core
+    printfa.o(i.__0vsprintf) refers to printfa.o(i._sputc) for _sputc
+    printfa.o(i._fp_digits) refers (Special) to iusefp.o(.text) for __I$use$fp
+    printfa.o(i._fp_digits) refers to dmul.o(.text) for __aeabi_dmul
+    printfa.o(i._fp_digits) refers to ddiv.o(.text) for __aeabi_ddiv
+    printfa.o(i._fp_digits) refers to cdrcmple.o(.text) for __aeabi_cdrcmple
+    printfa.o(i._fp_digits) refers to dadd.o(.text) for __aeabi_dadd
+    printfa.o(i._fp_digits) refers to dfixul.o(.text) for __aeabi_d2ulz
+    printfa.o(i._fp_digits) refers to uldiv.o(.text) for __aeabi_uldivmod
+    printfa.o(i._printf_core) refers (Special) to iusefp.o(.text) for __I$use$fp
+    printfa.o(i._printf_core) refers to printfa.o(i._printf_pre_padding) for _printf_pre_padding
+    printfa.o(i._printf_core) refers to uldiv.o(.text) for __aeabi_uldivmod
+    printfa.o(i._printf_core) refers to printfa.o(i._printf_post_padding) for _printf_post_padding
+    printfa.o(i._printf_core) refers to printfa.o(i._fp_digits) for _fp_digits
+    printfa.o(i._printf_core) refers to uidiv.o(.text) for __aeabi_uidivmod
+    printfa.o(i._printf_post_padding) refers (Special) to iusefp.o(.text) for __I$use$fp
+    printfa.o(i._printf_pre_padding) refers (Special) to iusefp.o(.text) for __I$use$fp
+    printfa.o(i._snputc) refers (Special) to iusefp.o(.text) for __I$use$fp
+    printfa.o(i._sputc) refers (Special) to iusefp.o(.text) for __I$use$fp
+    entry2.o(.ARM.Collect$$$$00000001) refers to entry2.o(.ARM.Collect$$$$00002712) for __lit__00000000
+    entry2.o(.ARM.Collect$$$$00002712) refers to startup.o(STACK) for __initial_sp
+    entry2.o(__vectab_stack_and_reset_area) refers to startup.o(STACK) for __initial_sp
+    entry2.o(__vectab_stack_and_reset_area) refers to entry.o(.ARM.Collect$$$$00000000) for __main
+    entry5.o(.ARM.Collect$$$$00000004) refers to init.o(.text) for __scatterload
+    entry9a.o(.ARM.Collect$$$$0000000B) refers to ostestmain.o(i.main) for main
+    entry9b.o(.ARM.Collect$$$$0000000C) refers to ostestmain.o(i.main) for main
+    uldiv.o(.text) refers to llushr.o(.text) for __aeabi_llsr
+    uldiv.o(.text) refers to llshl.o(.text) for __aeabi_llsl
+    dadd.o(.text) refers to llshl.o(.text) for __aeabi_llsl
+    dadd.o(.text) refers to llsshr.o(.text) for __aeabi_lasr
+    dadd.o(.text) refers to depilogue.o(.text) for _double_epilogue
+    dmul.o(.text) refers to depilogue.o(.text) for _double_epilogue
+    ddiv.o(.text) refers to depilogue.o(.text) for _double_round
+    dfixul.o(.text) refers to llushr.o(.text) for __aeabi_llsr
+    dfixul.o(.text) refers to llshl.o(.text) for __aeabi_llsl
+    init.o(.text) refers to entry5.o(.ARM.Collect$$$$00000004) for __main_after_scatterload
+    depilogue.o(.text) refers to llshl.o(.text) for __aeabi_llsl
+    depilogue.o(.text) refers to llushr.o(.text) for __aeabi_llsr
+
+
+==============================================================================
+
+Removing Unused input sections from the image.
+
+    Removing uart.o(i.UART_InString), (66 bytes).
+    Removing uart.o(i.UART_InUDec), (76 bytes).
+    Removing uart.o(i.UART_InUHex), (104 bytes).
+    Removing uart.o(i.UART_OutString), (22 bytes).
+    Removing uart.o(i.UART_OutUDec), (42 bytes).
+    Removing uart.o(i.UART_OutUHex), (52 bytes).
+    Removing startup.o(HEAP), (0 bytes).
+    Removing serialio.o(i.ferror), (8 bytes).
+    Removing edgeinterrupt.o(i.EdgeCounter_Init), (216 bytes).
+    Removing edgeinterrupt.o(.data), (4 bytes).
+    Removing dadd.o(.text), (334 bytes).
+    Removing dmul.o(.text), (228 bytes).
+    Removing ddiv.o(.text), (222 bytes).
+    Removing dfixul.o(.text), (48 bytes).
+    Removing cdrcmple.o(.text), (48 bytes).
+    Removing depilogue.o(.text), (186 bytes).
+
+16 unused section(s) (total 1656 bytes) removed from the image.
+
+==============================================================================
+
+Image Symbol Table
+
+    Local Symbols
+
+    Symbol Name                              Value     Ov Type        Size  Object(Section)
+
+    RESET                                    0x00000000   Section      644  startup.o(RESET)
+    ../clib/microlib/division.c              0x00000000   Number         0  uidiv.o ABSOLUTE
+    ../clib/microlib/division.c              0x00000000   Number         0  uldiv.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
+    ../clib/microlib/longlong.c              0x00000000   Number         0  llsshr.o ABSOLUTE
+    ../clib/microlib/longlong.c              0x00000000   Number         0  llushr.o ABSOLUTE
+    ../clib/microlib/longlong.c              0x00000000   Number         0  llshl.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printfa.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf7.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf8.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf6.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf5.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printfb.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf3.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf4.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf1.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf0.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf2.o ABSOLUTE
+    ../clib/microlib/printf/stubs.s          0x00000000   Number         0  stubs.o ABSOLUTE
+    ../clib/microlib/stdio/getc.c            0x00000000   Number         0  getc.o ABSOLUTE
+    ../clib/microlib/stdio/putc.c            0x00000000   Number         0  putc.o ABSOLUTE
+    ../clib/microlib/stdio/puts.c            0x00000000   Number         0  puts_e.o ABSOLUTE
+    ../clib/microlib/stdio/puts.c            0x00000000   Number         0  puts.o ABSOLUTE
+    ../clib/microlib/stdio/streams.c         0x00000000   Number         0  stdout.o ABSOLUTE
+    ../clib/microlib/stdio/streams.c         0x00000000   Number         0  stdin.o ABSOLUTE
+    ../clib/microlib/string/memset.c         0x00000000   Number         0  memseta.o ABSOLUTE
+    ../clib/microlib/stubs.s                 0x00000000   Number         0  iusefp.o ABSOLUTE
+    ../fplib/microlib/fpadd.c                0x00000000   Number         0  dadd.o ABSOLUTE
+    ../fplib/microlib/fpdiv.c                0x00000000   Number         0  ddiv.o ABSOLUTE
+    ../fplib/microlib/fpepilogue.c           0x00000000   Number         0  depilogue.o ABSOLUTE
+    ../fplib/microlib/fpfix.c                0x00000000   Number         0  dfixul.o ABSOLUTE
+    ../fplib/microlib/fpmul.c                0x00000000   Number         0  dmul.o ABSOLUTE
+    cdrcmple.s                               0x00000000   Number         0  cdrcmple.o ABSOLUTE
+    dc.s                                     0x00000000   Number         0  dc.o ABSOLUTE
+    handlers.s                               0x00000000   Number         0  handlers.o ABSOLUTE
+    init.s                                   0x00000000   Number         0  init.o ABSOLUTE
+    src\EdgeInterrupt.c                      0x00000000   Number         0  edgeinterrupt.o ABSOLUTE
+    src\PLL.c                                0x00000000   Number         0  pll.o ABSOLUTE
+    src\UART.c                               0x00000000   Number         0  uart.o ABSOLUTE
+    src\jelos.c                              0x00000000   Number         0  jelos.o ABSOLUTE
+    src\jelosASM.s                           0x00000000   Number         0  jelosasm.o ABSOLUTE
+    src\ostestmain.c                         0x00000000   Number         0  ostestmain.o ABSOLUTE
+    src\serialio.c                           0x00000000   Number         0  serialio.o ABSOLUTE
+    src\shell.c                              0x00000000   Number         0  shell.o ABSOLUTE
+    src\startup.s                            0x00000000   Number         0  startup.o ABSOLUTE
+    .ARM.Collect$$$$00000000                 0x00000284   Section        0  entry.o(.ARM.Collect$$$$00000000)
+    .ARM.Collect$$$$00000001                 0x00000284   Section        4  entry2.o(.ARM.Collect$$$$00000001)
+    .ARM.Collect$$$$00000004                 0x00000288   Section        4  entry5.o(.ARM.Collect$$$$00000004)
+    .ARM.Collect$$$$00000008                 0x0000028c   Section        0  entry7b.o(.ARM.Collect$$$$00000008)
+    .ARM.Collect$$$$0000000A                 0x0000028c   Section        0  entry8b.o(.ARM.Collect$$$$0000000A)
+    .ARM.Collect$$$$0000000B                 0x0000028c   Section        8  entry9a.o(.ARM.Collect$$$$0000000B)
+    .ARM.Collect$$$$0000000D                 0x00000294   Section        0  entry10a.o(.ARM.Collect$$$$0000000D)
+    .ARM.Collect$$$$0000000F                 0x00000294   Section        0  entry11a.o(.ARM.Collect$$$$0000000F)
+    .ARM.Collect$$$$00002712                 0x00000294   Section        4  entry2.o(.ARM.Collect$$$$00002712)
+    __lit__00000000                          0x00000294   Data           4  entry2.o(.ARM.Collect$$$$00002712)
+    .text                                    0x00000298   Section       28  startup.o(.text)
+    .text                                    0x000002b4   Section      120  jelosasm.o(.text)
+    task_exit                                0x00000307   Thumb Code     0  jelosasm.o(.text)
+    .text                                    0x0000032c   Section        0  memseta.o(.text)
+    .text                                    0x00000350   Section        0  uldiv.o(.text)
+    .text                                    0x000003b4   Section       36  init.o(.text)
+    .text                                    0x000003d8   Section        0  llshl.o(.text)
+    .text                                    0x000003f6   Section        0  llushr.o(.text)
+    i.CreateTask                             0x00000418   Section        0  jelos.o(i.CreateTask)
+    i.InitSystem                             0x00000490   Section        0  jelos.o(i.InitSystem)
+    InitSystem                               0x00000491   Thumb Code    44  jelos.o(i.InitSystem)
+    i.NullTask                               0x000004cc   Section        0  jelos.o(i.NullTask)
+    NullTask                                 0x000004cd   Thumb Code     4  jelos.o(i.NullTask)
+    i.OS_Sem_Init                            0x000004d0   Section        0  jelos.o(i.OS_Sem_Init)
+    i.OS_Sem_Signal                          0x000004e2   Section        0  jelos.o(i.OS_Sem_Signal)
+    i.OS_Sem_Wait                            0x000004f6   Section        0  jelos.o(i.OS_Sem_Wait)
+    i.One                                    0x0000051c   Section        0  ostestmain.o(i.One)
+    i.PLL_Init                               0x00000568   Section        0  pll.o(i.PLL_Init)
+    i.PS_Calcs                               0x000005e4   Section        0  jelos.o(i.PS_Calcs)
+    i.PortF_Init                             0x0000072c   Section        0  jelos.o(i.PortF_Init)
+    i.Schedule                               0x00000760   Section        0  jelos.o(i.Schedule)
+    i.StartScheduler                         0x00000810   Section        0  jelos.o(i.StartScheduler)
+    i.SysTick_Init                           0x0000084c   Section        0  jelos.o(i.SysTick_Init)
+    i.Two                                    0x00000874   Section        0  ostestmain.o(i.Two)
+    i.UART_InChar                            0x000008ac   Section        0  uart.o(i.UART_InChar)
+    i.UART_Init                              0x000008c8   Section        0  uart.o(i.UART_Init)
+    i.UART_OutChar                           0x00000960   Section        0  uart.o(i.UART_OutChar)
+    i.Zero                                   0x00000978   Section        0  ostestmain.o(i.Zero)
+    i.__0printf$8                            0x000009c4   Section        0  printf8.o(i.__0printf$8)
+    i.__scatterload_copy                     0x000009e4   Section       14  handlers.o(i.__scatterload_copy)
+    i.__scatterload_null                     0x000009f2   Section        2  handlers.o(i.__scatterload_null)
+    i.__scatterload_zeroinit                 0x000009f4   Section       14  handlers.o(i.__scatterload_zeroinit)
+    i._printf_core                           0x00000a04   Section        0  printf8.o(i._printf_core)
+    _printf_core                             0x00000a05   Thumb Code   996  printf8.o(i._printf_core)
+    i._printf_post_padding                   0x00000e14   Section        0  printf8.o(i._printf_post_padding)
+    _printf_post_padding                     0x00000e15   Thumb Code    36  printf8.o(i._printf_post_padding)
+    i._printf_pre_padding                    0x00000e38   Section        0  printf8.o(i._printf_pre_padding)
+    _printf_pre_padding                      0x00000e39   Thumb Code    46  printf8.o(i._printf_pre_padding)
+    i.execute                                0x00000e68   Section        0  shell.o(i.execute)
+    i.fgetc                                  0x00000eb4   Section        0  serialio.o(i.fgetc)
+    i.fputc                                  0x00000ec8   Section        0  serialio.o(i.fputc)
+    i.getc                                   0x00000ef4   Section        0  getc.o(i.getc)
+    i.gets                                   0x00000ef8   Section        0  serialio.o(i.gets)
+    i.main                                   0x00000f1c   Section        0  ostestmain.o(i.main)
+    i.parse                                  0x00000fc8   Section        0  shell.o(i.parse)
+    i.prmsg                                  0x00001018   Section        0  serialio.o(i.prmsg)
+    i.ps                                     0x00001034   Section        0  jelos.o(i.ps)
+    i.putc                                   0x0000117c   Section        0  putc.o(i.putc)
+    i.puts                                   0x00001180   Section        0  puts.o(i.puts)
+    i.settime                                0x000011a4   Section        0  shell.o(i.settime)
+    i.shell                                  0x000011d0   Section        0  shell.o(i.shell)
+    i.strcmp                                 0x000012f4   Section        0  serialio.o(i.strcmp)
+    i.temp                                   0x00001324   Section        0  shell.o(i.temp)
+    i.time                                   0x00001340   Section        0  shell.o(i.time)
+    .data                                    0x20000000   Section       28  jelos.o(.data)
+    TASK_LIST_PTR                            0x20000000   Data           4  jelos.o(.data)
+    CURRENT_TASK                             0x20000004   Data           4  jelos.o(.data)
+    NEXT_TID                                 0x20000018   Data           4  jelos.o(.data)
+    .data                                    0x2000001c   Section        4  stdin.o(.data)
+    .data                                    0x20000020   Section        4  stdout.o(.data)
+    DATA                                     0x20000024   Section        4  jelosasm.o(DATA)
+    INT_COUNT                                0x20000024   Data           4  jelosasm.o(DATA)
+    .bss                                     0x20000028   Section     2560  ostestmain.o(.bss)
+    .bss                                     0x20000a28   Section      380  jelos.o(.bss)
+    task_list                                0x20000a28   Data         160  jelos.o(.bss)
+    null_task_stack                          0x20000b68   Data          60  jelos.o(.bss)
+    STACK                                    0x20000ba8   Section     1024  startup.o(STACK)
+    StackMem                                 0x20000ba8   Data           0  startup.o(STACK)
+
+    Global Symbols
+
+    Symbol Name                              Value     Ov Type        Size  Object(Section)
+
+    BuildAttributes$$THM_ISAv4$E$P$D$K$B$S$7EM$PE$A:L22UL41UL21$X:L11$S22US41US21$IEEE1$IW$USESV6$~STKCKD$USESV7$~SHL$OSPACE$ROPI$EBA8$MICROLIB$REQ8$EABIv2 0x00000000   Number         0  anon$$obj.o ABSOLUTE
+    __ARM_use_no_argv                        0x00000000   Number         0  ostestmain.o ABSOLUTE
+    __Vectors                                0x00000000   Data           0  startup.o(RESET)
+    _printf_a                                0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_c                                0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_charcount                        0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_d                                0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_e                                0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_f                                0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_flags                            0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_fp_dec                           0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_fp_hex                           0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_g                                0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_i                                0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_int_dec                          0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_l                                0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_lc                               0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_ll                               0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_lld                              0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_lli                              0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_llo                              0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_llu                              0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_llx                              0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_longlong_dec                     0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_longlong_hex                     0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_longlong_oct                     0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_ls                               0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_mbtowc                           0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_n                                0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_o                                0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_p                                0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_percent                          0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_pre_padding                      0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_return_value                     0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_s                                0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_sizespec                         0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_str                              0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_truncate_signed                  0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_truncate_unsigned                0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_u                                0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_wc                               0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_wctomb                           0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_widthprec                        0x00000000   Number         0  stubs.o ABSOLUTE
+    _printf_x                                0x00000000   Number         0  stubs.o ABSOLUTE
+    __cpp_initialize__aeabi_                  - Undefined Weak Reference
+    __cxa_finalize                            - Undefined Weak Reference
+    __decompress                              - Undefined Weak Reference
+    _clock_init                               - Undefined Weak Reference
+    _microlib_exit                            - Undefined Weak Reference
+    Reset_Handler                            0x0000026d   Thumb Code     0  startup.o(RESET)
+    NMI_Handler                              0x00000271   Thumb Code     2  startup.o(RESET)
+    HardFault_Handler                        0x00000273   Thumb Code     2  startup.o(RESET)
+    MemManage_Handler                        0x00000275   Thumb Code     2  startup.o(RESET)
+    BusFault_Handler                         0x00000277   Thumb Code     2  startup.o(RESET)
+    UsageFault_Handler                       0x00000279   Thumb Code     2  startup.o(RESET)
+    SVC_Handler                              0x0000027b   Thumb Code     2  startup.o(RESET)
+    DebugMon_Handler                         0x0000027d   Thumb Code     2  startup.o(RESET)
+    PendSV_Handler                           0x0000027f   Thumb Code     2  startup.o(RESET)
+    ADC0Seq0_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
+    ADC0Seq1_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
+    ADC0Seq2_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
+    ADC0Seq3_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
+    ADC1Seq0_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
+    ADC1Seq1_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
+    ADC1Seq2_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
+    ADC1Seq3_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
+    CAN0_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    CAN1_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    CAN2_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    Comp0_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    Comp1_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    Comp2_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    Ethernet_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
+    ExtBus_Handler                           0x00000283   Thumb Code     0  startup.o(RESET)
+    FPU_Handler                              0x00000283   Thumb Code     0  startup.o(RESET)
+    Fan0_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    FlashCtl_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortA_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortB_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortC_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortD_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortE_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortG_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortH_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortJ_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortK_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortL_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortM_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortN_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortP1_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortP2_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortP3_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortP4_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortP5_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortP6_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortP7_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortP_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ1_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ2_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ3_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ4_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ5_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ6_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ7_Handler                       0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortR_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    GPIOPortS_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    Hibernate_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    I2C0_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    I2C1_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    I2C2_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    I2C3_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    I2C4_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    I2C5_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    I2S0_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    LPC0_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    PECI0_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    PWM0Fault_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    PWM0Generator0_Handler                   0x00000283   Thumb Code     0  startup.o(RESET)
+    PWM0Generator1_Handler                   0x00000283   Thumb Code     0  startup.o(RESET)
+    PWM0Generator2_Handler                   0x00000283   Thumb Code     0  startup.o(RESET)
+    PWM0Generator3_Handler                   0x00000283   Thumb Code     0  startup.o(RESET)
+    PWM1Fault_Handler                        0x00000283   Thumb Code     0  startup.o(RESET)
+    PWM1Generator0_Handler                   0x00000283   Thumb Code     0  startup.o(RESET)
+    PWM1Generator1_Handler                   0x00000283   Thumb Code     0  startup.o(RESET)
+    PWM1Generator2_Handler                   0x00000283   Thumb Code     0  startup.o(RESET)
+    PWM1Generator3_Handler                   0x00000283   Thumb Code     0  startup.o(RESET)
+    Quadrature0_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    Quadrature1_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    Quadrature2_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    SSI0_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    SSI1_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    SSI2_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    SSI3_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    SysCtl_Handler                           0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer0A_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer0B_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer1A_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer1B_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer2A_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer2B_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer3A_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer3B_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer4A_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer4B_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer5A_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    Timer5B_Handler                          0x00000283   Thumb Code     0  startup.o(RESET)
+    UART0_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    UART1_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    UART2_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    UART3_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    UART4_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    UART5_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    UART6_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    UART7_Handler                            0x00000283   Thumb Code     0  startup.o(RESET)
+    USB0_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    WDT_Handler                              0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer0A_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer0B_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer1A_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer1B_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer2A_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer2B_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer3A_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer3B_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer4A_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer4B_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer5A_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    WideTimer5B_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
+    uDMA_Error                               0x00000283   Thumb Code     0  startup.o(RESET)
+    uDMA_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
+    __main                                   0x00000285   Thumb Code     0  entry.o(.ARM.Collect$$$$00000000)
+    _main_stk                                0x00000285   Thumb Code     0  entry2.o(.ARM.Collect$$$$00000001)
+    _main_scatterload                        0x00000289   Thumb Code     0  entry5.o(.ARM.Collect$$$$00000004)
+    __main_after_scatterload                 0x0000028d   Thumb Code     0  entry5.o(.ARM.Collect$$$$00000004)
+    _main_clock                              0x0000028d   Thumb Code     0  entry7b.o(.ARM.Collect$$$$00000008)
+    _main_cpp_init                           0x0000028d   Thumb Code     0  entry8b.o(.ARM.Collect$$$$0000000A)
+    _main_init                               0x0000028d   Thumb Code     0  entry9a.o(.ARM.Collect$$$$0000000B)
+    __rt_final_cpp                           0x00000295   Thumb Code     0  entry10a.o(.ARM.Collect$$$$0000000D)
+    __rt_final_exit                          0x00000295   Thumb Code     0  entry11a.o(.ARM.Collect$$$$0000000F)
+    DisableInterrupts                        0x00000299   Thumb Code     0  startup.o(.text)
+    EnableInterrupts                         0x0000029d   Thumb Code     0  startup.o(.text)
+    StartCritical                            0x000002a1   Thumb Code     0  startup.o(.text)
+    EndCritical                              0x000002a9   Thumb Code     0  startup.o(.text)
+    WaitForInterrupt                         0x000002af   Thumb Code     0  startup.o(.text)
+    GPIOPortF_Handler                        0x000002b5   Thumb Code     0  jelosasm.o(.text)
+    StartNewTask                             0x000002e5   Thumb Code     0  jelosasm.o(.text)
+    SysTick_Handler                          0x00000309   Thumb Code     0  jelosasm.o(.text)
+    __aeabi_memset                           0x0000032d   Thumb Code    14  memseta.o(.text)
+    __aeabi_memset4                          0x0000032d   Thumb Code     0  memseta.o(.text)
+    __aeabi_memset8                          0x0000032d   Thumb Code     0  memseta.o(.text)
+    __aeabi_memclr                           0x0000033b   Thumb Code     4  memseta.o(.text)
+    __aeabi_memclr4                          0x0000033b   Thumb Code     0  memseta.o(.text)
+    __aeabi_memclr8                          0x0000033b   Thumb Code     0  memseta.o(.text)
+    _memset$wrapper                          0x0000033f   Thumb Code    18  memseta.o(.text)
+    __aeabi_uldivmod                         0x00000351   Thumb Code    98  uldiv.o(.text)
+    __scatterload                            0x000003b5   Thumb Code    28  init.o(.text)
+    __scatterload_rt2                        0x000003b5   Thumb Code     0  init.o(.text)
+    __aeabi_llsl                             0x000003d9   Thumb Code    30  llshl.o(.text)
+    _ll_shift_l                              0x000003d9   Thumb Code     0  llshl.o(.text)
+    __aeabi_llsr                             0x000003f7   Thumb Code    32  llushr.o(.text)
+    _ll_ushift_r                             0x000003f7   Thumb Code     0  llushr.o(.text)
+    CreateTask                               0x00000419   Thumb Code   106  jelos.o(i.CreateTask)
+    OS_Sem_Init                              0x000004d1   Thumb Code    18  jelos.o(i.OS_Sem_Init)
+    OS_Sem_Signal                            0x000004e3   Thumb Code    20  jelos.o(i.OS_Sem_Signal)
+    OS_Sem_Wait                              0x000004f7   Thumb Code    36  jelos.o(i.OS_Sem_Wait)
+    One                                      0x0000051d   Thumb Code    62  ostestmain.o(i.One)
+    PLL_Init                                 0x00000569   Thumb Code   120  pll.o(i.PLL_Init)
+    PS_Calcs                                 0x000005e5   Thumb Code   288  jelos.o(i.PS_Calcs)
+    PortF_Init                               0x0000072d   Thumb Code    44  jelos.o(i.PortF_Init)
+    Schedule                                 0x00000761   Thumb Code   166  jelos.o(i.Schedule)
+    StartScheduler                           0x00000811   Thumb Code    50  jelos.o(i.StartScheduler)
+    SysTick_Init                             0x0000084d   Thumb Code    36  jelos.o(i.SysTick_Init)
+    Two                                      0x00000875   Thumb Code    46  ostestmain.o(i.Two)
+    UART_InChar                              0x000008ad   Thumb Code    22  uart.o(i.UART_InChar)
+    UART_Init                                0x000008c9   Thumb Code   132  uart.o(i.UART_Init)
+    UART_OutChar                             0x00000961   Thumb Code    20  uart.o(i.UART_OutChar)
+    Zero                                     0x00000979   Thumb Code    62  ostestmain.o(i.Zero)
+    __0printf$8                              0x000009c5   Thumb Code    22  printf8.o(i.__0printf$8)
+    __1printf$8                              0x000009c5   Thumb Code     0  printf8.o(i.__0printf$8)
+    __2printf                                0x000009c5   Thumb Code     0  printf8.o(i.__0printf$8)
+    __scatterload_copy                       0x000009e5   Thumb Code    14  handlers.o(i.__scatterload_copy)
+    __scatterload_null                       0x000009f3   Thumb Code     2  handlers.o(i.__scatterload_null)
+    __scatterload_zeroinit                   0x000009f5   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
+    execute                                  0x00000e69   Thumb Code    56  shell.o(i.execute)
+    fgetc                                    0x00000eb5   Thumb Code    20  serialio.o(i.fgetc)
+    fputc                                    0x00000ec9   Thumb Code    44  serialio.o(i.fputc)
+    getc                                     0x00000ef5   Thumb Code     4  getc.o(i.getc)
+    gets                                     0x00000ef9   Thumb Code    32  serialio.o(i.gets)
+    main                                     0x00000f1d   Thumb Code    76  ostestmain.o(i.main)
+    parse                                    0x00000fc9   Thumb Code    78  shell.o(i.parse)
+    prmsg                                    0x00001019   Thumb Code    24  serialio.o(i.prmsg)
+    ps                                       0x00001035   Thumb Code   186  jelos.o(i.ps)
+    putc                                     0x0000117d   Thumb Code     4  putc.o(i.putc)
+    puts                                     0x00001181   Thumb Code    30  puts.o(i.puts)
+    settime                                  0x000011a5   Thumb Code    22  shell.o(i.settime)
+    shell                                    0x000011d1   Thumb Code   208  shell.o(i.shell)
+    strcmp                                   0x000012f5   Thumb Code    46  serialio.o(i.strcmp)
+    temp                                     0x00001325   Thumb Code    12  shell.o(i.temp)
+    time                                     0x00001341   Thumb Code    22  shell.o(i.time)
+    Region$$Table$$Base                      0x00001374   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x00001394   Number         0  anon$$obj.o(Region$$Table)
+    sem                                      0x20000008   Data           4  jelos.o(.data)
+    i                                        0x2000000c   Data           4  jelos.o(.data)
+    total_num_ticks                          0x20000010   Data           4  jelos.o(.data)
+    ticks                                    0x20000014   Data           4  jelos.o(.data)
+    __stdin                                  0x2000001c   Data           4  stdin.o(.data)
+    __stdout                                 0x20000020   Data           4  stdout.o(.data)
+    task_zero_stack                          0x20000028   Data         512  ostestmain.o(.bss)
+    task_one_stack                           0x20000228   Data         512  ostestmain.o(.bss)
+    task_two_stack                           0x20000428   Data         512  ostestmain.o(.bss)
+    task_shell_stack                         0x20000628   Data        1024  ostestmain.o(.bss)
+    task_state                               0x20000ac8   Data          20  jelos.o(.bss)
+    stack_size                               0x20000adc   Data          20  jelos.o(.bss)
+    task_ticks                               0x20000af0   Data          20  jelos.o(.bss)
+    stack_array                              0x20000b04   Data          20  jelos.o(.bss)
+    stack_start_array                        0x20000b18   Data          20  jelos.o(.bss)
+    stack_end_array                          0x20000b2c   Data          20  jelos.o(.bss)
+    percent_stack                            0x20000b40   Data          20  jelos.o(.bss)
+    percent_cpu                              0x20000b54   Data          20  jelos.o(.bss)
+    __initial_sp                             0x20000fa8   Data           0  startup.o(STACK)
+
+
+
+==============================================================================
+
+Memory Map of the image
+
+  Image Entry point : 0x0000026d
+
+  Load Region LR_1 (Base: 0x00000000, Size: 0x000013bc, Max: 0xffffffff, ABSOLUTE)
+
+    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x00001394, Max: 0xffffffff, ABSOLUTE)
+
+    Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
+
+    0x00000000   0x00000000   0x00000284   Code   RO           74  * RESET               startup.o
+    0x00000284   0x00000284   0x00000000   Code   RO          383  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
+    0x00000284   0x00000284   0x00000004   Code   RO          659    .ARM.Collect$$$$00000001  mc_w.l(entry2.o)
+    0x00000288   0x00000288   0x00000004   Code   RO          662    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
+    0x0000028c   0x0000028c   0x00000000   Code   RO          664    .ARM.Collect$$$$00000008  mc_w.l(entry7b.o)
+    0x0000028c   0x0000028c   0x00000000   Code   RO          666    .ARM.Collect$$$$0000000A  mc_w.l(entry8b.o)
+    0x0000028c   0x0000028c   0x00000008   Code   RO          667    .ARM.Collect$$$$0000000B  mc_w.l(entry9a.o)
+    0x00000294   0x00000294   0x00000000   Code   RO          669    .ARM.Collect$$$$0000000D  mc_w.l(entry10a.o)
+    0x00000294   0x00000294   0x00000000   Code   RO          671    .ARM.Collect$$$$0000000F  mc_w.l(entry11a.o)
+    0x00000294   0x00000294   0x00000004   Code   RO          660    .ARM.Collect$$$$00002712  mc_w.l(entry2.o)
+    0x00000298   0x00000298   0x0000001c   Code   RO           75    .text               startup.o
+    0x000002b4   0x000002b4   0x00000078   Code   RO          380    .text               jelosasm.o
+    0x0000032c   0x0000032c   0x00000024   Code   RO          396    .text               mc_w.l(memseta.o)
+    0x00000350   0x00000350   0x00000062   Code   RO          675    .text               mc_w.l(uldiv.o)
+    0x000003b2   0x000003b2   0x00000002   PAD
+    0x000003b4   0x000003b4   0x00000024   Code   RO          688    .text               mc_w.l(init.o)
+    0x000003d8   0x000003d8   0x0000001e   Code   RO          690    .text               mc_w.l(llshl.o)
+    0x000003f6   0x000003f6   0x00000020   Code   RO          692    .text               mc_w.l(llushr.o)
+    0x00000416   0x00000416   0x00000002   PAD
+    0x00000418   0x00000418   0x00000078   Code   RO          296    i.CreateTask        jelos.o
+    0x00000490   0x00000490   0x0000003c   Code   RO          297    i.InitSystem        jelos.o
+    0x000004cc   0x000004cc   0x00000004   Code   RO          298    i.NullTask          jelos.o
+    0x000004d0   0x000004d0   0x00000012   Code   RO          299    i.OS_Sem_Init       jelos.o
+    0x000004e2   0x000004e2   0x00000014   Code   RO          300    i.OS_Sem_Signal     jelos.o
+    0x000004f6   0x000004f6   0x00000024   Code   RO          301    i.OS_Sem_Wait       jelos.o
+    0x0000051a   0x0000051a   0x00000002   PAD
+    0x0000051c   0x0000051c   0x0000004c   Code   RO          256    i.One               ostestmain.o
+    0x00000568   0x00000568   0x0000007c   Code   RO           82    i.PLL_Init          pll.o
+    0x000005e4   0x000005e4   0x00000148   Code   RO          302    i.PS_Calcs          jelos.o
+    0x0000072c   0x0000072c   0x00000034   Code   RO          303    i.PortF_Init        jelos.o
+    0x00000760   0x00000760   0x000000b0   Code   RO          304    i.Schedule          jelos.o
+    0x00000810   0x00000810   0x0000003c   Code   RO          305    i.StartScheduler    jelos.o
+    0x0000084c   0x0000084c   0x00000028   Code   RO          306    i.SysTick_Init      jelos.o
+    0x00000874   0x00000874   0x00000038   Code   RO          257    i.Two               ostestmain.o
+    0x000008ac   0x000008ac   0x0000001c   Code   RO            1    i.UART_InChar       uart.o
+    0x000008c8   0x000008c8   0x00000098   Code   RO            5    i.UART_Init         uart.o
+    0x00000960   0x00000960   0x00000018   Code   RO            6    i.UART_OutChar      uart.o
+    0x00000978   0x00000978   0x0000004c   Code   RO          258    i.Zero              ostestmain.o
+    0x000009c4   0x000009c4   0x00000020   Code   RO          605    i.__0printf$8       mc_w.l(printf8.o)
+    0x000009e4   0x000009e4   0x0000000e   Code   RO          700    i.__scatterload_copy  mc_w.l(handlers.o)
+    0x000009f2   0x000009f2   0x00000002   Code   RO          701    i.__scatterload_null  mc_w.l(handlers.o)
+    0x000009f4   0x000009f4   0x0000000e   Code   RO          702    i.__scatterload_zeroinit  mc_w.l(handlers.o)
+    0x00000a02   0x00000a02   0x00000002   PAD
+    0x00000a04   0x00000a04   0x00000410   Code   RO          612    i._printf_core      mc_w.l(printf8.o)
+    0x00000e14   0x00000e14   0x00000024   Code   RO          613    i._printf_post_padding  mc_w.l(printf8.o)
+    0x00000e38   0x00000e38   0x0000002e   Code   RO          614    i._printf_pre_padding  mc_w.l(printf8.o)
+    0x00000e66   0x00000e66   0x00000002   PAD
+    0x00000e68   0x00000e68   0x0000004c   Code   RO          143    i.execute           shell.o
+    0x00000eb4   0x00000eb4   0x00000014   Code   RO           98    i.fgetc             serialio.o
+    0x00000ec8   0x00000ec8   0x0000002c   Code   RO           99    i.fputc             serialio.o
+    0x00000ef4   0x00000ef4   0x00000004   Code   RO          388    i.getc              mc_w.l(getc.o)
+    0x00000ef8   0x00000ef8   0x00000024   Code   RO          100    i.gets              serialio.o
+    0x00000f1c   0x00000f1c   0x000000ac   Code   RO          259    i.main              ostestmain.o
+    0x00000fc8   0x00000fc8   0x0000004e   Code   RO          144    i.parse             shell.o
+    0x00001016   0x00001016   0x00000002   PAD
+    0x00001018   0x00001018   0x0000001c   Code   RO          101    i.prmsg             serialio.o
+    0x00001034   0x00001034   0x00000148   Code   RO          307    i.ps                jelos.o
+    0x0000117c   0x0000117c   0x00000004   Code   RO          390    i.putc              mc_w.l(putc.o)
+    0x00001180   0x00001180   0x00000024   Code   RO          386    i.puts              mc_w.l(puts.o)
+    0x000011a4   0x000011a4   0x0000002c   Code   RO          145    i.settime           shell.o
+    0x000011d0   0x000011d0   0x00000124   Code   RO          146    i.shell             shell.o
+    0x000012f4   0x000012f4   0x0000002e   Code   RO          102    i.strcmp            serialio.o
+    0x00001322   0x00001322   0x00000002   PAD
+    0x00001324   0x00001324   0x0000001c   Code   RO          147    i.temp              shell.o
+    0x00001340   0x00001340   0x00000034   Code   RO          148    i.time              shell.o
+    0x00001374   0x00001374   0x00000020   Data   RO          698    Region$$Table       anon$$obj.o
+
+
+    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x00001394, Size: 0x00000028, Max: 0xffffffff, ABSOLUTE)
+
+    Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
+
+    0x20000000   0x00001394   0x0000001c   Data   RW          309    .data               jelos.o
+    0x2000001c   0x000013b0   0x00000004   Data   RW          394    .data               mc_w.l(stdin.o)
+    0x20000020   0x000013b4   0x00000004   Data   RW          395    .data               mc_w.l(stdout.o)
+    0x20000024   0x000013b8   0x00000004   Data   RW          379    DATA                jelosasm.o
+
+
+    Execution Region ER_ZI (Exec base: 0x20000028, Load base: 0x000013bc, Size: 0x00000f80, Max: 0xffffffff, ABSOLUTE)
+
+    Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
+
+    0x20000028        -       0x00000a00   Zero   RW          260    .bss                ostestmain.o
+    0x20000a28        -       0x0000017c   Zero   RW          308    .bss                jelos.o
+    0x20000ba4   0x000013bc   0x00000004   PAD
+    0x20000ba8        -       0x00000400   Zero   RW           72    STACK               startup.o
+
+
+==============================================================================
+
+Image component sizes
+
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
+
+      1242        244          0         28        380       7564   jelos.o
+       120         14          0          4          0        292   jelosasm.o
+       380        134          0          0       2560       2673   ostestmain.o
+       124          4          0          0          0        443   pll.o
+       174          8          0          0          0       4032   serialio.o
+       570        172          0          0          0       3834   shell.o
+       672        622          0          0       1024       1032   startup.o
+       204         30          0          0          0       5865   uart.o
+
+    ----------------------------------------------------------------------
+      3492       1228         32         32       3968      25735   Object Totals
+         0          0         32          0          0          0   (incl. Generated)
+         6          0          0          0          4          0   (incl. Padding)
+
+    ----------------------------------------------------------------------
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Library Member Name
+
+         0          0          0          0          0          0   entry.o
+         0          0          0          0          0          0   entry10a.o
+         0          0          0          0          0          0   entry11a.o
+         8          4          0          0          0          0   entry2.o
+         4          0          0          0          0          0   entry5.o
+         0          0          0          0          0          0   entry7b.o
+         0          0          0          0          0          0   entry8b.o
+         8          4          0          0          0          0   entry9a.o
+         4          0          0          0          0         68   getc.o
+        30          0          0          0          0          0   handlers.o
+        36          8          0          0          0         68   init.o
+        30          0          0          0          0         68   llshl.o
+        32          0          0          0          0         68   llushr.o
+        36          0          0          0          0        108   memseta.o
+      1154         54          0          0          0        352   printf8.o
+         4          0          0          0          0         68   putc.o
+        36          6          0          0          0         80   puts.o
+         0          0          0          4          0          0   stdin.o
+         0          0          0          4          0          0   stdout.o
+        98          0          0          0          0         92   uldiv.o
+
+    ----------------------------------------------------------------------
+      1488         76          0          8          0        972   Library Totals
+         8          0          0          0          0          0   (incl. Padding)
+
+    ----------------------------------------------------------------------
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Library Name
+
+      1480         76          0          8          0        972   mc_w.l
+
+    ----------------------------------------------------------------------
+      1488         76          0          8          0        972   Library Totals
+
+    ----------------------------------------------------------------------
+
+==============================================================================
+
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
+
+      4980       1304         32         40       3968      24935   Grand Totals
+      4980       1304         32         40       3968      24935   ELF Image Totals
+      4980       1304         32         40          0          0   ROM Totals
+
+==============================================================================
+
+    Total RO  Size (Code + RO Data)                 5012 (   4.89kB)
+    Total RW  Size (RW Data + ZI Data)              4008 (   3.91kB)
+    Total ROM Size (Code + RO Data + RW Data)       5052 (   4.93kB)
+
+==============================================================================
+
