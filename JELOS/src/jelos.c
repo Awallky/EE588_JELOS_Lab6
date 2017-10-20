@@ -184,10 +184,8 @@ void ps(void){
 	/* Print contents of task list */
 	printf("\nUSER\tTID\t%%CPU\tSTK_SZ\t%%STK\tSTATE\t\tADDR\n");
 	for( i = 0; i < NUM_TASKS; i++ ){
-			//if(CURRENT_TASK->tid != 0){
 				printf("ROOT\t");
-				printf("%02d\t", i);
-				//printf("%08u\t", task_ticks[CURRENT_TASK->tid]);
+				printf("%02d\t", i);				
 				if( i!=0){
 					printf("%d.0\t", percent_cpu[i]);
 					printf("%d\t", stack_size[i]);
@@ -203,7 +201,6 @@ void ps(void){
 				else if( task_state[i] == T_RUNNING ){
 					printf("RUN\t\t0x%x\n", stack_array[i]);
 				}
-			//CURRENT_TASK = CURRENT_TASK->next;
 		}
 }
 
@@ -221,9 +218,6 @@ void PS_Calcs(void){
 		}
 		
 		for(i = 0; i < NUM_TASKS; i++ ){
-			//f_stack_end = (int)CURRENT_TASK->stack_end;
-			//f_sp = (int)CURRENT_TASK->sp;
-			//printf("ticks: %u\n", CURRENT_TASK->clk_ticks);
 			stack_array[CURRENT_TASK->tid] = (int)CURRENT_TASK->sp;	
 			stack_end_array[CURRENT_TASK->tid] = (int)CURRENT_TASK->stack_end;
 			stack_start_array[CURRENT_TASK->tid] = (int)CURRENT_TASK->stack_start;
