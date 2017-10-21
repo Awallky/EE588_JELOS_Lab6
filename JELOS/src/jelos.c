@@ -159,47 +159,46 @@ static void NullTask(void)
  */
 unsigned char * Schedule(unsigned char * the_sp)  
 	{
-		unsigned char * sp; // save the current sp and schedule
-		
+	 unsigned char * sp; // save the current sp and schedule		
 	 //
 	 // AMW
 	 //
    unsigned int period = ROM_SysTickPeriodGet();
-	 unsigned int tick_val = ROM_SysTickValueGet();	 
+	 unsigned int tick_val = ROM_SysTickValueGet();
 	 
-	 if( period == tick_val ){
-		 CURRENT_TASK->clk_ticks = period; // ran the entire period, AMW
-		 printf("p: %d\n", period);
-	 }
-	 else{
-		 CURRENT_TASK->clk_ticks = period - tick_val; // amount of time left after non-SysTick interrupt, AMW
-		 printf("p: %d\n", (period - tick_val));
-	 }
+	 CURRENT_TASK->clk_ticks = period - tick_val; // amount of time left after non-SysTick interrupt, AMW
+	 //printf("p: %d\n", (period - tick_val));	 
 	 CURRENT_TASK->sp = the_sp;
 	 CURRENT_TASK->state = T_READY;
 	 
 	 //
 	 // AMW
 	 //
-	 task_state[CURRENT_TASK->tid] = T_READY;
-	 
+	 task_state[CURRENT_TASK->tid] = T_READY;	 
 	 CURRENT_TASK = CURRENT_TASK->next;
-	 if (CURRENT_TASK->state == T_READY){
+	 while(CURRENT_TASK->blocked){ // skip task if blocked
+		 CURRENT_TASK = CURRENT_TASK->next;
+	 }
+	 
+	 if(CURRENT_TASK->state == T_READY){
 		  CURRENT_TASK->state = T_RUNNING;
 			task_state[CURRENT_TASK->tid] = T_RUNNING;
 	    sp = CURRENT_TASK->sp;
 			CURRENT_TASK->clk_ticks = 0;
-	 } else {     /* task->state == T_CREATED so make it "ready" 
-	                give it an interrupt frame and then launch it 
-	    		        (with a blr sith 0xfffffff9 in LR in StartNewTask())  */
+	 }
+	 else{     /* 
+									task->state == T_CREATED so make it "ready"
+	                give it an interrupt frame and then launch it
+	    		        (with a blr sith 0xfffffff9 in LR in StartNewTask())
+						 */
 		  CURRENT_TASK->state = T_RUNNING;
 		  task_state[CURRENT_TASK->tid] = 1;
 			sp = StartNewTask(CURRENT_TASK->sp,(uint32_t) CURRENT_TASK->func); // Does not return!
-		}
+	 }
 		
-		/* 
+		/*
 				AMW
-				Determine the ps values for the current tasks 		
+				Determine the ps values for the current tasks
 		*/
 		PS_Calcs();
 		
@@ -287,33 +286,51 @@ void OS_Sem_Init(unsigned int *sem, unsigned int count){
 
 void OS_Sem_Signal(unsigned int *sem){
 	DisableInterrupts();
-	/*
-			CRITICAL SECTION OF CODE
-	*/
-	*sem = *sem + 1;
-	/*
-			CRITICAL SECTION OF CODE
-	*/
+	*sem += 1;
+	if( *sem > 0 ){
+		CURRENT_TASK = CURRENT_TASK->next;
+		while( CURRENT_TASK->blocked != T_BLOCKED ){
+			CURRENT_TASK = CURRENT_TASK->next;
+		}
 	EnableInterrupts();
+}
+	
+	//DisableInterrupts();
+	/*
+			CRITICAL SECTION OF CODE
+	*/
+	//*sem = *sem + 1;
+	/*
+			CRITICAL SECTION OF CODE
+	*/
+	//EnableInterrupts();
 }
 
 void OS_Sem_Wait(unsigned int *sem){
 	DisableInterrupts();
-	while( *sem == 0 ){
+	*sem -= 1;
+	if( *sem != 0 ){
+		CURRENT_TASK->blocked = T_BLOCKED;
 		EnableInterrupts(); // allow scheduler a chance to be called
 		OS_Suspend();
-		DisableInterrupts(); // turn off interrupts when we go to exit the loop
+	}
+	DisableInterrupts(); // turn off interrupts when we go to exit the loop
+	
+	//while( *sem == 0 ){
+		//EnableInterrupts(); // allow scheduler a chance to be called
+		//OS_Suspend();
+		//DisableInterrupts(); // turn off interrupts when we go to exit the loop
 			// It's a block party!!!
 			// (Process is blocked)
-	}
+	//}
 	/*
 			CRITICAL SECTION OF CODE
 	*/
-	*sem = *sem - 1;	
+	//*sem = *sem - 1;	
 	/*
 			CRITICAL SECTION OF CODE
 	*/	
-	EnableInterrupts();
+	//EnableInterrupts();
 }
 
 /* 

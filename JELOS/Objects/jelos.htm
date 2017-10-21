@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\jelos.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\jelos.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Fri Oct 20 20:10:41 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Sat Oct 21 01:49:54 2017
 <BR><P>
 <H3>Maximum Stack Usage =        136 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -627,8 +627,8 @@ Global Symbols
 <P><STRONG><a name="[bc]"></a>WaitForInterrupt</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text), UNUSED)
 
 <P><STRONG><a name="[28]"></a>GPIOPortF_Handler</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, jelosasm.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 48 + Unknown Stack Size
-<LI>Call Chain = GPIOPortF_Handler &rArr; Schedule &rArr; __2printf
+<BR><BR>[Stack]<UL><LI>Max Depth = 24 + Unknown Stack Size
+<LI>Call Chain = GPIOPortF_Handler &rArr; Schedule
 </UL>
 <BR>[Calls]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Schedule
 </UL>
@@ -639,8 +639,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[9]"></a>SysTick_Handler</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, jelosasm.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 48 + Unknown Stack Size
-<LI>Call Chain = SysTick_Handler &rArr; Schedule &rArr; __2printf
+<BR><BR>[Stack]<UL><LI>Max Depth = 24 + Unknown Stack Size
+<LI>Call Chain = SysTick_Handler &rArr; Schedule
 </UL>
 <BR>[Calls]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Schedule
 </UL>
@@ -715,7 +715,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartScheduler
 </UL>
 
-<P><STRONG><a name="[95]"></a>OS_Sem_Signal</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, jelos.o(i.OS_Sem_Signal))
+<P><STRONG><a name="[95]"></a>OS_Sem_Signal</STRONG> (Thumb, 56 bytes, Stack size 8 bytes, jelos.o(i.OS_Sem_Signal))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
 <LI>Call Chain = OS_Sem_Signal
 </UL>
@@ -775,13 +775,12 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartScheduler
 </UL>
 
-<P><STRONG><a name="[88]"></a>Schedule</STRONG> (Thumb, 194 bytes, Stack size 24 bytes, jelos.o(i.Schedule))
-<BR><BR>[Stack]<UL><LI>Max Depth = 48 + Unknown Stack Size
-<LI>Call Chain = Schedule &rArr; __2printf
+<P><STRONG><a name="[88]"></a>Schedule</STRONG> (Thumb, 192 bytes, Stack size 24 bytes, jelos.o(i.Schedule))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24 + Unknown Stack Size
+<LI>Call Chain = Schedule
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartNewTask
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PS_Calcs
-<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
 <LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPortF_Handler
@@ -849,8 +848,7 @@ Global Symbols
 <P><STRONG><a name="[98]"></a>__2printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printf8.o(i.__0printf$8))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = __2printf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Schedule
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Suspend
+<BR>[Called By]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Suspend
 <LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ps
 <LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;time
 <LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;temp

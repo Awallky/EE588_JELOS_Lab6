@@ -56,7 +56,7 @@ void WaitForInterrupt(void);  // low power mode
 
 /* Task States
  */
-enum { T_CREATED, T_READY, T_RUNNING };
+enum { T_CREATED, T_READY, T_RUNNING, T_BLOCKED };
 
 typedef struct TaskControlBlock
 	{
@@ -69,6 +69,6 @@ typedef struct TaskControlBlock
 	//uint32_t	stack_size; 	/* stack high value */
 	unsigned char	*sp;		/* current value of the stack pointer */
 	uint32_t clk_ticks;
-	char *blocked; /* Determines whether the task is blocked // AMW // */
+	int32_t blocked; /* Determines whether the task is blocked // AMW // */
 	} TaskControlBlock;
 #endif
