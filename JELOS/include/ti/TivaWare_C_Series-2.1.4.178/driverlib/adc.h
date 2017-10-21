@@ -2,7 +2,7 @@
 //
 // adc.h - ADC headers for using the ADC driver functions.
 //
-// Copyright (c) 2005-2017 Texas Instruments Incorporated.  All rights reserved.
+// Copyright (c) 2005-2013 Texas Instruments Incorporated.  All rights reserved.
 // Software License Agreement
 // 
 //   Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
-// This is part of revision 2.1.4.178 of the Tiva Peripheral Driver Library.
+// This is part of revision 1.1 of the Tiva Peripheral Driver Library.
 //
 //*****************************************************************************
 
@@ -67,10 +67,7 @@ extern "C"
 #define ADC_TRIGGER_PWM1        0x00000007  // PWM1 event
 #define ADC_TRIGGER_PWM2        0x00000008  // PWM2 event
 #define ADC_TRIGGER_PWM3        0x00000009  // PWM3 event
-#define ADC_TRIGGER_NEVER       0x0000000E  // Never Trigger
 #define ADC_TRIGGER_ALWAYS      0x0000000F  // Always event
-#define ADC_TRIGGER_PWM_MOD0    0x00000000  // PWM triggers from PWM0
-#define ADC_TRIGGER_PWM_MOD1    0x00000010  // PWM triggers from PWM1
 
 //*****************************************************************************
 //
@@ -114,13 +111,6 @@ extern "C"
 #define ADC_CTL_CMP5            0x000D0000  // Select Comparator 5
 #define ADC_CTL_CMP6            0x000E0000  // Select Comparator 6
 #define ADC_CTL_CMP7            0x000F0000  // Select Comparator 7
-#define ADC_CTL_SHOLD_4         0x00000000  // Sample and hold 4 ADC clocks
-#define ADC_CTL_SHOLD_8         0x00200000  // Sample and hold 8 ADC clocks
-#define ADC_CTL_SHOLD_16        0x00400000  // Sample and hold 16 ADC clocks
-#define ADC_CTL_SHOLD_32        0x00600000  // Sample and hold 32 ADC clocks
-#define ADC_CTL_SHOLD_64        0x00800000  // Sample and hold 64 ADC clocks
-#define ADC_CTL_SHOLD_128       0x00A00000  // Sample and hold 128 ADC clocks
-#define ADC_CTL_SHOLD_256       0x00C00000  // Sample and hold 256 ADC clocks
 
 //*****************************************************************************
 //
@@ -206,6 +196,7 @@ extern "C"
 //*****************************************************************************
 #define ADC_REF_INT             0x00000000  // Internal reference
 #define ADC_REF_EXT_3V          0x00000001  // External 3V reference
+#define ADC_REF_EXT_1V          0x00000003  // External 1V reference
 
 //*****************************************************************************
 //
@@ -225,20 +216,6 @@ extern "C"
 #define ADC_INT_DCON_SS1        0x00020000
 #define ADC_INT_DCON_SS2        0x00040000
 #define ADC_INT_DCON_SS3        0x00080000
-
-//*****************************************************************************
-//
-// Values that can be passed to ADCClockConfigSet() and ADCClockConfigGet().
-//
-//*****************************************************************************
-#define ADC_CLOCK_RATE_FULL     0x00000070
-#define ADC_CLOCK_RATE_HALF     0x00000050
-#define ADC_CLOCK_RATE_FOURTH   0x00000030
-#define ADC_CLOCK_RATE_EIGHTH   0x00000010
-#define ADC_CLOCK_SRC_PLL       0x00000000
-#define ADC_CLOCK_SRC_PIOSC     0x00000001
-#define ADC_CLOCK_SRC_ALTCLK    0x00000001
-#define ADC_CLOCK_SRC_MOSC      0x00000002
 
 //*****************************************************************************
 //
@@ -284,10 +261,6 @@ extern void ADCSoftwareOversampleDataGet(uint32_t ui32Base,
                                          uint32_t ui32Count);
 extern void ADCHardwareOversampleConfigure(uint32_t ui32Base,
                                            uint32_t ui32Factor);
-extern void ADCClockConfigSet(uint32_t ui32Base, uint32_t ui32Config,
-                              uint32_t ui32ClockDiv);
-extern uint32_t ADCClockConfigGet(uint32_t ui32Base, uint32_t *pui32ClockDiv);
-
 extern void ADCComparatorConfigure(uint32_t ui32Base, uint32_t ui32Comp,
                                    uint32_t ui32Config);
 extern void ADCComparatorRegionSet(uint32_t ui32Base, uint32_t ui32Comp,
@@ -300,20 +273,10 @@ extern void ADCComparatorIntEnable(uint32_t ui32Base,
                                    uint32_t ui32SequenceNum);
 extern uint32_t ADCComparatorIntStatus(uint32_t ui32Base);
 extern void ADCComparatorIntClear(uint32_t ui32Base, uint32_t ui32Status);
-extern void ADCIntDisableEx(uint32_t ui32Base, uint32_t ui32IntFlags);
-extern void ADCIntEnableEx(uint32_t ui32Base, uint32_t ui32IntFlags);
-extern uint32_t ADCIntStatusEx(uint32_t ui32Base, bool bMasked);
-extern void ADCIntClearEx(uint32_t ui32Base, uint32_t ui32IntFlags);
-extern void ADCSequenceDMAEnable(uint32_t ui32Base, uint32_t ui32SequenceNum);
-extern void ADCSequenceDMADisable(uint32_t ui32Base, uint32_t ui32SequenceNum);
-extern bool ADCBusy(uint32_t ui32Base);
 extern void ADCReferenceSet(uint32_t ui32Base, uint32_t ui32Ref);
 extern uint32_t ADCReferenceGet(uint32_t ui32Base);
 extern void ADCPhaseDelaySet(uint32_t ui32Base, uint32_t ui32Phase);
 extern uint32_t ADCPhaseDelayGet(uint32_t ui32Base);
-extern void ADCSampleRateSet(uint32_t ui32Base, uint32_t ui32ADCClock,
-                             uint32_t ui32Rate);
-extern uint32_t ADCSampleRateGet(uint32_t ui32Base);
 
 //*****************************************************************************
 //

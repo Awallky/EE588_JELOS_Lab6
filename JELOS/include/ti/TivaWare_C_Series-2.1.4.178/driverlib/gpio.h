@@ -2,7 +2,7 @@
 //
 // gpio.h - Defines and Macros for GPIO API.
 //
-// Copyright (c) 2005-2017 Texas Instruments Incorporated.  All rights reserved.
+// Copyright (c) 2005-2013 Texas Instruments Incorporated.  All rights reserved.
 // Software License Agreement
 // 
 //   Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
-// This is part of revision 2.1.4.178 of the Tiva Peripheral Driver Library.
+// This is part of revision 1.1 of the Tiva Peripheral Driver Library.
 //
 //*****************************************************************************
 
@@ -97,11 +97,8 @@ extern "C"
 //*****************************************************************************
 #define GPIO_STRENGTH_2MA       0x00000001  // 2mA drive strength
 #define GPIO_STRENGTH_4MA       0x00000002  // 4mA drive strength
-#define GPIO_STRENGTH_6MA       0x00000065  // 6mA drive strength
-#define GPIO_STRENGTH_8MA       0x00000066  // 8mA drive strength
-#define GPIO_STRENGTH_8MA_SC    0x0000006E  // 8mA drive with slew rate control
-#define GPIO_STRENGTH_10MA      0x00000075  // 10mA drive strength
-#define GPIO_STRENGTH_12MA      0x00000077  // 12mA drive strength
+#define GPIO_STRENGTH_8MA       0x00000004  // 8mA drive strength
+#define GPIO_STRENGTH_8MA_SC    0x0000000C  // 8mA drive with slew rate control
 
 //*****************************************************************************
 //
@@ -114,8 +111,6 @@ extern "C"
 #define GPIO_PIN_TYPE_STD_WPD   0x0000000C  // Push-pull with weak pull-down
 #define GPIO_PIN_TYPE_OD        0x00000009  // Open-drain
 #define GPIO_PIN_TYPE_ANALOG    0x00000000  // Analog comparator
-#define GPIO_PIN_TYPE_WAKE_HIGH 0x00000208  // Hibernate wake, high
-#define GPIO_PIN_TYPE_WAKE_LOW  0x00000108  // Hibernate wake, low
 
 //*****************************************************************************
 //
@@ -131,7 +126,6 @@ extern "C"
 #define GPIO_INT_PIN_5          0x00000020
 #define GPIO_INT_PIN_6          0x00000040
 #define GPIO_INT_PIN_7          0x00000080
-#define GPIO_INT_DMA            0x00000100
 
 //*****************************************************************************
 //
@@ -141,6 +135,10 @@ extern "C"
 extern void GPIODirModeSet(uint32_t ui32Port, uint8_t ui8Pins,
                            uint32_t ui32PinIO);
 extern uint32_t GPIODirModeGet(uint32_t ui32Port, uint8_t ui8Pin);
+
+//
+// GPIO Interrupt Functions
+//
 extern void GPIOIntTypeSet(uint32_t ui32Port, uint8_t ui8Pins,
                            uint32_t ui32IntType);
 extern uint32_t GPIOIntTypeGet(uint32_t ui32Port, uint8_t ui8Pin);
@@ -154,39 +152,35 @@ extern uint32_t GPIOIntStatus(uint32_t ui32Port, bool bMasked);
 extern void GPIOIntClear(uint32_t ui32Port, uint32_t ui32IntFlags);
 extern void GPIOIntRegister(uint32_t ui32Port, void (*pfnIntHandler)(void));
 extern void GPIOIntUnregister(uint32_t ui32Port);
-extern void GPIOIntRegisterPin(uint32_t ui32Port, uint32_t ui32Pin,
-                               void (*pfnIntHandler)(void));
-extern void GPIOIntUnregisterPin(uint32_t ui32Port, uint32_t ui32Pin);
+
+//
+// GPIO Pin Operations
+//
 extern int32_t GPIOPinRead(uint32_t ui32Port, uint8_t ui8Pins);
 extern void GPIOPinWrite(uint32_t ui32Port, uint8_t ui8Pins, uint8_t ui8Val);
 extern void GPIOPinConfigure(uint32_t ui32PinConfig);
 extern void GPIOPinTypeADC(uint32_t ui32Port, uint8_t ui8Pins);
 extern void GPIOPinTypeCAN(uint32_t ui32Port, uint8_t ui8Pins);
 extern void GPIOPinTypeComparator(uint32_t ui32Port, uint8_t ui8Pins);
-extern void GPIOPinTypeComparatorOutput(uint32_t ui32Port, uint8_t ui8Pins);
-extern void GPIOPinTypeDIVSCLK(uint32_t ui32Port, uint8_t ui8Pins);
 extern void GPIOPinTypeEPI(uint32_t ui32Port, uint8_t ui8Pins);
 extern void GPIOPinTypeEthernetLED(uint32_t ui32Port, uint8_t ui8Pins);
 extern void GPIOPinTypeEthernetMII(uint32_t ui32Port, uint8_t ui8Pins);
+extern void GPIOPinTypeFan(uint32_t ui32Port, uint8_t ui8Pins);
 extern void GPIOPinTypeGPIOInput(uint32_t ui32Port, uint8_t ui8Pins);
 extern void GPIOPinTypeGPIOOutput(uint32_t ui32Port, uint8_t ui8Pins);
 extern void GPIOPinTypeGPIOOutputOD(uint32_t ui32Port, uint8_t ui8Pins);
-extern void GPIOPinTypeHibernateRTCCLK(uint32_t ui32Port, uint8_t ui8Pins);
 extern void GPIOPinTypeI2C(uint32_t ui32Port, uint8_t ui8Pins);
 extern void GPIOPinTypeI2CSCL(uint32_t ui32Port, uint8_t ui8Pins);
-extern void GPIOPinTypeLCD(uint32_t ui32Port, uint8_t ui8Pins);
-extern void GPIOPinTypeOneWire(uint32_t ui32Port, uint8_t ui8Pins);
+extern void GPIOPinTypeLPC(uint32_t ui32Port, uint8_t ui8Pins);
+extern void GPIOPinTypePECIRx(uint32_t ui32Port, uint8_t ui8Pins);
+extern void GPIOPinTypePECITx(uint32_t ui32Port, uint8_t ui8Pins);
 extern void GPIOPinTypePWM(uint32_t ui32Port, uint8_t ui8Pins);
 extern void GPIOPinTypeQEI(uint32_t ui32Port, uint8_t ui8Pins);
 extern void GPIOPinTypeSSI(uint32_t ui32Port, uint8_t ui8Pins);
 extern void GPIOPinTypeTimer(uint32_t ui32Port, uint8_t ui8Pins);
-extern void GPIOPinTypeTrace(uint32_t ui32Port, uint8_t ui8Pins);
 extern void GPIOPinTypeUART(uint32_t ui32Port, uint8_t ui8Pins);
 extern void GPIOPinTypeUSBAnalog(uint32_t ui32Port, uint8_t ui8Pins);
 extern void GPIOPinTypeUSBDigital(uint32_t ui32Port, uint8_t ui8Pins);
-extern void GPIOPinTypeWakeHigh(uint32_t ui32Port, uint8_t ui8Pins);
-extern void GPIOPinTypeWakeLow(uint32_t ui32Port, uint8_t ui8Pins);
-extern uint32_t GPIOPinWakeStatus(uint32_t ui32Port);
 extern void GPIODMATriggerEnable(uint32_t ui32Port, uint8_t ui8Pins);
 extern void GPIODMATriggerDisable(uint32_t ui32Port, uint8_t ui8Pins);
 extern void GPIOADCTriggerEnable(uint32_t ui32Port, uint8_t ui8Pins);

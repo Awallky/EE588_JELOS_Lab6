@@ -2,7 +2,7 @@
 //
 // flash.c - Driver for programming the on-chip flash.
 //
-// Copyright (c) 2005-2017 Texas Instruments Incorporated.  All rights reserved.
+// Copyright (c) 2005-2013 Texas Instruments Incorporated.  All rights reserved.
 // Software License Agreement
 // 
 //   Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
-// This is part of revision 2.1.4.178 of the Tiva Peripheral Driver Library.
+// This is part of revision 1.1 of the Tiva Peripheral Driver Library.
 //
 //*****************************************************************************
 
@@ -65,19 +65,7 @@ static const uint32_t g_pui32FMPPERegs[] =
     FLASH_FMPPE0,
     FLASH_FMPPE1,
     FLASH_FMPPE2,
-    FLASH_FMPPE3,
-    FLASH_FMPPE4,
-    FLASH_FMPPE5,
-    FLASH_FMPPE6,
-    FLASH_FMPPE7,
-    FLASH_FMPPE8,
-    FLASH_FMPPE9,
-    FLASH_FMPPE10,
-    FLASH_FMPPE11,
-    FLASH_FMPPE12,
-    FLASH_FMPPE13,
-    FLASH_FMPPE14,
-    FLASH_FMPPE15,
+    FLASH_FMPPE3
 };
 
 //*****************************************************************************
@@ -91,19 +79,7 @@ static const uint32_t g_pui32FMPRERegs[] =
     FLASH_FMPRE0,
     FLASH_FMPRE1,
     FLASH_FMPRE2,
-    FLASH_FMPRE3,
-    FLASH_FMPRE4,
-    FLASH_FMPRE5,
-    FLASH_FMPRE6,
-    FLASH_FMPRE7,
-    FLASH_FMPRE8,
-    FLASH_FMPRE9,
-    FLASH_FMPRE10,
-    FLASH_FMPRE11,
-    FLASH_FMPRE12,
-    FLASH_FMPRE13,
-    FLASH_FMPRE14,
-    FLASH_FMPRE15,
+    FLASH_FMPRE3
 };
 
 //*****************************************************************************
@@ -112,13 +88,9 @@ static const uint32_t g_pui32FMPRERegs[] =
 //!
 //! \param ui32Address is the start address of the flash block to be erased.
 //!
-//! This function erases a block of the on-chip flash.  After erasing, the
-//! block is filled with 0xFF bytes.  Read-only and execute-only blocks cannot
-//! be erased.
-//!
-//! The flash block size is device-class dependent.  All TM4C123x devices use
-//! 1-KB blocks but TM4C129x devices use 16-KB blocks. Please consult the
-//! device datasheet to determine the block size in use.
+//! This function erases a 1-kB block of the on-chip flash.  After erasing,
+//! the block is filled with 0xFF bytes.  Read-only and execute-only blocks
+//! cannot be erased.
 //!
 //! This function does not return until the block has been erased.
 //!
@@ -179,6 +151,10 @@ FlashErase(uint32_t ui32Address)
 //! multiple of four.
 //!
 //! This function programs a sequence of words into the on-chip flash.
+//! Each word in a page of flash can only be programmed one time between an
+//! erase of that page; programming a word multiple times results in an
+//! unpredictable value in that word of flash.
+//!
 //! Because the flash is programmed one word at a time, the starting address
 //! and byte count must both be multiples of four.  It is up to the caller to
 //! verify the programmed contents, if such verification is required.
@@ -261,9 +237,8 @@ FlashProgram(uint32_t *pui32Data, uint32_t ui32Address, uint32_t ui32Count)
 //!
 //! \param ui32Address is the start address of the flash block to be queried.
 //!
-//! This function gets the current protection for the specified block of flash.
-//! Refer to the device data sheet to determine the granularity for each
-//! protection option. A block can be read/write, read-only, or execute-only.
+//! This function gets the current protection for the specified 2-kB block
+//! of flash.  Each block can be read/write, read-only, or execute-only.
 //! Read/write blocks can be read, executed, erased, and programmed.  Read-only
 //! blocks can be read and executed.  Execute-only blocks can only be executed;
 //! processor and debugger data reads are not allowed.
@@ -343,9 +318,8 @@ FlashProtectGet(uint32_t ui32Address)
 //! \param eProtect is the protection to be applied to the block.  Can be one
 //! of \b FlashReadWrite, \b FlashReadOnly, or \b FlashExecuteOnly.
 //!
-//! This function sets the protection for the specified block of flash.  Refer
-//! to the device data sheet to determine the granularity for each protection
-//! option.  Blocks that are read/write can be made read-only or execute-only.
+//! This function sets the protection for the specified 2-kB block of
+//! flash.  Blocks that are read/write can be made read-only or execute-only.
 //! Blocks that are read-only can be made execute-only.  Blocks that are
 //! execute-only cannot have their protection modified.  Attempts to make the
 //! block protection less stringent (that is, read-only to read/write)
@@ -479,8 +453,8 @@ FlashProtectSet(uint32_t ui32Address, tFlashProtection eProtect)
 //! Saves the flash protection settings.
 //!
 //! This function makes the currently programmed flash protection settings
-//! permanent.  This operation is non-reversible; a chip reset or power cycle
-//! does not change the flash protection.
+//! permanent.  On some devices, this operation is non-reversible; a chip reset
+//! or power cycle does not change the flash protection.
 //!
 //! This function does not return until the protection has been saved.
 //!
@@ -524,7 +498,7 @@ FlashProtectSave(void)
 //! \param pui32User0 is a pointer to the location to store USER Register 0.
 //! \param pui32User1 is a pointer to the location to store USER Register 1.
 //!
-//! This function reads the contents of user registers 0 and 1, and
+//! This function reads the contents of user registers (0 and 1), and
 //! stores them in the specified locations.
 //!
 //! \return Returns 0 on success, or -1 if a hardware error is encountered.
@@ -558,7 +532,7 @@ FlashUserGet(uint32_t *pui32User0, uint32_t *pui32User1)
 //! \param ui32User0 is the value to store in USER Register 0.
 //! \param ui32User1 is the value to store in USER Register 1.
 //!
-//! This function sets the contents of the user registers 0 and 1 to
+//! This function sets the contents of the user registers (0 and 1) to
 //! the specified values.
 //!
 //! \return Returns 0 on success, or -1 if a hardware error is encountered.
@@ -581,85 +555,11 @@ FlashUserSet(uint32_t ui32User0, uint32_t ui32User1)
 
 //*****************************************************************************
 //
-//! Gets all the user registers.
+//! Saves the user registers.
 //!
-//! \param pui32User0 is a pointer to the location to store USER Register 0.
-//! \param pui32User1 is a pointer to the location to store USER Register 1.
-//! \param pui32User2 is a pointer to the location to store USER Register 2.
-//! \param pui32User3 is a pointer to the location to store USER Register 3.
-//!
-//! This function reads the contents of user registers 0, 1, 2 and 3, and
-//! stores them in the specified locations.
-//!
-//! \return Returns 0 on success, or -1 if a hardware error is encountered.
-//
-//*****************************************************************************
-int32_t
-FlashAllUserRegisterGet(uint32_t *pui32User0, uint32_t *pui32User1,
-                        uint32_t *pui32User2, uint32_t *pui32User3)
-{
-    //
-    // Verify that the pointers are valid.
-    //
-    ASSERT(pui32User0 != 0);
-    ASSERT(pui32User1 != 0);
-    ASSERT(pui32User2 != 0);
-    ASSERT(pui32User3 != 0);
-
-    //
-    // Get and store the current value of the user registers.
-    //
-    *pui32User0 = HWREG(FLASH_USERREG0);
-    *pui32User1 = HWREG(FLASH_USERREG1);
-    *pui32User2 = HWREG(FLASH_USERREG2);
-    *pui32User3 = HWREG(FLASH_USERREG3);
-
-    //
-    // Success.
-    //
-    return(0);
-}
-
-//*****************************************************************************
-//
-//! Sets the user registers 0 to 3
-//!
-//! \param ui32User0 is the value to store in USER Register 0.
-//! \param ui32User1 is the value to store in USER Register 1.
-//! \param ui32User2 is the value to store in USER Register 2.
-//! \param ui32User3 is the value to store in USER Register 3.
-//!
-//! This function sets the contents of the user registers 0, 1, 2 and 3 to
-//! the specified values.
-//!
-//! \return Returns 0 on success, or -1 if a hardware error is encountered.
-//
-//*****************************************************************************
-int32_t
-FlashAllUserRegisterSet(uint32_t ui32User0, uint32_t ui32User1,
-                        uint32_t ui32User2, uint32_t ui32User3)
-{
-    //
-    // Save the new values into the user registers.
-    //
-    HWREG(FLASH_USERREG0) = ui32User0;
-    HWREG(FLASH_USERREG1) = ui32User1;
-    HWREG(FLASH_USERREG2) = ui32User2;
-    HWREG(FLASH_USERREG3) = ui32User3;
-
-    //
-    // Success.
-    //
-    return(0);
-}
-
-//*****************************************************************************
-//
-//! Saves the user registers 0 and 1.
-//!
-//! This function makes the currently programmed user register 0 and 1 settings
-//! permanent.  This operation is non-reversible; a chip reset or power cycle
-//! does not change the flash protection.
+//! This function makes the currently programmed user register settings
+//! permanent.  On some devices, this operation is non-reversible; a chip reset
+//! or power cycle does not change this setting.
 //!
 //! This function does not return until the protection has been saved.
 //!
@@ -704,58 +604,6 @@ FlashUserSave(void)
 
 //*****************************************************************************
 //
-//! Saves the user registers.
-//!
-//! This function makes the currently programmed user register 0, 1, 2 and 3
-//! settings permanent.  This operation is non-reversible; a chip reset or
-//! power cycle does not change the flash protection.
-//!
-//! This function does not return until the protection has been saved.
-//!
-//! \note To ensure data integrity of the user registers, the commits should
-//! not be interrupted with a power loss.
-//!
-//! \return Returns 0 on success, or -1 if a hardware error is encountered.
-//
-//*****************************************************************************
-int32_t
-FlashAllUserRegisterSave(void)
-{
-    uint32_t ui32Index;
-
-    //
-    // Setting the MSB of FMA will trigger a permanent save of a USER Register.
-    // The 2 least signigicant bits, specify the exact User Register to save.
-    // The value of the least significant bits for
-    // USER Register 0 is 00,
-    // USER Register 1 is 01,
-    // USER Register 2 is 10 and
-    // USER Register 3 is 11.
-    //
-    for(ui32Index = 0; ui32Index < 4; ui32Index++)
-    {
-        //
-        // Tell the flash controller to commit a USER Register.
-        //
-        HWREG(FLASH_FMA) = (0x80000000 + ui32Index);
-        HWREG(FLASH_FMC) = FLASH_FMC_WRKEY | FLASH_FMC_COMT;
-
-        //
-        // Wait until the write has completed.
-        //
-        while(HWREG(FLASH_FMC) & FLASH_FMC_COMT)
-        {
-        }
-    }
-
-    //
-    // Success.
-    //
-    return(0);
-}
-
-//*****************************************************************************
-//
 //! Registers an interrupt handler for the flash interrupt.
 //!
 //! \param pfnHandler is a pointer to the function to be called when the flash
@@ -780,12 +628,12 @@ FlashIntRegister(void (*pfnHandler)(void))
     //
     // Register the interrupt handler, returning an error if an error occurs.
     //
-    IntRegister(INT_FLASH_TM4C123, pfnHandler);
+    IntRegister(INT_FLASH_BLIZZARD, pfnHandler);
 
     //
     // Enable the flash interrupt.
     //
-    IntEnable(INT_FLASH_TM4C123);
+    IntEnable(INT_FLASH_BLIZZARD);
 }
 
 //*****************************************************************************
@@ -808,12 +656,12 @@ FlashIntUnregister(void)
     //
     // Disable the interrupt.
     //
-    IntDisable(INT_FLASH_TM4C123);
+    IntDisable(INT_FLASH_BLIZZARD);
 
     //
     // Unregister the interrupt handler.
     //
-    IntUnregister(INT_FLASH_TM4C123);
+    IntUnregister(INT_FLASH_BLIZZARD);
 }
 
 //*****************************************************************************
@@ -821,20 +669,7 @@ FlashIntUnregister(void)
 //! Enables individual flash controller interrupt sources.
 //!
 //! \param ui32IntFlags is a bit mask of the interrupt sources to be enabled.
-//! The ui32IntFlags parameter can be the logical OR of any of the following
-//! values:
-//!
-//! - \b FLASH_INT_ACCESS occurs when a program or erase action was attempted
-//! on a block of flash that is marked as read-only or execute-only.
-//! - \b FLASH_INT_PROGRAM occurs when a programming or erase cycle completes.
-//! - \b FLASH_INT_EEPROM occurs when an EEPROM interrupt occurs. The source of
-//! the EEPROM interrupt can be determined by reading the EEDONE register.
-//! - \b FLASH_INT_VOLTAGE_ERR occurs when the voltage was out of spec during
-//! the flash operation and the operation was terminated.
-//! - \b FLASH_INT_DATA_ERR occurs when an operation attempts to program a bit that
-//! contains a 0 to a 1.
-//! - \b FLASH_INT_ERASE_ERR occurs when an erase operation fails.
-//! - \b FLASH_INT_PROGRAM_ERR occurs when a program operation fails.
+//! Can be any of the \b FLASH_INT_PROGRAM or \b FLASH_INT_ACCESS values.
 //!
 //! This function enables the indicated flash controller interrupt sources.
 //! Only the sources that are enabled can be reflected to the processor
@@ -857,20 +692,7 @@ FlashIntEnable(uint32_t ui32IntFlags)
 //! Disables individual flash controller interrupt sources.
 //!
 //! \param ui32IntFlags is a bit mask of the interrupt sources to be disabled.
-//! The ui32IntFlags parameter can be the logical OR of any of the following
-//! values:
-//!
-//! - \b FLASH_INT_ACCESS occurs when a program or erase action was attempted
-//! on a block of flash that is marked as read-only or execute-only.
-//! - \b FLASH_INT_PROGRAM occurs when a programming or erase cycle completes.
-//! - \b FLASH_INT_EEPROM occurs when an EEPROM interrupt occurs. The source of
-//! the EEPROM interrupt can be determined by reading the EEDONE register.
-//! - \b FLASH_INT_VOLTAGE_ERR occurs when the voltage was out of spec during
-//! the flash operation and the operation was terminated.
-//! - \b FLASH_INT_DATA_ERR occurs when an operation attempts to program a bit that
-//! contains a 0 to a 1.
-//! - \b FLASH_INT_ERASE_ERR occurs when an erase operation fails.
-//! - \b FLASH_INT_PROGRAM_ERR occurs when a program operation fails.
+//! Can be any of the \b FLASH_INT_PROGRAM or \b FLASH_INT_ACCESS values.
 //!
 //! This function disables the indicated flash controller interrupt sources.
 //! Only the sources that are enabled can be reflected to the processor
@@ -900,9 +722,7 @@ FlashIntDisable(uint32_t ui32IntFlags)
 //! allowed to reflect to the processor can be returned.
 //!
 //! \return The current interrupt status, enumerated as a bit field of
-//! \b FLASH_INT_ACCESS, \b FLASH_INT_PROGRAM, \b FLASH_INT_EEPROM,
-//! FLASH_INT_VOLTAGE_ERR, FLASH_INT_DATA_ERR, FLASH_INT_ERASE_ERR, and
-//! FLASH_INT_PROGRAM_ERR.
+//! \b FLASH_INT_PROGRAM and \b FLASH_INT_ACCESS.
 //
 //*****************************************************************************
 uint32_t
@@ -927,26 +747,11 @@ FlashIntStatus(bool bMasked)
 //! Clears flash controller interrupt sources.
 //!
 //! \param ui32IntFlags is the bit mask of the interrupt sources to be cleared.
+//! Can be any of the \b FLASH_INT_PROGRAM or \b FLASH_INT_AMISC values.
 //!
 //! The specified flash controller interrupt sources are cleared, so that they
-//! no longer assert.  The
-//! ui32IntFlags parameter can be the logical OR of any of the following
-//! values:
-//!
-//! - \b FLASH_INT_ACCESS occurs when a program or erase action was attempted
-//! on a block of flash that is marked as read-only or execute-only.
-//! - \b FLASH_INT_PROGRAM occurs when a programming or erase cycle completes.
-//! - \b FLASH_INT_EEPROM occurs when an EEPROM interrupt occurs. The source of
-//! the EEPROM interrupt can be determined by reading the EEDONE register.
-//! - \b FLASH_INT_VOLTAGE_ERR occurs when the voltage was out of spec during
-//! the flash operation and the operation was terminated.
-//! - \b FLASH_INT_DATA_ERR occurs when an operation attempts to program a bit that
-//! contains a 0 to a 1.
-//! - \b FLASH_INT_ERASE_ERR occurs when an erase operation fails.
-//! - \b FLASH_INT_PROGRAM_ERR occurs when a program operation fails.
-//!
-//! This function must be called in the interrupt handler to keep the
-//! interrupt from being triggered again immediately upon exit.
+//! no longer assert.  This function must be called in the interrupt handler
+//! to keep the interrupt from being triggered again immediately upon exit.
 //!
 //! \note Because there is a write buffer in the Cortex-M processor, it may
 //! take several clock cycles before the interrupt source is actually cleared.

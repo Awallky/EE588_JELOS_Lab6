@@ -52,9 +52,11 @@ void Two(void)
 										 ~(ROM_GPIOPinRead(PORTF_BASE_ADDR,
 										 PIN_3)) );   // toggle LED 
 		while (1){ 
-			//OS_Sem_Wait(sem);
+			OS_Sem_Wait(sem);
 			putchar('2'); //tasks should not end
-			//OS_Sem_Signal(sem);
+			//foo();
+			OS_Sem_Signal(sem);
+			OS_Suspend(); // Trigger SysTick Interrupt
 		}
 	
 	} 

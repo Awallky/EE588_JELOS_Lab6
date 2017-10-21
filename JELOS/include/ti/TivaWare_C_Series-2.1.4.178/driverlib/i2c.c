@@ -2,7 +2,7 @@
 //
 // i2c.c - Driver for Inter-IC (I2C) bus block.
 //
-// Copyright (c) 2005-2017 Texas Instruments Incorporated.  All rights reserved.
+// Copyright (c) 2005-2013 Texas Instruments Incorporated.  All rights reserved.
 // Software License Agreement
 // 
 //   Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
-// This is part of revision 2.1.4.178 of the Tiva Peripheral Driver Library.
+// This is part of revision 1.1 of the Tiva Peripheral Driver Library.
 //
 //*****************************************************************************
 
@@ -62,32 +62,16 @@
 //*****************************************************************************
 static const uint32_t g_ppui32I2CIntMap[][2] =
 {
-    { I2C0_BASE, INT_I2C0_TM4C123 },
-    { I2C1_BASE, INT_I2C1_TM4C123 },
-    { I2C2_BASE, INT_I2C2_TM4C123 },
-    { I2C3_BASE, INT_I2C3_TM4C123 },
-    { I2C4_BASE, INT_I2C4_TM4C123 },
-    { I2C5_BASE, INT_I2C5_TM4C123 },
+    { I2C0_BASE, INT_I2C0_BLIZZARD },
+    { I2C1_BASE, INT_I2C1_BLIZZARD },
+    { I2C2_BASE, INT_I2C2_BLIZZARD },
+    { I2C3_BASE, INT_I2C3_BLIZZARD },
+    { I2C4_BASE, INT_I2C4_BLIZZARD },
+    { I2C5_BASE, INT_I2C5_BLIZZARD },
 };
 
 static const int_fast8_t g_i8I2CIntMapRows =
     sizeof(g_ppui32I2CIntMap) / sizeof(g_ppui32I2CIntMap[0]);
-
-static const uint32_t g_ppui32I2CIntMapSnowflake[][2] =
-{
-    { I2C0_BASE, INT_I2C0_TM4C129 },
-    { I2C1_BASE, INT_I2C1_TM4C129 },
-    { I2C2_BASE, INT_I2C2_TM4C129 },
-    { I2C3_BASE, INT_I2C3_TM4C129 },
-    { I2C4_BASE, INT_I2C4_TM4C129 },
-    { I2C5_BASE, INT_I2C5_TM4C129 },
-    { I2C6_BASE, INT_I2C6_TM4C129 },
-    { I2C7_BASE, INT_I2C7_TM4C129 },
-    { I2C8_BASE, INT_I2C8_TM4C129 },
-    { I2C9_BASE, INT_I2C9_TM4C129 },
-};
-static const int_fast8_t g_i8I2CIntMapSnowflakeRows =
-    sizeof(g_ppui32I2CIntMapSnowflake) / sizeof(g_ppui32I2CIntMapSnowflake[0]);
 
 //*****************************************************************************
 //
@@ -108,9 +92,7 @@ _I2CBaseValid(uint32_t ui32Base)
 {
     return((ui32Base == I2C0_BASE) || (ui32Base == I2C1_BASE) ||
            (ui32Base == I2C2_BASE) || (ui32Base == I2C3_BASE) ||
-           (ui32Base == I2C4_BASE) || (ui32Base == I2C5_BASE) ||
-           (ui32Base == I2C6_BASE) || (ui32Base == I2C7_BASE) ||
-           (ui32Base == I2C8_BASE) || (ui32Base == I2C9_BASE));
+           (ui32Base == I2C4_BASE) || (ui32Base == I2C5_BASE));
 }
 #endif
 
@@ -119,7 +101,7 @@ _I2CBaseValid(uint32_t ui32Base)
 //! \internal
 //! Gets the I2C interrupt number.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //!
 //! Given a I2C base address, this function returns the corresponding
 //! interrupt number.
@@ -140,12 +122,6 @@ _I2CIntNumberGet(uint32_t ui32Base)
 
     ppui32I2CIntMap = g_ppui32I2CIntMap;
     i8Rows = g_i8I2CIntMapRows;
-
-    if(CLASS_IS_TM4C129)
-    {
-        ppui32I2CIntMap = g_ppui32I2CIntMapSnowflake;
-        i8Rows = g_i8I2CIntMapSnowflakeRows;
-    }
 
     //
     // Loop through the table that maps I2C base addresses to interrupt
@@ -175,7 +151,7 @@ _I2CIntNumberGet(uint32_t ui32Base)
 //
 //! Initializes the I2C Master block.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //! \param ui32I2CClk is the rate of the clock supplied to the I2C module.
 //! \param bFast set up for fast data transfers.
 //!
@@ -190,12 +166,10 @@ _I2CIntNumberGet(uint32_t ui32Base)
 //! initial communication with the slave is done at either 100 Kbps or
 //! 400 Kbps.
 //!
-//! The peripheral clock is the same as the processor clock.  The frequency of
-//! the system clock is the value returned by SysCtlClockGet() for TM4C123x
-//! devices or the value returned by SysCtlClockFreqSet() for TM4C129x devices,
-//! or it can be explicitly hard coded if it is constant and known (to save the
-//! code/execution overhead of a call to SysCtlClockGet() or fetch of the 
-//! variable call holding the return value of SysCtlClockFreqSet()).
+//! The peripheral clock is the same as the processor clock.  This value is
+//! returned by SysCtlClockGet(), or it can be explicitly hard coded if it is
+//! constant and known (to save the code/execution overhead of a call to
+//! SysCtlClockGet()).
 //!
 //! \return None.
 //
@@ -255,7 +229,7 @@ I2CMasterInitExpClk(uint32_t ui32Base, uint32_t ui32I2CClk,
 //
 //! Initializes the I2C Slave block.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Slave module.
 //! \param ui8SlaveAddr 7-bit slave address
 //!
 //! This function initializes operation of the I2C Slave block by configuring
@@ -291,7 +265,7 @@ I2CSlaveInit(uint32_t ui32Base, uint8_t ui8SlaveAddr)
 //
 //! Sets the I2C slave address.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Slave module.
 //! \param ui8AddrNum determines which slave address is set.
 //! \param ui8SlaveAddr is the 7-bit slave address
 //!
@@ -344,7 +318,7 @@ I2CSlaveAddressSet(uint32_t ui32Base, uint8_t ui8AddrNum, uint8_t ui8SlaveAddr)
 //
 //! Enables the I2C Master block.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //!
 //! This function enables operation of the I2C Master block.
 //!
@@ -369,7 +343,7 @@ I2CMasterEnable(uint32_t ui32Base)
 //
 //! Enables the I2C Slave block.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Slave module.
 //!
 //! This fucntion enables operation of the I2C Slave block.
 //!
@@ -399,7 +373,7 @@ I2CSlaveEnable(uint32_t ui32Base)
 //
 //! Disables the I2C master block.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //!
 //! This function disables operation of the I2C master block.
 //!
@@ -424,7 +398,7 @@ I2CMasterDisable(uint32_t ui32Base)
 //
 //! Disables the I2C slave block.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Slave module.
 //!
 //! This function disables operation of the I2C slave block.
 //!
@@ -454,7 +428,7 @@ I2CSlaveDisable(uint32_t ui32Base)
 //
 //! Registers an interrupt handler for the I2C module.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //! \param pfnHandler is a pointer to the function to be called when the
 //! I2C interrupt occurs.
 //!
@@ -503,7 +477,7 @@ I2CIntRegister(uint32_t ui32Base, void (*pfnHandler)(void))
 //
 //! Unregisters an interrupt handler for the I2C module.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //!
 //! This function clears the handler to be called when an I2C interrupt
 //! occurs.  This function also masks off the interrupt in the interrupt r
@@ -547,7 +521,7 @@ I2CIntUnregister(uint32_t ui32Base)
 //
 //! Enables the I2C Master interrupt.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //!
 //! This function enables the I2C Master interrupt source.
 //!
@@ -572,7 +546,7 @@ I2CMasterIntEnable(uint32_t ui32Base)
 //
 //! Enables individual I2C Master interrupt sources.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //! \param ui32IntFlags is the bit mask of the interrupt sources to be enabled.
 //!
 //! This function enables the indicated I2C Master interrupt sources.  Only the
@@ -581,16 +555,6 @@ I2CMasterIntEnable(uint32_t ui32Base)
 //!
 //! The \e ui32IntFlags parameter is the logical OR of any of the following:
 //!
-//! - \b I2C_MASTER_INT_RX_FIFO_FULL - RX FIFO Full interrupt
-//! - \b I2C_MASTER_INT_TX_FIFO_EMPTY - TX FIFO Empty interrupt
-//! - \b I2C_MASTER_INT_RX_FIFO_REQ - RX FIFO Request interrupt
-//! - \b I2C_MASTER_INT_TX_FIFO_REQ - TX FIFO Request interrupt
-//! - \b I2C_MASTER_INT_ARB_LOST - Arbitration Lost interrupt
-//! - \b I2C_MASTER_INT_STOP - Stop Condition interrupt
-//! - \b I2C_MASTER_INT_START - Start Condition interrupt
-//! - \b I2C_MASTER_INT_NACK - Address/Data NACK interrupt
-//! - \b I2C_MASTER_INT_TX_DMA_DONE - TX DMA Complete interrupt
-//! - \b I2C_MASTER_INT_RX_DMA_DONE - RX DMA Complete interrupt
 //! - \b I2C_MASTER_INT_TIMEOUT - Clock Timeout interrupt
 //! - \b I2C_MASTER_INT_DATA - Data interrupt
 //!
@@ -619,7 +583,7 @@ I2CMasterIntEnableEx(uint32_t ui32Base, uint32_t ui32IntFlags)
 //
 //! Enables the I2C Slave interrupt.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Slave module.
 //!
 //! This function enables the I2C Slave interrupt source.
 //!
@@ -644,7 +608,7 @@ I2CSlaveIntEnable(uint32_t ui32Base)
 //
 //! Enables individual I2C Slave interrupt sources.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Slave module.
 //! \param ui32IntFlags is the bit mask of the interrupt sources to be enabled.
 //!
 //! This function enables the indicated I2C Slave interrupt sources.  Only the
@@ -653,12 +617,6 @@ I2CSlaveIntEnable(uint32_t ui32Base)
 //!
 //! The \e ui32IntFlags parameter is the logical OR of any of the following:
 //!
-//! - \b I2C_SLAVE_INT_RX_FIFO_FULL - RX FIFO Full interrupt
-//! - \b I2C_SLAVE_INT_TX_FIFO_EMPTY - TX FIFO Empty interrupt
-//! - \b I2C_SLAVE_INT_RX_FIFO_REQ - RX FIFO Request interrupt
-//! - \b I2C_SLAVE_INT_TX_FIFO_REQ - TX FIFO Request interrupt
-//! - \b I2C_SLAVE_INT_TX_DMA_DONE - TX DMA Complete interrupt
-//! - \b I2C_SLAVE_INT_RX_DMA_DONE - RX DMA Complete interrupt
 //! - \b I2C_SLAVE_INT_STOP - Stop condition detected interrupt
 //! - \b I2C_SLAVE_INT_START - Start condition detected interrupt
 //! - \b I2C_SLAVE_INT_DATA - Data interrupt
@@ -688,7 +646,7 @@ I2CSlaveIntEnableEx(uint32_t ui32Base, uint32_t ui32IntFlags)
 //
 //! Disables the I2C Master interrupt.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //!
 //! This function disables the I2C Master interrupt source.
 //!
@@ -713,7 +671,7 @@ I2CMasterIntDisable(uint32_t ui32Base)
 //
 //! Disables individual I2C Master interrupt sources.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //! \param ui32IntFlags is the bit mask of the interrupt sources to be
 //!        disabled.
 //!
@@ -745,7 +703,7 @@ I2CMasterIntDisableEx(uint32_t ui32Base, uint32_t ui32IntFlags)
 //
 //! Disables the I2C Slave interrupt.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Slave module.
 //!
 //! This function disables the I2C Slave interrupt source.
 //!
@@ -770,7 +728,7 @@ I2CSlaveIntDisable(uint32_t ui32Base)
 //
 //! Disables individual I2C Slave interrupt sources.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Slave module.
 //! \param ui32IntFlags is the bit mask of the interrupt sources to be
 //!        disabled.
 //!
@@ -802,11 +760,11 @@ I2CSlaveIntDisableEx(uint32_t ui32Base, uint32_t ui32IntFlags)
 //
 //! Gets the current I2C Master interrupt status.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //! \param bMasked is false if the raw interrupt status is requested and
 //! true if the masked interrupt status is requested.
 //!
-//! This function returns the interrupt status for the I2C module.
+//! This function returns the interrupt status for the I2C Master module.
 //! Either the raw interrupt status or the status of interrupts that are
 //! allowed to reflect to the processor can be returned.
 //!
@@ -840,11 +798,11 @@ I2CMasterIntStatus(uint32_t ui32Base, bool bMasked)
 //
 //! Gets the current I2C Master interrupt status.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //! \param bMasked is false if the raw interrupt status is requested and
 //! true if the masked interrupt status is requested.
 //!
-//! This function returns the interrupt status for the I2C module.
+//! This function returns the interrupt status for the I2C Master module.
 //! Either the raw interrupt status or the status of interrupts that are
 //! allowed to reflect to the processor can be returned.
 //!
@@ -878,11 +836,11 @@ I2CMasterIntStatusEx(uint32_t ui32Base, bool bMasked)
 //
 //! Gets the current I2C Slave interrupt status.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Slave module.
 //! \param bMasked is false if the raw interrupt status is requested and
 //! true if the masked interrupt status is requested.
 //!
-//! This function returns the interrupt status for the I2C Slave.
+//! This function returns the interrupt status for the I2C Slave module.
 //! Either the raw interrupt status or the status of interrupts that are
 //! allowed to reflect to the processor can be returned.
 //!
@@ -916,11 +874,11 @@ I2CSlaveIntStatus(uint32_t ui32Base, bool bMasked)
 //
 //! Gets the current I2C Slave interrupt status.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Slave module.
 //! \param bMasked is false if the raw interrupt status is requested and
 //! true if the masked interrupt status is requested.
 //!
-//! This function returns the interrupt status for the I2C Slave.
+//! This function returns the interrupt status for the I2C Slave module.
 //! Either the raw interrupt status or the status of interrupts that are
 //! allowed to reflect to the processor can be returned.
 //!
@@ -954,7 +912,7 @@ I2CSlaveIntStatusEx(uint32_t ui32Base, bool bMasked)
 //
 //! Clears I2C Master interrupt sources.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //!
 //! The I2C Master interrupt source is cleared, so that it no longer
 //! asserts.  This function must be called in the interrupt handler to keep the
@@ -997,7 +955,7 @@ I2CMasterIntClear(uint32_t ui32Base)
 //
 //! Clears I2C Master interrupt sources.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //! \param ui32IntFlags is a bit mask of the interrupt sources to be cleared.
 //!
 //! The specified I2C Master interrupt sources are cleared, so that they no
@@ -1037,7 +995,7 @@ I2CMasterIntClearEx(uint32_t ui32Base, uint32_t ui32IntFlags)
 //
 //! Clears I2C Slave interrupt sources.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Slave module.
 //!
 //! The I2C Slave interrupt source is cleared, so that it no longer asserts.
 //! This function must be called in the interrupt handler to keep the interrupt
@@ -1073,7 +1031,7 @@ I2CSlaveIntClear(uint32_t ui32Base)
 //
 //! Clears I2C Slave interrupt sources.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Slave module.
 //! \param ui32IntFlags is a bit mask of the interrupt sources to be cleared.
 //!
 //! The specified I2C Slave interrupt sources are cleared, so that they no
@@ -1113,7 +1071,7 @@ I2CSlaveIntClearEx(uint32_t ui32Base, uint32_t ui32IntFlags)
 //
 //! Sets the address that the I2C Master places on the bus.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //! \param ui8SlaveAddr 7-bit slave address
 //! \param bReceive flag indicating the type of communication with the slave
 //!
@@ -1146,7 +1104,7 @@ I2CMasterSlaveAddrSet(uint32_t ui32Base, uint8_t ui8SlaveAddr,
 //
 //! Reads the state of the SDA and SCL pins.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //!
 //! This function returns the state of the I2C bus by providing the real time
 //! values of the SDA and SCL pins.
@@ -1176,7 +1134,7 @@ I2CMasterLineStateGet(uint32_t ui32Base)
 //
 //! Indicates whether or not the I2C Master is busy.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //!
 //! This function returns an indication of whether or not the I2C Master is
 //! busy transmitting or receiving data.
@@ -1210,7 +1168,7 @@ I2CMasterBusy(uint32_t ui32Base)
 //
 //! Indicates whether or not the I2C bus is busy.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //!
 //! This function returns an indication of whether or not the I2C bus is busy.
 //! This function can be used in a multi-master environment to determine if
@@ -1243,12 +1201,12 @@ I2CMasterBusBusy(uint32_t ui32Base)
 
 //*****************************************************************************
 //
-//! Controls the state of the I2C Master.
+//! Controls the state of the I2C Master module.
 //!
-//! \param ui32Base is the base address of the I2C module.
-//! \param ui32Cmd command to be issued to the I2C Master.
+//! \param ui32Base is the base address of the I2C Master module.
+//! \param ui32Cmd command to be issued to the I2C Master module.
 //!
-//! This function is used to control the state of the Master send and
+//! This function is used to control the state of the Master module send and
 //! receive operations.  The \e ui8Cmd parameter can be one of the following
 //! values:
 //!
@@ -1264,20 +1222,6 @@ I2CMasterBusBusy(uint32_t ui32Base)
 //! - \b I2C_MASTER_CMD_BURST_RECEIVE_ERROR_STOP
 //! - \b I2C_MASTER_CMD_QUICK_COMMAND
 //! - \b I2C_MASTER_CMD_HS_MASTER_CODE_SEND
-//! - \b I2C_MASTER_CMD_FIFO_SINGLE_SEND
-//! - \b I2C_MASTER_CMD_FIFO_SINGLE_RECEIVE
-//! - \b I2C_MASTER_CMD_FIFO_BURST_SEND_START
-//! - \b I2C_MASTER_CMD_FIFO_BURST_SEND_CONT
-//! - \b I2C_MASTER_CMD_FIFO_BURST_SEND_FINISH
-//! - \b I2C_MASTER_CMD_FIFO_BURST_SEND_ERROR_STOP
-//! - \b I2C_MASTER_CMD_FIFO_BURST_RECEIVE_START
-//! - \b I2C_MASTER_CMD_FIFO_BURST_RECEIVE_CONT
-//! - \b I2C_MASTER_CMD_FIFO_BURST_RECEIVE_FINISH
-//! - \b I2C_MASTER_CMD_FIFO_BURST_RECEIVE_ERROR_STOP
-//!
-//! \note Not all Tiva devices have an I2C FIFO and support the FIFO
-//! commands.  Please consult the device data sheet to determine if this
-//! feature is supported.
 //!
 //! \return None.
 //
@@ -1300,16 +1244,6 @@ I2CMasterControl(uint32_t ui32Base, uint32_t ui32Cmd)
            (ui32Cmd == I2C_MASTER_CMD_BURST_RECEIVE_FINISH) ||
            (ui32Cmd == I2C_MASTER_CMD_BURST_RECEIVE_ERROR_STOP) ||
            (ui32Cmd == I2C_MASTER_CMD_QUICK_COMMAND) ||
-           (ui32Cmd == I2C_MASTER_CMD_FIFO_SINGLE_SEND) ||
-           (ui32Cmd == I2C_MASTER_CMD_FIFO_SINGLE_RECEIVE) ||
-           (ui32Cmd == I2C_MASTER_CMD_FIFO_BURST_SEND_START) ||
-           (ui32Cmd == I2C_MASTER_CMD_FIFO_BURST_SEND_CONT) ||
-           (ui32Cmd == I2C_MASTER_CMD_FIFO_BURST_SEND_FINISH) ||
-           (ui32Cmd == I2C_MASTER_CMD_FIFO_BURST_SEND_ERROR_STOP) ||
-           (ui32Cmd == I2C_MASTER_CMD_FIFO_BURST_RECEIVE_START) ||
-           (ui32Cmd == I2C_MASTER_CMD_FIFO_BURST_RECEIVE_CONT) ||
-           (ui32Cmd == I2C_MASTER_CMD_FIFO_BURST_RECEIVE_FINISH) ||
-           (ui32Cmd == I2C_MASTER_CMD_FIFO_BURST_RECEIVE_ERROR_STOP) ||
            (ui32Cmd == I2C_MASTER_CMD_HS_MASTER_CODE_SEND));
 
     //
@@ -1320,11 +1254,11 @@ I2CMasterControl(uint32_t ui32Base, uint32_t ui32Cmd)
 
 //*****************************************************************************
 //
-//! Gets the error status of the I2C Master.
+//! Gets the error status of the I2C Master module.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //!
-//! This function is used to obtain the error status of the Master send
+//! This function is used to obtain the error status of the Master module send
 //! and receive operations.
 //!
 //! \return Returns the error status, as one of \b I2C_MASTER_ERR_NONE,
@@ -1373,7 +1307,7 @@ I2CMasterErr(uint32_t ui32Base)
 //
 //! Transmits a byte from the I2C Master.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //! \param ui8Data data to be transmitted from the I2C Master.
 //!
 //! This function places the supplied data into I2C Master Data Register.
@@ -1399,7 +1333,7 @@ I2CMasterDataPut(uint32_t ui32Base, uint8_t ui8Data)
 //
 //! Receives a byte that has been sent to the I2C Master.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //!
 //! This function reads a byte of data from the I2C Master Data Register.
 //!
@@ -1425,14 +1359,14 @@ I2CMasterDataGet(uint32_t ui32Base)
 //
 //! Sets the Master clock timeout value.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Master module.
 //! \param ui32Value is the number of I2C clocks before the timeout is
 //!        asserted.
 //!
 //! This function enables and configures the clock low timeout feature in the
 //! I2C peripheral.  This feature is implemented as a 12-bit counter, with the
 //! upper 8-bits being programmable.  For example, to program a timeout of 20ms
-//! with a 100-kHz SCL frequency, \e ui32Value is 0x7d.
+//! with a 100kHz SCL frequency, \e ui32Value would be 0x7d.
 //!
 //! \note Not all Tiva devices support this function.  Please consult the
 //! device data sheet to determine if this feature is supported.
@@ -1458,7 +1392,7 @@ I2CMasterTimeoutSet(uint32_t ui32Base, uint32_t ui32Value)
 //
 //! Configures ACK override behavior of the I2C Slave.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Slave module.
 //! \param bEnable enables or disables ACK override.
 //!
 //! This function enables or disables ACK override, allowing the user
@@ -1495,7 +1429,7 @@ I2CSlaveACKOverride(uint32_t ui32Base, bool bEnable)
 //
 //! Writes the ACK value.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Slave module.
 //! \param bACK chooses whether to ACK (true) or NACK (false) the transfer.
 //!
 //! This function puts the desired ACK value on SDA during the ACK cycle.  The
@@ -1528,9 +1462,9 @@ I2CSlaveACKValueSet(uint32_t ui32Base, bool bACK)
 
 //*****************************************************************************
 //
-//! Gets the I2C Slave status
+//! Gets the I2C Slave module status
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Slave module.
 //!
 //! This function returns the action requested from a master, if any.
 //! Possible values are:
@@ -1548,9 +1482,9 @@ I2CSlaveACKValueSet(uint32_t ui32Base, bool bACK)
 //! determine if these features are supported.
 //!
 //! \return Returns \b I2C_SLAVE_ACT_NONE to indicate that no action has been
-//! requested of the I2C Slave, \b I2C_SLAVE_ACT_RREQ to indicate that
-//! an I2C master has sent data to the I2C Slave, \b I2C_SLAVE_ACT_TREQ
-//! to indicate that an I2C master has requested that the I2C Slave send
+//! requested of the I2C Slave module, \b I2C_SLAVE_ACT_RREQ to indicate that
+//! an I2C master has sent data to the I2C Slave module, \b I2C_SLAVE_ACT_TREQ
+//! to indicate that an I2C master has requested that the I2C Slave module send
 //! data, \b I2C_SLAVE_ACT_RREQ_FBR to indicate that an I2C master has sent
 //! data to the I2C slave and the first byte following the slave's own address
 //! has been received, \b I2C_SLAVE_ACT_OWN2SEL to indicate that the second I2C
@@ -1577,7 +1511,7 @@ I2CSlaveStatus(uint32_t ui32Base)
 //
 //! Transmits a byte from the I2C Slave.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Slave module.
 //! \param ui8Data is the data to be transmitted from the I2C Slave
 //!
 //! This function places the supplied data into I2C Slave Data Register.
@@ -1603,7 +1537,7 @@ I2CSlaveDataPut(uint32_t ui32Base, uint8_t ui8Data)
 //
 //! Receives a byte that has been sent to the I2C Slave.
 //!
-//! \param ui32Base is the base address of the I2C module.
+//! \param ui32Base is the base address of the I2C Slave module.
 //!
 //! This function reads a byte of data from the I2C Slave Data Register.
 //!
@@ -1623,566 +1557,6 @@ I2CSlaveDataGet(uint32_t ui32Base)
     // Read a byte.
     //
     return(HWREG(ui32Base + I2C_O_SDR));
-}
-
-//*****************************************************************************
-//
-//! Configures the I2C transmit (TX) FIFO.
-//!
-//! \param ui32Base is the base address of the I2C module.
-//! \param ui32Config is the configuration of the FIFO using specified macros.
-//!
-//! This configures the I2C peripheral's transmit FIFO.  The transmit FIFO can
-//! be used by the master or slave, but not both.  The following macros are
-//! used to configure the TX FIFO behavior for master or slave, with or without
-//! DMA:
-//!
-//! \b I2C_FIFO_CFG_TX_MASTER, \b I2C_FIFO_CFG_TX_SLAVE,
-//! \b I2C_FIFO_CFG_TX_MASTER_DMA, \b I2C_FIFO_CFG_TX_SLAVE_DMA
-//!
-//! To select the trigger level, one of the following macros should be used:
-//!
-//! \b I2C_FIFO_CFG_TX_TRIG_1, \b I2C_FIFO_CFG_TX_TRIG_2,
-//! \b I2C_FIFO_CFG_TX_TRIG_3, \b I2C_FIFO_CFG_TX_TRIG_4,
-//! \b I2C_FIFO_CFG_TX_TRIG_5, \b I2C_FIFO_CFG_TX_TRIG_6,
-//! \b I2C_FIFO_CFG_TX_TRIG_7, \b I2C_FIFO_CFG_TX_TRIG_8
-//!
-//! \note Not all Tiva devices have an I2C FIFO.  Please consult the
-//! device data sheet to determine if this feature is supported.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-I2CTxFIFOConfigSet(uint32_t ui32Base, uint32_t ui32Config)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(_I2CBaseValid(ui32Base));
-
-    //
-    // Clear transmit configuration data.
-    //
-    HWREG(ui32Base + I2C_O_FIFOCTL) &= 0xffff0000;
-
-    //
-    // Store new transmit configuration data.
-    //
-    HWREG(ui32Base + I2C_O_FIFOCTL) |= ui32Config;
-}
-
-//*****************************************************************************
-//
-//! Flushes the transmit (TX) FIFO.
-//!
-//! \param ui32Base is the base address of the I2C module.
-//!
-//! This function flushes the I2C transmit FIFO.
-//!
-//! \note Not all Tiva devices have an I2C FIFO.  Please consult the
-//! device data sheet to determine if this feature is supported.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-I2CTxFIFOFlush(uint32_t ui32Base)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(_I2CBaseValid(ui32Base));
-
-    //
-    // Flush the TX FIFO.
-    //
-    HWREG(ui32Base + I2C_O_FIFOCTL) |= I2C_FIFOCTL_TXFLUSH;
-}
-
-//*****************************************************************************
-//
-//! Configures the I2C receive (RX) FIFO.
-//!
-//! \param ui32Base is the base address of the I2C module.
-//! \param ui32Config is the configuration of the FIFO using specified macros.
-//!
-//! This configures the I2C peripheral's receive FIFO.  The receive FIFO can be
-//! used by the master or slave, but not both.  The following macros are used
-//! to configure the RX FIFO behavior for master or slave, with or without DMA:
-//!
-//! \b I2C_FIFO_CFG_RX_MASTER, \b I2C_FIFO_CFG_RX_SLAVE,
-//! \b I2C_FIFO_CFG_RX_MASTER_DMA, \b I2C_FIFO_CFG_RX_SLAVE_DMA
-//!
-//! To select the trigger level, one of the following macros should be used:
-//!
-//! \b I2C_FIFO_CFG_RX_TRIG_1, \b I2C_FIFO_CFG_RX_TRIG_2,
-//! \b I2C_FIFO_CFG_RX_TRIG_3, \b I2C_FIFO_CFG_RX_TRIG_4,
-//! \b I2C_FIFO_CFG_RX_TRIG_5, \b I2C_FIFO_CFG_RX_TRIG_6,
-//! \b I2C_FIFO_CFG_RX_TRIG_7, \b I2C_FIFO_CFG_RX_TRIG_8
-//!
-//! \note Not all Tiva devices have an I2C FIFO.  Please consult the
-//! device data sheet to determine if this feature is supported.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-I2CRxFIFOConfigSet(uint32_t ui32Base, uint32_t ui32Config)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(_I2CBaseValid(ui32Base));
-
-    //
-    // Clear receive configuration data.
-    //
-    HWREG(ui32Base + I2C_O_FIFOCTL) &= 0x0000ffff;
-
-    //
-    // Store new receive configuration data.
-    //
-    HWREG(ui32Base + I2C_O_FIFOCTL) |= ui32Config;
-}
-
-//*****************************************************************************
-//
-//! Flushes the receive (RX) FIFO.
-//!
-//! \param ui32Base is the base address of the I2C module.
-//!
-//! This function flushes the I2C receive FIFO.
-//!
-//! \note Not all Tiva devices have an I2C FIFO.  Please consult the
-//! device data sheet to determine if this feature is supported.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-I2CRxFIFOFlush(uint32_t ui32Base)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(_I2CBaseValid(ui32Base));
-
-    //
-    // Flush the TX FIFO.
-    //
-    HWREG(ui32Base + I2C_O_FIFOCTL) |= I2C_FIFOCTL_RXFLUSH;
-}
-
-//*****************************************************************************
-//
-//! Gets the current FIFO status.
-//!
-//! \param ui32Base is the base address of the I2C module.
-//!
-//! This function retrieves the status for both the transmit (TX) and receive
-//! (RX) FIFOs.  The trigger level for the transmit FIFO is set using
-//! I2CTxFIFOConfigSet() and for the receive FIFO using I2CTxFIFOConfigSet().
-//!
-//! \note Not all Tiva devices have an I2C FIFO.  Please consult the
-//! device data sheet to determine if this feature is supported.
-//!
-//! \return Returns the FIFO status, enumerated as a bit field containing
-//! \b I2C_FIFO_RX_BELOW_TRIG_LEVEL, \b I2C_FIFO_RX_FULL, \b I2C_FIFO_RX_EMPTY,
-//! \b I2C_FIFO_TX_BELOW_TRIG_LEVEL, \b I2C_FIFO_TX_FULL, and
-//! \b I2C_FIFO_TX_EMPTY.
-//
-//*****************************************************************************
-uint32_t
-I2CFIFOStatus(uint32_t ui32Base)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(_I2CBaseValid(ui32Base));
-
-    //
-    // Return the contents of the FIFO status register.
-    //
-    return(HWREG(ui32Base + I2C_O_FIFOSTATUS));
-}
-
-//*****************************************************************************
-//
-//! Writes a data byte to the I2C transmit FIFO.
-//!
-//! \param ui32Base is the base address of the I2C module.
-//! \param ui8Data is the data to be placed into the transmit FIFO.
-//!
-//! This function adds a byte of data to the I2C transmit FIFO.  If there is
-//! no space available in the FIFO,  this function waits for space to become
-//! available before returning.
-//!
-//! \note Not all Tiva devices have an I2C FIFO.  Please consult the
-//! device data sheet to determine if this feature is supported.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-I2CFIFODataPut(uint32_t ui32Base, uint8_t ui8Data)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(_I2CBaseValid(ui32Base));
-
-    //
-    // Wait until there is space.
-    //
-    while(HWREG(ui32Base + I2C_O_FIFOSTATUS) & I2C_FIFOSTATUS_TXFF)
-    {
-    }
-
-    //
-    // Place data into the FIFO.
-    //
-    HWREG(ui32Base + I2C_O_FIFODATA) = ui8Data;
-}
-
-//*****************************************************************************
-//
-//! Writes a data byte to the I2C transmit FIFO.
-//!
-//! \param ui32Base is the base address of the I2C module.
-//! \param ui8Data is the data to be placed into the transmit FIFO.
-//!
-//! This function adds a byte of data to the I2C transmit FIFO.  If there is
-//! no space available in the FIFO, this function returns a zero.
-//!
-//! \note Not all Tiva devices have an I2C FIFO.  Please consult the
-//! device data sheet to determine if this feature is supported.
-//!
-//! \return The number of elements added to the I2C transmit FIFO.
-//
-//*****************************************************************************
-uint32_t
-I2CFIFODataPutNonBlocking(uint32_t ui32Base, uint8_t ui8Data)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(_I2CBaseValid(ui32Base));
-
-    //
-    // If FIFO is full, return zero.
-    //
-    if(HWREG(ui32Base + I2C_O_FIFOSTATUS) & I2C_FIFOSTATUS_TXFF)
-    {
-        return(0);
-    }
-    else
-    {
-        HWREG(ui32Base + I2C_O_FIFODATA) = ui8Data;
-        return(1);
-    }
-}
-
-//*****************************************************************************
-//
-//! Reads a byte from the I2C receive FIFO.
-//!
-//! \param ui32Base is the base address of the I2C module.
-//!
-//! This function reads a byte of data from I2C receive FIFO and places it in
-//! the location specified by the \e pui8Data parameter.  If there is no data
-//! available, this function waits until data is received before returning.
-//!
-//! \note Not all Tiva devices have an I2C FIFO.  Please consult the
-//! device data sheet to determine if this feature is supported.
-//!
-//! \return The data byte.
-//
-//*****************************************************************************
-uint32_t
-I2CFIFODataGet(uint32_t ui32Base)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(_I2CBaseValid(ui32Base));
-
-    //
-    // Wait until there is data to read.
-    //
-    while(HWREG(ui32Base + I2C_O_FIFOSTATUS) & I2C_FIFOSTATUS_RXFE)
-    {
-    }
-
-    //
-    // Read a byte.
-    //
-    return(HWREG(ui32Base + I2C_O_FIFODATA));
-}
-
-//*****************************************************************************
-//
-//! Reads a byte from the I2C receive FIFO.
-//!
-//! \param ui32Base is the base address of the I2C module.
-//! \param pui8Data is a pointer where the read data is stored.
-//!
-//! This function reads a byte of data from I2C receive FIFO and places it in
-//! the location specified by the \e pui8Data parameter.  If there is no data
-//! available, this functions returns 0.
-//!
-//! \note Not all Tiva devices have an I2C FIFO.  Please consult the
-//! device data sheet to determine if this feature is supported.
-//!
-//! \return The number of elements read from the I2C receive FIFO.
-//
-//*****************************************************************************
-uint32_t
-I2CFIFODataGetNonBlocking(uint32_t ui32Base, uint8_t *pui8Data)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(_I2CBaseValid(ui32Base));
-
-    //
-    // If nothing in the FIFO, return zero.
-    //
-    if(HWREG(ui32Base + I2C_O_FIFOSTATUS) & I2C_FIFOSTATUS_RXFE)
-    {
-        return(0);
-    }
-    else
-    {
-        *pui8Data = HWREG(ui32Base + I2C_O_FIFODATA);
-        return(1);
-    }
-}
-
-//*****************************************************************************
-//
-//! Set the burst length for a I2C master FIFO operation.
-//!
-//! \param ui32Base is the base address of the I2C module.
-//! \param ui8Length is the length of the burst transfer.
-//!
-//! This function configures the burst length for a I2C Master FIFO operation.
-//! The burst field is limited to 8 bits or 256 bytes.  The burst length
-//! applies to a single I2CMCS BURST operation meaning that it specifies the
-//! burst length for only the current operation (can be TX or RX).  Each burst
-//! operation must configure the burst length prior to writing the BURST bit
-//! in the I2CMCS using I2CMasterControl().
-//!
-//! \note Not all Tiva devices have an I2C FIFO.  Please consult the
-//! device data sheet to determine if this feature is supported.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-I2CMasterBurstLengthSet(uint32_t ui32Base, uint8_t ui8Length)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(_I2CBaseValid(ui32Base) && (ui8Length < 256));
-
-    //
-    // Set the burst length.
-    //
-    HWREG(ui32Base + I2C_O_MBLEN) = ui8Length;
-}
-
-//*****************************************************************************
-//
-//! Returns the current value of the burst transfer counter.
-//!
-//! \param ui32Base is the base address of the I2C module.
-//!
-//! This function returns the current value of the burst transfer counter that
-//! is used by the FIFO mechanism.  Software can use this value to determine
-//! how many bytes remain in a transfer, or where in the transfer the burst
-//! operation was if an error has occurred.
-//!
-//! \note Not all Tiva devices have an I2C FIFO.  Please consult the
-//! device data sheet to determine if this feature is supported.
-//!
-//! \return None.
-//
-//*****************************************************************************
-uint32_t
-I2CMasterBurstCountGet(uint32_t ui32Base)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(_I2CBaseValid(ui32Base));
-
-    //
-    // Get burst count.
-    //
-    return(HWREG(ui32Base + I2C_O_MBCNT));
-}
-
-//*****************************************************************************
-//
-//! Configures the I2C Master glitch filter.
-//!
-//! \param ui32Base is the base address of the I2C module.
-//! \param ui32Config is the glitch filter configuration.
-//!
-//! This function configures the I2C Master glitch filter.  The value passed in
-//! to \e ui32Config determines the sampling range of the glitch filter, which
-//! is configurable between 1 and 32 system clock cycles.  The default
-//! configuration of the glitch filter is 0 system clock cycles, which means
-//! that it's disabled.
-//!
-//! The \e ui32Config field should be any of the following values:
-//!
-//! - \b I2C_MASTER_GLITCH_FILTER_DISABLED
-//! - \b I2C_MASTER_GLITCH_FILTER_1
-//! - \b I2C_MASTER_GLITCH_FILTER_2
-//! - \b I2C_MASTER_GLITCH_FILTER_3
-//! - \b I2C_MASTER_GLITCH_FILTER_4
-//! - \b I2C_MASTER_GLITCH_FILTER_8
-//! - \b I2C_MASTER_GLITCH_FILTER_16
-//! - \b I2C_MASTER_GLITCH_FILTER_32
-//!
-//! \note Not all Tiva devices support this function.  Please consult the
-//! device data sheet to determine if this feature is supported.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-I2CMasterGlitchFilterConfigSet(uint32_t ui32Base, uint32_t ui32Config)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(_I2CBaseValid(ui32Base));
-
-    //
-    // Configure the glitch filter field of MTPR if it is TM4C129
-    //
-    if(CLASS_IS_TM4C129)
-    {
-        HWREG(ui32Base + I2C_O_MTPR) |= ui32Config;
-    }
-
-    //
-    // Configure the glitch filter if it is TM4C123
-    //
-    if(CLASS_IS_TM4C123)
-    {
-        //
-        // Configure the glitch filter pulse width
-        //
-        HWREG(ui32Base + I2C_O_MCR2) |= (ui32Config >> 12);
-
-        //
-        // Enable the glitch filter by setting the GFE bit
-        //
-        HWREG(ui32Base + I2C_O_MCR) |= I2C_MCR_GFE;
-    }
-}
-
-//*****************************************************************************
-//
-//! Enables FIFO usage for the I2C Slave.
-//!
-//! \param ui32Base is the base address of the I2C module.
-//! \param ui32Config is the desired FIFO configuration of the I2C Slave.
-//!
-//! This function configures the I2C Slave to use the FIFO(s).  This
-//! function should be used in combination with I2CTxFIFOConfigSet() and/or
-//! I2CRxFIFOConfigSet(), which configure the FIFO trigger level and tell
-//! the FIFO hardware whether to interact with the I2C Master or Slave.  The
-//! application appropriate combination of \b I2C_SLAVE_TX_FIFO_ENABLE and
-//! \b I2C_SLAVE_RX_FIFO_ENABLE should be passed in to the \e ui32Config
-//! field.
-//!
-//! The Slave I2CSCSR register is write-only, so any call to I2CSlaveEnable(),
-//! I2CSlaveDisable or I2CSlaveFIFOEnable() overwrites the slave configuration.
-//! Therefore, application software should call I2CSlaveEnable() followed by
-//! I2CSlaveFIFOEnable() with the desired FIFO configuration.
-//!
-//! \note Not all Tiva devices have an I2C FIFO.  Please consult the
-//! device data sheet to determine if this feature is supported.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-I2CSlaveFIFOEnable(uint32_t ui32Base, uint32_t ui32Config)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(_I2CBaseValid(ui32Base));
-
-    //
-    // Enable the FIFOs for the slave.
-    //
-    HWREG(ui32Base + I2C_O_SCSR) = ui32Config | I2C_SCSR_DA;
-}
-
-//*****************************************************************************
-//
-//! Disable FIFO usage for the I2C Slave.
-//!
-//! \param ui32Base is the base address of the I2C module.
-//!
-//! This function disables the FIFOs for the I2C Slave.  After calling this
-//! this function, the FIFOs are disabled, but the Slave remains active.
-//!
-//! \note Not all Tiva devices have an I2C FIFO.  Please consult the
-//! device data sheet to determine if this feature is supported.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-I2CSlaveFIFODisable(uint32_t ui32Base)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(_I2CBaseValid(ui32Base));
-
-    //
-    // Disable slave FIFOs.
-    //
-    HWREG(ui32Base + I2C_O_SCSR) = I2C_SCSR_DA;
-}
-
-//*****************************************************************************
-//
-//! Enables internal loopback mode for an I2C port.
-//!
-//! \param ui32Base is the base address of the I2C module.
-//!
-//! This function configures an I2C port in internal loopback mode to help with
-//! diagnostics and debug.  In this mode, the SDA and SCL signals from master
-//! and slave modules are internally connected.  This allows data to be
-//! transferred between the master and slave modules of the same I2C port,
-//! without having to go through I/O's.  I2CMasterDataPut(), I2CSlaveDataPut(),
-//! I2CMasterDataGet(),I2CSlaveDataGet() can be used along with this function.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void I2CLoopbackEnable(uint32_t ui32Base)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(_I2CBaseValid(ui32Base));
-
-    //
-    // Write the loopback enable bit to the register.
-    //
-    HWREG(ui32Base + I2C_O_MCR) |= I2C_MCR_LPBK;
 }
 
 //*****************************************************************************

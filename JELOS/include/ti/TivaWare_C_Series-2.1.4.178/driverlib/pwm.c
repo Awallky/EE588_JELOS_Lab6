@@ -2,7 +2,7 @@
 //
 // pwm.c - API for the PWM modules
 //
-// Copyright (c) 2005-2017 Texas Instruments Incorporated.  All rights reserved.
+// Copyright (c) 2005-2013 Texas Instruments Incorporated.  All rights reserved.
 // Software License Agreement
 // 
 //   Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
-// This is part of revision 2.1.4.178 of the Tiva Peripheral Driver Library.
+// This is part of revision 1.1 of the Tiva Peripheral Driver Library.
 //
 //*****************************************************************************
 
@@ -864,10 +864,10 @@ PWMOutputFaultLevel(uint32_t ui32Base, uint32_t ui32PWMOutBits,
 //! \param bFaultSuppress determines if the signal is suppressed or passed
 //! through during an active fault condition.
 //!
-//! This function sets the fault handling characteristics of the selected PWM
+//! This function sets the fault handling int8_tacteristics of the selected PWM
 //! outputs.  The outputs are selected using the parameter \e ui32PWMOutBits.
 //! The parameter \e bFaultSuppress determines the fault handling
-//! characteristics for the selected outputs.  If \e bFaultSuppress is \b true,
+//! chacteristics for the selected outputs.  If \e bFaultSuppress is \b true,
 //! then the selected outputs are made inactive.  If \e bFaultSuppress is
 //! \b false, then the selected outputs are unaffected by the detected fault.
 //!
@@ -932,58 +932,9 @@ _PWMGenIntNumberGet(uint32_t ui32Base, uint32_t ui32Gen)
         //
         case PWM0_BASE + PWM_GEN_0:
         {
-            if(CLASS_IS_TM4C123)
+            if(CLASS_IS_BLIZZARD)
             {
-                return(INT_PWM0_0_TM4C123);
-            }
-            else if(CLASS_IS_TM4C129)
-            {
-                return(INT_PWM0_0_TM4C129);
-            }
-            else
-            {
-                return(0);
-            }
-        }
-
-        //
-        // The second PWM generator in the first PWM module.
-        //
-        case PWM0_BASE + PWM_GEN_1:
-        {
-            if(CLASS_IS_TM4C129)
-            {
-                return(INT_PWM0_1_TM4C129);
-            }
-            else
-            {
-                return(0);
-            }
-        }
-
-        //
-        // The third PWM generator in the first PWM module.
-        //
-        case PWM0_BASE + PWM_GEN_2:
-        {
-            if(CLASS_IS_TM4C129)
-            {
-                return(INT_PWM0_2_TM4C129);
-            }
-            else
-            {
-                return(0);
-            }
-        }
-
-        //
-        // The fourth PWM generator in the first PWM module.
-        //
-        case PWM0_BASE + PWM_GEN_3:
-        {
-            if(CLASS_IS_TM4C129)
-            {
-                return(INT_PWM0_3_TM4C129);
+                return(INT_PWM0_0_BLIZZARD);
             }
             else
             {
@@ -996,9 +947,9 @@ _PWMGenIntNumberGet(uint32_t ui32Base, uint32_t ui32Gen)
         //
         case PWM1_BASE + PWM_GEN_0:
         {
-            if(CLASS_IS_TM4C123)
+            if(CLASS_IS_BLIZZARD)
             {
-                return(INT_PWM1_0_TM4C123);
+                return(INT_PWM1_0_BLIZZARD);
             }
             else
             {
@@ -1011,9 +962,9 @@ _PWMGenIntNumberGet(uint32_t ui32Base, uint32_t ui32Gen)
         //
         case PWM1_BASE + PWM_GEN_1:
         {
-            if(CLASS_IS_TM4C123)
+            if(CLASS_IS_BLIZZARD)
             {
-                return(INT_PWM1_1_TM4C123);
+                return(INT_PWM1_1_BLIZZARD);
             }
             else
             {
@@ -1026,9 +977,9 @@ _PWMGenIntNumberGet(uint32_t ui32Base, uint32_t ui32Gen)
         //
         case PWM1_BASE + PWM_GEN_2:
         {
-            if(CLASS_IS_TM4C123)
+            if(CLASS_IS_BLIZZARD)
             {
-                return(INT_PWM1_2_TM4C123);
+                return(INT_PWM1_2_BLIZZARD);
             }
             else
             {
@@ -1041,9 +992,9 @@ _PWMGenIntNumberGet(uint32_t ui32Base, uint32_t ui32Gen)
         //
         case PWM1_BASE + PWM_GEN_3:
         {
-            if(CLASS_IS_TM4C123)
+            if(CLASS_IS_BLIZZARD)
             {
-                return(INT_PWM1_3_TM4C123);
+                return(INT_PWM1_3_BLIZZARD);
             }
             else
             {
@@ -1181,14 +1132,10 @@ _PWMFaultIntNumberGet(uint32_t ui32Base)
     //
     // Return the fault interrupt number.
     //
-    if(CLASS_IS_TM4C123)
+    if(CLASS_IS_BLIZZARD)
     {
-        return((ui32Base == PWM0_BASE) ? INT_PWM0_FAULT_TM4C123 :
-               INT_PWM1_FAULT_TM4C123);
-    }
-    else if(CLASS_IS_TM4C129)
-    {
-        return((ui32Base == PWM0_BASE) ? INT_PWM0_FAULT_TM4C129 : 0);
+        return((ui32Base == PWM0_BASE) ? INT_PWM0_FAULT_BLIZZARD :
+               INT_PWM1_FAULT_BLIZZARD);
     }
     else
     {
@@ -1624,11 +1571,13 @@ PWMIntStatus(uint32_t ui32Base, bool bMasked)
 //! \e ui32FaultInts must be the logical OR of any of \b PWM_INT_FAULT0,
 //! \b PWM_INT_FAULT1, \b PWM_INT_FAULT2, or \b PWM_INT_FAULT3.
 //!
-//! The fault interrupts are derived by performing a logical OR of each of the 
-//! configured fault trigger signals for a given generator.  Therefore, these
-//! interrupts are not directly related to the four possible FAULTn inputs to 
-//! the device but indicate that a fault has been signaled to one of the four 
-//! possible PWM generators. 
+//! When running on a device supporting extended PWM fault handling, the fault
+//! interrupts are derived by performing a logical OR of each of the configured
+//! fault trigger signals for a given generator.  Therefore, these interrupts
+//! are not directly related to the four possible FAULTn inputs to the device
+//! but indicate that a fault has been signaled to one of the four possible PWM
+//! generators.  On a device without extended PWM fault handling, the interrupt
+//! is directly related to the state of the single FAULT pin.
 //!
 //! \note Because there is a write buffer in the Cortex-M processor, it may
 //! take several clock cycles before the interrupt source is actually cleared.
@@ -1960,198 +1909,6 @@ PWMGenFaultClear(uint32_t ui32Base, uint32_t ui32Gen,
         HWREG(PWM_GEN_EXT_BADDR(ui32Base, ui32Gen) + PWM_O_X_FLTSTAT1) =
             ui32FaultTriggers;
     }
-}
-
-//*****************************************************************************
-///
-//! Sets the PWM clock configuration.
-//!
-//! \param ui32Base is the base address of the PWM module.
-//! \param ui32Config is the configuration for the PWM clock; it must be one of
-//! \b PWM_SYSCLK_DIV_1, \b PWM_SYSCLK_DIV_2, \b PWM_SYSCLK_DIV_4,
-//! \b PWM_SYSCLK_DIV_8, \b PWM_SYSCLK_DIV_16, \b PWM_SYSCLK_DIV_32, or
-//! \b PWM_SYSCLK_DIV_64.
-//!
-//! This function sets the PWM clock divider as the PWM clock source.  It also
-//! configures the clock frequency to the PWM module as a division of the
-//! system clock.  This clock is used by the PWM module to generate PWM
-//! signals; its rate forms the basis for all PWM signals.
-//!
-//! \note This function should not be used with TM4C123 devices.  For
-//! TM4C123 devices, the SysCtlPWMClockGet() function should be used.
-//!
-//! \note The clocking of the PWM is dependent upon the system clock rate as
-//! configured by SysCtlClockFreqSet().
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-PWMClockSet(uint32_t ui32Base, uint32_t ui32Config)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT((ui32Base == PWM0_BASE) || (ui32Base == PWM1_BASE));
-    ASSERT((ui32Config == PWM_SYSCLK_DIV_2) ||
-           (ui32Config == PWM_SYSCLK_DIV_4) ||
-           (ui32Config == PWM_SYSCLK_DIV_8) ||
-           (ui32Config == PWM_SYSCLK_DIV_16) ||
-           (ui32Config == PWM_SYSCLK_DIV_32) ||
-           (ui32Config == PWM_SYSCLK_DIV_64));
-
-    //
-    // Set the PWM clock configuration into the PWM clock configuration
-    // register.
-    //
-    HWREG(ui32Base + PWM_O_CC) = ((HWREG(ui32Base + PWM_O_CC) &
-                                   ~(PWM_CC_USEPWM | PWM_CC_PWMDIV_M)) |
-                                  ui32Config);
-}
-
-//*****************************************************************************
-//
-//! Gets the current PWM clock configuration.
-//!
-//! \param ui32Base is the base address of the PWM module.
-//!
-//! This function returns the current PWM clock configuration.
-//!
-//! \note This function should not be used with TM4C123 devices.  For
-//! TM4C123 devices, the SysCtlPWMClockGet() function should be used.
-//!
-//! \return Returns the current PWM clock configuration; is one of
-//! \b PWM_SYSCLK_DIV_1, \b PWM_SYSCLK_DIV_2, \b PWM_SYSCLK_DIV_4,
-//! \b PWM_SYSCLK_DIV_8, \b PWM_SYSCLK_DIV_16, \b PWM_SYSCLK_DIV_32,
-//! or \b PWM_SYSCLK_DIV_64.
-//
-//*****************************************************************************
-uint32_t
-PWMClockGet(uint32_t ui32Base)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT((ui32Base == PWM0_BASE) || (ui32Base == PWM1_BASE));
-
-    //
-    // Return the current PWM clock configuration.  Make sure that
-    // PWM_SYSCLK_DIV_1 is returned in all cases where the divider is disabled.
-    //
-    if(!(HWREG(ui32Base + PWM_O_CC) & PWM_CC_USEPWM))
-    {
-        //
-        // The divider is not active so reflect this in the value we return.
-        //
-        return(PWM_SYSCLK_DIV_1);
-    }
-    else
-    {
-        //
-        // The divider is active so directly return the masked register value.
-        //
-        return(HWREG(ui32Base + PWM_O_CC) & (PWM_CC_USEPWM | PWM_CC_PWMDIV_M));
-    }
-}
-
-//*****************************************************************************
-//
-//! Sets the update mode or synchronization mode to the PWM outputs.
-//!
-//! \param ui32Base is the base address of the PWM module.
-//! \param ui32PWMOutBits are the PWM outputs to be modified.  This parameter
-//! must be the logical OR of any of \b PWM_OUT_0_BIT, \b PWM_OUT_1_BIT,
-//! \b PWM_OUT_2_BIT, \b PWM_OUT_3_BIT, \b PWM_OUT_4_BIT, \b PWM_OUT_5_BIT,
-//! \b PWM_OUT_6_BIT, or \b PWM_OUT_7_BIT.
-//! \param ui32Mode specifies the enable update mode to use when enabling or
-//! disabling PWM outputs.
-//!
-//! This function sets one of three possible update modes to enable or disable
-//! the requested PWM outputs.  The \e ui32Mode parameter controls when changes
-//! made via calls to PWMOutputState() take effect.  Possible values are:
-//!
-//! - \b PWM_OUTPUT_MODE_NO_SYNC, which enables/disables changes to take effect
-//! immediately.
-//! - \b PWM_OUTPUT_MODE_SYNC_LOCAL, which causes changes to take effect when
-//! the local PWM generator's count next reaches 0.
-//! - \b PWM_OUTPUT_MODE_SYNC_GLOBAL, which causes changes to take effect when
-//! the local PWM generator's count next reaches 0 following a call to
-//! PWMSyncUpdate() which specifies the same generator in its \e ui32GenBits
-//! parameter.
-//!
-//! \note This function is only available on Snowflake class devices.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-PWMOutputUpdateMode(uint32_t ui32Base, uint32_t ui32PWMOutBits,
-                    uint32_t ui32Mode)
-{
-    uint_fast8_t ui8Index;
-    uint32_t ui32PWMOutputMask;
-    uint32_t ui32UpdateValueMask;
-    uint32_t ui32UpdateValue;
-    uint32_t ui32Temp;
-
-    //
-    // Check the arguments.
-    //
-    ASSERT((ui32Base == PWM0_BASE) || (ui32Base == PWM1_BASE));
-    ASSERT(!(ui32PWMOutBits & ~(PWM_OUT_0_BIT | PWM_OUT_1_BIT | PWM_OUT_2_BIT |
-                                PWM_OUT_3_BIT | PWM_OUT_4_BIT | PWM_OUT_5_BIT |
-                                PWM_OUT_6_BIT | PWM_OUT_7_BIT)));
-    ASSERT((ui32Mode == PWM_OUTPUT_MODE_NO_SYNC) ||
-           (ui32Mode == PWM_OUTPUT_MODE_SYNC_LOCAL) ||
-           (ui32Mode == PWM_OUTPUT_MODE_SYNC_GLOBAL));
-
-    //
-    // Initialize the local variables
-    //
-    ui8Index = 0;
-    ui32PWMOutputMask = 1;
-    ui32UpdateValue = 0;
-    ui32UpdateValueMask = 0;
-
-    //
-    // Loop to find out which PWM outputs are to be modified.
-    //
-    while(ui8Index < 8)
-    {
-        //
-        // Check if this PWM output is to be modified.
-        //
-        if(ui32PWMOutputMask & ui32PWMOutBits)
-        {
-            //
-            // Set the update mode value for the requested PWM output by
-            // writing to the appropriate field.
-            //
-            ui32UpdateValue |= ui32Mode << (ui8Index * 2);
-
-            //
-            // Compute the mask for the bits to be updated.
-            //
-            ui32UpdateValueMask |= 3 << (ui8Index * 2);
-        }
-
-        //
-        // Update the PWM output to be checked and the index.
-        //
-        ui32PWMOutputMask = ui32PWMOutputMask << 1;
-        ui8Index++;
-    }
-
-    //
-    // Read the Enable Update register and mask the bits that are to be
-    // updated.
-    //
-    ui32Temp = ~ui32UpdateValueMask & HWREG(ui32Base + PWM_O_ENUPD);
-
-    //
-    // Write the updated values to Enable Update register.
-    //
-    HWREG(ui32Base + PWM_O_ENUPD) = ui32Temp | ui32UpdateValue;
 }
 
 //*****************************************************************************

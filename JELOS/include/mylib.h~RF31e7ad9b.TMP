@@ -32,7 +32,6 @@
 #include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/pin_map.h"
 #include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/systick.h"
 #include "./../include/jelos.h"
-#include "./../include/UART.h"
 
 //
 // Base Address for Data Registers

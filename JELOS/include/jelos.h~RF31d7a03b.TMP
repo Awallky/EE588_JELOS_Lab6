@@ -37,7 +37,6 @@ void DisplayIntStatus(void);
 void IntGPIOa(void);
 void IntGPIOb(void);
 void IntGPIOc(void);
-void ConfigureUART(void);
 
 /* Minimum stack size for a task function that does not use "any" stack space.
  * This should be the interrupt stack frame, plus some fudge factor for

@@ -2,7 +2,7 @@
 //
 // usb.c - Driver for the USB Interface.
 //
-// Copyright (c) 2007-2017 Texas Instruments Incorporated.  All rights reserved.
+// Copyright (c) 2007-2013 Texas Instruments Incorporated.  All rights reserved.
 // Software License Agreement
 // 
 //   Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
-// This is part of revision 2.1.4.178 of the Tiva Peripheral Driver Library.
+// This is part of revision 1.1 of the Tiva Peripheral Driver Library.
 //
 //*****************************************************************************
 
@@ -152,7 +152,6 @@ _USBIndexWrite(uint32_t ui32Base, uint32_t ui32Endpoint,
 // \param ui32Base specifies the USB module base address.
 // \param ui32Endpoint is the endpoint index to target for this write.
 // \param ui32IndexedReg is the indexed register to write to.
-// \param ui32Size is a value of 1 or 2 indicating the byte size of the read.
 //
 // This function is used internally to access the indexed registers for each
 // endpoint.  The only registers that are indexed are the FIFO configuration
@@ -166,7 +165,7 @@ _USBIndexRead(uint32_t ui32Base, uint32_t ui32Endpoint,
               uint32_t ui32IndexedReg, uint32_t ui32Size)
 {
     uint8_t ui8Index;
-    uint32_t ui32Value;
+    uint8_t ui8Value;
 
     //
     // Check the arguments.
@@ -194,14 +193,14 @@ _USBIndexRead(uint32_t ui32Base, uint32_t ui32Endpoint,
         //
         // Get the value.
         //
-        ui32Value = HWREGB(ui32Base + ui32IndexedReg);
+        ui8Value = HWREGB(ui32Base + ui32IndexedReg);
     }
     else
     {
         //
         // Get the value.
         //
-        ui32Value = HWREGH(ui32Base + ui32IndexedReg);
+        ui8Value = HWREGH(ui32Base + ui32IndexedReg);
     }
 
     //
@@ -212,7 +211,7 @@ _USBIndexRead(uint32_t ui32Base, uint32_t ui32Endpoint,
     //
     // Return the register's value.
     //
-    return(ui32Value);
+    return(ui8Value);
 }
 
 //*****************************************************************************
@@ -284,63 +283,6 @@ USBHostReset(uint32_t ui32Base, bool bStart)
 
 //*****************************************************************************
 //
-//! Enables or disables USB high-speed negotiation.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param bEnable specifies whether to enable or disable high-speed
-//! negotiation.
-//!
-//! High-speed negotiations for both host and device mode are enabled when this
-//! function is called with the \e bEnable parameter set to \b true.  In device
-//! mode this causes the device to negotiate for high speed when the
-//! USB controller receives a reset from the host.  In host mode, the USB host
-//! enables high-speed negotiations when resetting the connected device.  If
-//! \e bEnable is set to \b false the controller only operates only in
-//! full-speed or low-speed.
-//!
-//! \b Example: Enable USB high-speed mode.
-//!
-//! \verbatim
-//! //
-//! // Enable USB high-speed mode.
-//! //
-//! USBHighSpeed(USB0_BASE, true);
-//! \endverbatim
-//!
-//! \note This feature is not available on all Tiva devices and should only be
-//! called when the USB is connected to an external ULPI PHY.  Please
-//! check the data sheet to determine if the USB controller can interface with
-//! a ULPI PHY.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBHighSpeed(uint32_t ui32Base, bool bEnable)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(ui32Base == USB0_BASE);
-
-    if(bEnable)
-    {
-        //
-        // Enable high speed mode negotiations in hosts or device mode.
-        //
-        HWREGB(ui32Base + USB_O_POWER) |= USB_POWER_HSENAB;
-    }
-    else
-    {
-        //
-        // Enable high speed mode negotiations in hosts or device mode.
-        //
-        HWREGB(ui32Base + USB_O_POWER) &= ~USB_POWER_HSENAB;
-    }
-}
-
-//*****************************************************************************
-//
 //! Handles the USB bus resume condition.
 //!
 //! \param ui32Base specifies the USB module base address.
@@ -359,8 +301,6 @@ USBHighSpeed(uint32_t ui32Base, bool bEnable)
 //! at least 20ms before calling this function with the \e bStart parameter set
 //! to \b false.  This action causes the controller to complete the resume
 //! signaling on the USB bus.
-//!
-//! \note This function must only be called in host mode.
 //!
 //! \return None.
 //
@@ -406,7 +346,7 @@ USBHostResume(uint32_t ui32Base, bool bStart)
 //! \note This function must only be called in host mode.
 //!
 //! \return Returns one of the following: \b USB_LOW_SPEED, \b USB_FULL_SPEED,
-//! \b USB_HIGH_SPEED, or \b USB_UNDEF_SPEED.
+//! or \b USB_UNDEF_SPEED.
 //
 //*****************************************************************************
 uint32_t
@@ -416,14 +356,6 @@ USBHostSpeedGet(uint32_t ui32Base)
     // Check the arguments.
     //
     ASSERT(ui32Base == USB0_BASE);
-
-    //
-    // If the Full Speed device bit is set, then this is a full speed device.
-    //
-    if(HWREGB(ui32Base + USB_O_POWER) & USB_POWER_HSMODE)
-    {
-        return(USB_HIGH_SPEED);
-    }
 
     //
     // If the Full Speed device bit is set, then this is a full speed device.
@@ -449,50 +381,7 @@ USBHostSpeedGet(uint32_t ui32Base)
 
 //*****************************************************************************
 //
-//! Returns the current speed of the USB controller in device mode.
-//!
-//! \param ui32Base specifies the USB module base address.
-//!
-//! This function returns the operating speed of the connection to the USB host
-//! controller.  This function returns either \b USB_HIGH_SPEED or
-//! \b USB_FULL_SPEED to indicate the connection speed in device mode.
-//!
-//! \b Example: Get the USB connection speed.
-//!
-//! \verbatim
-//! //
-//! // Get the connection speed of the USB controller.
-//! //
-//! USBDevSpeedGet(USB0_BASE);
-//! \endverbatim
-//!
-//! \note This function must only be called in device mode.
-//!
-//! \return Returns either \b USB_HIGH_SPEED or \b USB_FULL_SPEED.
-//
-//*****************************************************************************
-uint32_t
-USBDevSpeedGet(uint32_t ui32Base)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(ui32Base == USB0_BASE);
-
-    //
-    // If the Full Speed device bit is set, then this is a full speed device.
-    //
-    if(HWREGB(ui32Base + USB_O_POWER) & USB_POWER_HSMODE)
-    {
-        return(USB_HIGH_SPEED);
-    }
-
-    return(USB_FULL_SPEED);
-}
-
-//*****************************************************************************
-//
-//! Disables control interrupts on a specified USB controller.
+//! Disables control interrupts on a given USB controller.
 //!
 //! \param ui32Base specifies the USB module base address.
 //! \param ui32Flags specifies which control interrupts to disable.
@@ -543,7 +432,7 @@ USBIntDisableControl(uint32_t ui32Base, uint32_t ui32Flags)
 
 //*****************************************************************************
 //
-//! Enables control interrupts on a specified USB controller.
+//! Enables control interrupts on a given USB controller.
 //!
 //! \param ui32Base specifies the USB module base address.
 //! \param ui32Flags specifies which control interrupts to enable.
@@ -594,7 +483,7 @@ USBIntEnableControl(uint32_t ui32Base, uint32_t ui32Flags)
 
 //*****************************************************************************
 //
-//! Returns the control interrupt status on a specified USB controller.
+//! Returns the control interrupt status on a given USB controller.
 //!
 //! \param ui32Base specifies the USB module base address.
 //!
@@ -685,7 +574,7 @@ USBIntStatusControl(uint32_t ui32Base)
 
 //*****************************************************************************
 //
-//! Disables endpoint interrupts on a specified USB controller.
+//! Disables endpoint interrupts on a given USB controller.
 //!
 //! \param ui32Base specifies the USB module base address.
 //! \param ui32Flags specifies which endpoint interrupts to disable.
@@ -725,7 +614,7 @@ USBIntDisableEndpoint(uint32_t ui32Base, uint32_t ui32Flags)
 
 //*****************************************************************************
 //
-//! Enables endpoint interrupts on a specified USB controller.
+//! Enables endpoint interrupts on a given USB controller.
 //!
 //! \param ui32Base specifies the USB module base address.
 //! \param ui32Flags specifies which endpoint interrupts to enable.
@@ -763,7 +652,7 @@ USBIntEnableEndpoint(uint32_t ui32Base, uint32_t ui32Flags)
 
 //*****************************************************************************
 //
-//! Returns the endpoint interrupt status on a specified USB controller.
+//! Returns the endpoint interrupt status on a given USB controller.
 //!
 //! \param ui32Base specifies the USB module base address.
 //!
@@ -804,7 +693,7 @@ USBIntStatusEndpoint(uint32_t ui32Base)
 
 //*****************************************************************************
 //
-//! Returns the interrupt number for a specified USB module.
+//! Returns the interrupt number for a given USB module.
 //!
 //! \param ui32Base is the base address of the USB module.
 //!
@@ -820,13 +709,9 @@ _USBIntNumberGet(uint32_t ui32Base)
 {
     uint32_t ui32Int;
 
-    if(CLASS_IS_TM4C123)
+    if(CLASS_IS_BLIZZARD)
     {
-        ui32Int = INT_USB0_TM4C123;
-    }
-    else if(CLASS_IS_TM4C129)
-    {
-        ui32Int = INT_USB0_TM4C129;
+        ui32Int = INT_USB0_BLIZZARD;
     }
     else
     {
@@ -928,13 +813,13 @@ USBIntUnregister(uint32_t ui32Base)
 //! \param ui32Base specifies the USB module base address.
 //! \param ui32Endpoint is the endpoint to access.
 //!
-//! This function returns the status of a specified endpoint.  If any of these
+//! This function returns the status of a given endpoint.  If any of these
 //! status bits must be cleared, then the USBDevEndpointStatusClear() or the
 //! USBHostEndpointStatusClear() functions must be called.
 //!
 //! The following are the status flags for host mode:
 //!
-//! - \b USB_HOST_IN_PID_ERROR - PID error on the specified endpoint.
+//! - \b USB_HOST_IN_PID_ERROR - PID error on the given endpoint.
 //! - \b USB_HOST_IN_NOT_COMP - The device failed to respond to an IN request.
 //! - \b USB_HOST_IN_STALL - A stall was received on an IN endpoint.
 //! - \b USB_HOST_IN_DATA_ERROR - There was a CRC or bit-stuff error on an IN
@@ -1295,60 +1180,6 @@ USBEndpointDataToggleClear(uint32_t ui32Base, uint32_t ui32Endpoint,
 
 //*****************************************************************************
 //
-//! Enables or disables ping tokens for an endpoint using high-speed control
-//! transfers in host mode.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui32Endpoint specifies the endpoint to enable/disable ping tokens.
-//! \param bEnable specifies whether enable or disable ping tokens.
-//!
-//! This function configures the USB controller to either send or not send ping
-//! tokens during the data and status phase of high speed control transfers.
-//! The only supported value for \e ui32Endpoint is \b USB_EP_0 because all
-//! control transfers are handled using this endpoint.  If the \e bEnable is
-//! \b true then ping tokens are enabled, if \b false then ping tokens are
-//! disabled.  This must be used if the controller must support
-//! communications with devices that do not support ping tokens in high speed
-//! mode.
-//!
-//! \b Example: Disable ping transactions in host mode on endpoint 0.
-//!
-//! \verbatim
-//! //
-//! // Disable ping transaction on endpoint 0.
-//! //
-//! USBHostEndpointPing(USB0_BASE, USB_EP_0, false);
-//! \endverbatim
-//!
-//! \note This function must only be called in host mode.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBHostEndpointPing(uint32_t ui32Base, uint32_t ui32Endpoint, bool bEnable)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(ui32Base == USB0_BASE);
-    ASSERT((ui32Endpoint == USB_EP_0));
-
-    //
-    // Handle the endpoint 0 case separately.
-    //
-    if(bEnable)
-    {
-        HWREGB(USB0_BASE + USB_O_CSRH0) &= ~USB_CSRH0_DISPING;
-    }
-    else
-    {
-        HWREGB(USB0_BASE + USB_O_CSRH0) |= USB_CSRH0_DISPING;
-    }
-}
-
-//*****************************************************************************
-//
 //! Stalls the specified endpoint in device mode.
 //!
 //! \param ui32Base specifies the USB module base address.
@@ -1645,12 +1476,11 @@ USBDevAddrGet(uint32_t ui32Base)
 //! \b DISABLE_NAK_LIMIT, which indicates that there is no limit on the
 //! number of NAKs.
 //!
-//! The \b USB_EP_DMA_MODE_ flags determine the type of DMA access to the
-//! endpoint data FIFOs.  The choice of the DMA mode depends on how the DMA
+//! The \b USB_EP_DMA_MODE_ flags enable the type of DMA used to access the
+//! endpoint's data FIFOs.  The choice of the DMA mode depends on how the DMA
 //! controller is configured and how it is being used.  See the ``Using USB
-//! with the uDMA Controller'' or the ''Using the integrated USB DMA
-//! Controller'' section for more information on DMA configuration depending
-//! on the type of DMA that is supported by the USB controller.
+//! with the uDMA Controller'' section for more information on DMA
+//! configuration.
 //!
 //! When configuring the OUT portion of an endpoint, the \b USB_EP_AUTO_SET bit
 //! is specified to cause the transmission of data on the USB bus to start
@@ -1664,13 +1494,6 @@ USBDevAddrGet(uint32_t ui32Base)
 //! automatically once the data has been read from the FIFO.  If this option is
 //! not used, this flag must be manually cleared via a call to
 //! USBDevEndpointStatusClear() or USBHostEndpointStatusClear().
-//!
-//! For interrupt endpoints in low or full speed mode, the polling interval
-//! (\e ui32NAKPollInterval) is the number of frames between interrupt IN
-//! requests to an endpoint and has a range of 1 to 255.  For interrupt
-//! endpoints in high speed mode the polling interval is
-//! 2 ^ (\e ui32NAKPollInterval - 1) microframes between interrupt IN requests
-//! to an endpoint and has a range of 1 to 16.
 //!
 //! \note This function must only be called in host mode.
 //!
@@ -1708,21 +1531,9 @@ USBHostEndpointConfig(uint32_t ui32Base, uint32_t ui32Endpoint,
         //
         // Set the transfer type information.
         //
-        //
-        // Set the speed of this endpoint.
-        //
-        if(ui32Flags & USB_EP_SPEED_HIGH)
-        {
-            HWREGB(ui32Base + USB_O_TYPE0) = USB_TYPE0_SPEED_HIGH;
-        }
-        else if(ui32Flags & USB_EP_SPEED_FULL)
-        {
-            HWREGB(ui32Base + USB_O_TYPE0) = USB_TYPE0_SPEED_FULL;
-        }
-        else
-        {
-            HWREGB(ui32Base + USB_O_TYPE0) = USB_TYPE0_SPEED_LOW;
-        }
+        HWREGB(ui32Base + USB_O_TYPE0) =
+            ((ui32Flags & USB_EP_SPEED_FULL) ? USB_TYPE0_SPEED_FULL :
+             USB_TYPE0_SPEED_LOW);
     }
     else
     {
@@ -1734,11 +1545,7 @@ USBHostEndpointConfig(uint32_t ui32Base, uint32_t ui32Endpoint,
         //
         // Set the speed for the device using this endpoint.
         //
-        if(ui32Flags & USB_EP_SPEED_HIGH)
-        {
-            ui32Register |= USB_TXTYPE1_SPEED_HIGH;
-        }
-        else if(ui32Flags & USB_EP_SPEED_FULL)
+        if(ui32Flags & USB_EP_SPEED_FULL)
         {
             ui32Register |= USB_TXTYPE1_SPEED_FULL;
         }
@@ -1909,99 +1716,6 @@ USBHostEndpointConfig(uint32_t ui32Base, uint32_t ui32Endpoint,
 
 //*****************************************************************************
 //
-//! Changes the speed of the connection for a host endpoint.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui32Endpoint is the endpoint to access.
-//! \param ui32Flags are used to configure other endpoint settings.
-//!
-//! This function sets the USB speed for an IN or OUT endpoint in host mode.
-//! The \e ui32Flags parameter specifies the speed using one of the following
-//! values: \b USB_EP_SPEED_LOW, \b USB_EP_SPEED_FULL, or \b USB_EP_SPEED_HIGH.
-//! The \e ui32Flags parameter also specifies which direction is set by
-//! adding the logical OR in either \b USB_EP_HOST_IN or \b USB_EP_HOST_OUT.
-//! All other flags are ignored.  This function is typically only used for
-//! endpoint 0, but could be used with other endpoints as well.
-//!
-//! \b Example: Set host transactions on endpoint 0 to full speed..
-//!
-//! \verbatim
-//! //
-//! // Set host endpoint 0 transactions to full speed.
-//! //
-//! USBHostEndpointSpeed(USB0_BASE, USB_EP_0, USB_EP_SPEED_FULL);
-//! \endverbatim
-//!
-//! \note This function must only be called in host mode.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBHostEndpointSpeed(uint32_t ui32Base, uint32_t ui32Endpoint,
-                     uint32_t ui32Flags)
-{
-    uint32_t ui32Reg;
-    uint32_t ui32Speed;
-
-    //
-    // Check the arguments.
-    //
-    ASSERT(ui32Base == USB0_BASE);
-    ASSERT((ui32Endpoint == USB_EP_0) || (ui32Endpoint == USB_EP_1) ||
-           (ui32Endpoint == USB_EP_2) || (ui32Endpoint == USB_EP_3) ||
-           (ui32Endpoint == USB_EP_4) || (ui32Endpoint == USB_EP_5) ||
-           (ui32Endpoint == USB_EP_6) || (ui32Endpoint == USB_EP_7));
-
-    //
-    // Create the register speed value.
-    //
-    if(ui32Flags & USB_EP_SPEED_HIGH)
-    {
-        ui32Speed = USB_TYPE0_SPEED_HIGH;
-    }
-    else if(ui32Flags & USB_EP_SPEED_FULL)
-    {
-        ui32Speed = USB_TYPE0_SPEED_FULL;
-    }
-    else
-    {
-        ui32Speed = USB_TYPE0_SPEED_LOW;
-    }
-
-    //
-    // Endpoint 0 is handled differently as it is bi-directional.
-    //
-    if(ui32Endpoint == USB_EP_0)
-    {
-        HWREGB(ui32Base + USB_O_TYPE0) = ui32Speed;
-    }
-    else if(ui32Flags & USB_EP_HOST_OUT)
-    {
-        //
-        // Clear the current speed and set the new speed.
-        //
-        ui32Reg = (HWREGH(ui32Base + EP_OFFSET(ui32Endpoint) + USB_O_TXTYPE1) &
-                   ~(USB_TXTYPE1_SPEED_M));
-        ui32Reg |= ui32Speed;
-
-        HWREGH(ui32Base + EP_OFFSET(ui32Endpoint) + USB_O_TXTYPE1) |= ui32Reg;
-    }
-    else
-    {
-        //
-        // Clear the current speed and set the new speed.
-        //
-        ui32Reg = (HWREGH(ui32Base + EP_OFFSET(ui32Endpoint) + USB_O_RXTYPE1) &
-                   ~(USB_RXTYPE1_SPEED_M));
-        ui32Reg |= ui32Speed;
-
-        HWREGH(ui32Base + EP_OFFSET(ui32Endpoint) + USB_O_RXTYPE1) |= ui32Reg;
-    }
-}
-
-//*****************************************************************************
-//
 //! Sets the configuration for an endpoint.
 //!
 //! \param ui32Base specifies the USB module base address.
@@ -2015,7 +1729,7 @@ USBHostEndpointSpeed(uint32_t ui32Base, uint32_t ui32Endpoint,
 //! determines some of the configuration while the other parameters provide the
 //! rest.
 //!
-//! The \b USB_EP_MODE_ flags define what the type is for the specified endpoint.
+//! The \b USB_EP_MODE_ flags define what the type is for the given endpoint.
 //!
 //! - \b USB_EP_MODE_CTRL is a control endpoint.
 //! - \b USB_EP_MODE_ISOC is an isochronous endpoint.
@@ -2025,16 +1739,14 @@ USBHostEndpointSpeed(uint32_t ui32Base, uint32_t ui32Endpoint,
 //! The \b USB_EP_DMA_MODE_ flags determine the type of DMA access to the
 //! endpoint data FIFOs.  The choice of the DMA mode depends on how the DMA
 //! controller is configured and how it is being used.  See the ``Using USB
-//! with the uDMA Controller'' or the ''Using the integrated USB DMA
-//! Controller'' section for more information on DMA configuration depending
-//! on the type of DMA that is supported by the USB controller.
+//! with the uDMA Controller'' section for more information on DMA
+//! configuration.
 //!
 //! When configuring an IN endpoint, the \b USB_EP_AUTO_SET bit can be
 //! specified to cause the automatic transmission of data on the USB bus as
 //! soon as \e ui32MaxPacketSize bytes of data are written into the FIFO for
-//! this endpoint.  This option is commonly used with DMA (both on devices
-//! with integrated USB DMA as well as those that use uDMA) as no interaction
-//! is required to start the transmission of data.
+//! this endpoint.  This option is commonly used with DMA as no interaction is
+//! required to start the transmission of data.
 //!
 //! When configuring an OUT endpoint, the \b USB_EP_AUTO_REQUEST bit is
 //! specified to trigger the request for more data once the FIFO has been
@@ -2043,7 +1755,7 @@ USBHostEndpointSpeed(uint32_t ui32Base, uint32_t ui32Endpoint,
 //! data packet ready flag automatically once the data has been read from the
 //! FIFO.  If this option is not used, this flag must be manually cleared via a
 //! call to USBDevEndpointStatusClear().  Both of these settings can be used to
-//! remove the need for extra calls when using the controller with DMA.
+//! remove the need for extra calls when using the controller in DMA mode.
 //!
 //! \note This function must only be called in device mode.
 //!
@@ -2154,15 +1866,6 @@ USBDevEndpointConfigSet(uint32_t ui32Base, uint32_t ui32Endpoint,
         else if(ui32Flags & USB_EP_DMA_MODE_0)
         {
             ui32Register |= USB_RXCSRH1_DMAEN;
-        }
-
-        //
-        // If requested, disable NYET responses for high-speed bulk and
-        // interrupt endpoints.
-        //
-        if(ui32Flags & USB_EP_DIS_NYET)
-        {
-            ui32Register |= USB_RXCSRH1_DISNYET;
         }
 
         //
@@ -2369,12 +2072,12 @@ USBDevEndpointConfigGet(uint32_t ui32Base, uint32_t ui32Endpoint,
 //! \param ui32Endpoint is the endpoint to access.
 //! \param ui32FIFOAddress is the starting address for the FIFO.
 //! \param ui32FIFOSize is the size of the FIFO specified by one of the
-//! \b USB_FIFO_SZ_ values.
+//! USB_FIFO_SZ_ values.
 //! \param ui32Flags specifies what information to set in the FIFO
 //! configuration.
 //!
 //! This function configures the starting FIFO RAM address and size of the FIFO
-//! for a specified endpoint.  Endpoint zero does not have a dynamically
+//! for a given endpoint.  Endpoint zero does not have a dynamically
 //! configurable FIFO, so this function must not be called for endpoint zero.
 //! The \e ui32FIFOSize parameter must be one of the values in the
 //! \b USB_FIFO_SZ_ values.
@@ -2437,12 +2140,12 @@ USBFIFOConfigSet(uint32_t ui32Base, uint32_t ui32Endpoint,
 //! \param ui32Endpoint is the endpoint to access.
 //! \param pui32FIFOAddress is the starting address for the FIFO.
 //! \param pui32FIFOSize is the size of the FIFO as specified by one of the
-//! \b USB_FIFO_SZ_ values.
+//! USB_FIFO_SZ_ values.
 //! \param ui32Flags specifies what information to retrieve from the FIFO
 //! configuration.
 //!
 //! This function returns the starting address and size of the FIFO for a
-//! specified endpoint.  Endpoint zero does not have a dynamically configurable
+//! given endpoint.  Endpoint zero does not have a dynamically configurable
 //! FIFO, so this function must not be called for endpoint zero.  The
 //! \e ui32Flags parameter specifies whether the endpoint's OUT or IN FIFO must
 //! be read.  If in host mode, the \e ui32Flags parameter must be
@@ -2502,7 +2205,7 @@ USBFIFOConfigGet(uint32_t ui32Base, uint32_t ui32Endpoint,
 //! \param ui32Endpoint is the endpoint to access.
 //! \param ui32Config specifies the configuration options for an endpoint.
 //!
-//! This function configures the DMA settings for a specified endpoint without
+//! This function configures the DMA settings for a given endpoint without
 //! changing other options that may already be configured.  In order for the
 //! DMA transfer to be enabled, the USBEndpointDMAEnable() function must be
 //! called before starting the DMA transfer.  The configuration
@@ -2625,14 +2328,14 @@ USBEndpointDMAConfigSet(uint32_t ui32Base, uint32_t ui32Endpoint,
 
 //*****************************************************************************
 //
-//! Enable DMA on a specified endpoint.
+//! Enable DMA on a given endpoint.
 //!
 //! \param ui32Base specifies the USB module base address.
 //! \param ui32Endpoint is the endpoint to access.
 //! \param ui32Flags specifies which direction and what mode to use when
 //! enabling DMA.
 //!
-//! This function enables DMA on a specified endpoint and configures the mode
+//! This function enables DMA on a given endpoint and configures the mode
 //! according to the values in the \e ui32Flags parameter.  The \e ui32Flags
 //! parameter must have \b USB_EP_DEV_IN or \b USB_EP_DEV_OUT set.  Once this
 //! function is called the only DMA or error interrupts are generated by the
@@ -2671,13 +2374,13 @@ USBEndpointDMAEnable(uint32_t ui32Base, uint32_t ui32Endpoint,
 
 //*****************************************************************************
 //
-//! Disable DMA on a specified endpoint.
+//! Disable DMA on a given endpoint.
 //!
 //! \param ui32Base specifies the USB module base address.
 //! \param ui32Endpoint is the endpoint to access.
 //! \param ui32Flags specifies which direction to disable.
 //!
-//! This function disables DMA on a specified endpoint to allow non-DMA USB
+//! This function disables DMA on a given endpoint to allow non-DMA USB
 //! transactions to generate interrupts normally.  The \e ui32Flags parameter
 //! must be \b USB_EP_DEV_IN or \b USB_EP_DEV_OUT; all other bits are ignored.
 //!
@@ -2712,18 +2415,17 @@ USBEndpointDMADisable(uint32_t ui32Base, uint32_t ui32Endpoint,
 
 //*****************************************************************************
 //
-//! Determines the number of bytes of data available in a specified endpoint's
-//! FIFO.
+//! Determine the number of bytes of data available in a given endpoint's FIFO.
 //!
 //! \param ui32Base specifies the USB module base address.
 //! \param ui32Endpoint is the endpoint to access.
 //!
 //! This function returns the number of bytes of data currently available in
-//! the FIFO for the specified receive (OUT) endpoint.  It may be used prior to
+//! the FIFO for the given receive (OUT) endpoint.  It may be used prior to
 //! calling USBEndpointDataGet() to determine the size of buffer required to
 //! hold the newly-received packet.
 //!
-//! \return This call returns the number of bytes available in a specified endpoint
+//! \return This call returns the number of bytes available in a given endpoint
 //! FIFO.
 //
 //*****************************************************************************
@@ -2770,7 +2472,7 @@ USBEndpointDataAvail(uint32_t ui32Base, uint32_t ui32Endpoint)
 
 //*****************************************************************************
 //
-//! Retrieves data from the specified endpoint's FIFO.
+//! Retrieves data from the given endpoint's FIFO.
 //!
 //! \param ui32Base specifies the USB module base address.
 //! \param ui32Endpoint is the endpoint to access.
@@ -2780,7 +2482,7 @@ USBEndpointDataAvail(uint32_t ui32Base, uint32_t ui32Endpoint)
 //! via the \e pui8Data parameter.  It is set to the amount of data returned in
 //! the buffer.
 //!
-//! This function returns the data from the FIFO for the specified endpoint.
+//! This function returns the data from the FIFO for the given endpoint.
 //! The \e pui32Size parameter indicates the size of the buffer passed in
 //! the \e pui32Data parameter.  The data in the \e pui32Size parameter is
 //! changed to match the amount of data returned in the \e pui8Data parameter.
@@ -2874,7 +2576,7 @@ USBEndpointDataGet(uint32_t ui32Base, uint32_t ui32Endpoint,
 
 //*****************************************************************************
 //
-//! Acknowledge that data was read from the specified endpoint's FIFO in device
+//! Acknowledge that data was read from the given endpoint's FIFO in device
 //! mode.
 //!
 //! \param ui32Base specifies the USB module base address.
@@ -2929,7 +2631,7 @@ USBDevEndpointDataAck(uint32_t ui32Base, uint32_t ui32Endpoint,
 
 //*****************************************************************************
 //
-//! Acknowledge that data was read from the specified endpoint's FIFO in host
+//! Acknowledge that data was read from the given endpoint's FIFO in host
 //! mode.
 //!
 //! \param ui32Base specifies the USB module base address.
@@ -2972,7 +2674,7 @@ USBHostEndpointDataAck(uint32_t ui32Base, uint32_t ui32Endpoint)
 
 //*****************************************************************************
 //
-//! Puts data into the specified endpoint's FIFO.
+//! Puts data into the given endpoint's FIFO.
 //!
 //! \param ui32Base specifies the USB module base address.
 //! \param ui32Endpoint is the endpoint to access.
@@ -3053,7 +2755,7 @@ USBEndpointDataPut(uint32_t ui32Base, uint32_t ui32Endpoint,
 //! \param ui32Endpoint is the endpoint to access.
 //! \param ui32TransType is set to indicate what type of data is being sent.
 //!
-//! This function starts the transfer of data from the FIFO for a specified
+//! This function starts the transfer of data from the FIFO for a given
 //! endpoint.  This function is called if the \b USB_EP_AUTO_SET bit was
 //! not enabled for the endpoint.  Setting the \e ui32TransType parameter
 //! allows the appropriate signaling on the USB bus for the type of transaction
@@ -3320,8 +3022,6 @@ USBHostRequestINClear(uint32_t ui32Base, uint32_t ui32Endpoint)
 //! device and an interrupt is signaled when the status packet has been
 //! received.
 //!
-//! \note This function must only be called in host mode.
-//!
 //! \return None.
 //
 //*****************************************************************************
@@ -3507,10 +3207,6 @@ USBHostHubAddrSet(uint32_t ui32Base, uint32_t ui32Endpoint, uint32_t ui32Addr,
         {
             HWREGB(ui32Base + USB_O_TYPE0) = USB_TYPE0_SPEED_FULL;
         }
-        else if(ui32Flags & USB_EP_SPEED_HIGH)
-        {
-            HWREGB(ui32Base + USB_O_TYPE0) = USB_TYPE0_SPEED_HIGH;
-        }
         else
         {
             HWREGB(ui32Base + USB_O_TYPE0) = USB_TYPE0_SPEED_LOW;
@@ -3612,15 +3308,13 @@ USBHostHubAddrGet(uint32_t ui32Base, uint32_t ui32Endpoint, uint32_t ui32Flags)
 //!                                USBOTGSessionRequest() has enabled a
 //!                                session.
 //!
-//! When using the VBUS glitch filter, the \b USB_HOST_PWREN_FILTER can be
-//! addded to ignore small, short drops in VBUS level caused by high power
-//! consumption.  This feature is mainly used to avoid causing VBUS errors
-//! caused by devices with high in-rush current.
+//! On devices that support the VBUS glitch filter, the
+//! \b USB_HOST_PWREN_FILTER can be added to ignore small, short drops in VBUS
+//! level caused by high power consumption.  This feature is mainly used to
+//! avoid causing VBUS errors caused by devices with high in-rush current.
 //!
 //! \note This function must only be called on microcontrollers that support
-//! host mode or OTG operation. The \b USB_HOST_PWREN_AUTOLOW and
-//! \b USB_HOST_PWREN_AUTOHIGH parameters can only be specified on devices that
-//! support OTG operation.
+//! host mode or OTG operation.
 //!
 //! \return None.
 //
@@ -3765,7 +3459,7 @@ USBHostPwrDisable(uint32_t ui32Base)
 
 //*****************************************************************************
 //
-//! Gets the current frame number.
+//! Get the current frame number.
 //!
 //! \param ui32Base specifies the USB module base address.
 //!
@@ -3825,7 +3519,7 @@ USBOTGSessionRequest(uint32_t ui32Base, bool bStart)
 
 //*****************************************************************************
 //
-//! Returns the absolute FIFO address for a specified endpoint.
+//! Returns the absolute FIFO address for a given endpoint.
 //!
 //! \param ui32Base specifies the USB module base address.
 //! \param ui32Endpoint specifies which endpoint's FIFO address to return.
@@ -3833,9 +3527,7 @@ USBOTGSessionRequest(uint32_t ui32Base, bool bStart)
 //! This function returns the actual physical address of the FIFO.  This
 //! address is needed when the USB is going to be used with the uDMA
 //! controller and the source or destination address must be set to the
-//! physical FIFO address for a specified endpoint. This function can also be
-//! used to provide the physical address to manually read data from an
-//! endpoints FIFO.
+//! physical FIFO address for a given endpoint.
 //!
 //! \return None.
 //
@@ -3861,6 +3553,9 @@ USBFIFOAddrGet(uint32_t ui32Base, uint32_t ui32Endpoint)
 //! For OTG controllers:
 //!
 //! The function returns one of the following values on OTG controllers:
+//! \b USB_OTG_MODE_ASIDE_HOST, \b USB_OTG_MODE_ASIDE_DEV,
+//! \b USB_OTG_MODE_BSIDE_HOST, \b USB_OTG_MODE_BSIDE_DEV,
+//! \b USB_OTG_MODE_NONE.
 //!
 //! \b USB_OTG_MODE_ASIDE_HOST indicates that the controller is in host mode
 //! on the A-side of the cable.
@@ -3881,6 +3576,8 @@ USBFIFOAddrGet(uint32_t ui32Base, uint32_t ui32Endpoint)
 //! For Dual Mode controllers:
 //!
 //! The function returns one of the following values:
+//! \b USB_DUAL_MODE_HOST, \b USB_DUAL_MODE_DEVICE, or
+//! \b USB_DUAL_MODE_NONE.
 //!
 //! \b USB_DUAL_MODE_HOST indicates that the controller is acting as a host.
 //!
@@ -3921,13 +3618,13 @@ USBModeGet(uint32_t ui32Base)
 
 //*****************************************************************************
 //
-//! Sets the DMA channel to use for a specified endpoint.
+//! Sets the DMA channel to use for a given endpoint.
 //!
 //! \param ui32Base specifies the USB module base address.
 //! \param ui32Endpoint specifies which endpoint's FIFO address to return.
 //! \param ui32Channel specifies which DMA channel to use for which endpoint.
 //!
-//! This function is used to configure which DMA channel to use with a specified
+//! This function is used to configure which DMA channel to use with a given
 //! endpoint.  Receive DMA channels can only be used with receive endpoints
 //! and transmit DMA channels can only be used with transmit endpoints.  As a
 //! result, the 3 receive and 3 transmit DMA channels can be mapped to any
@@ -3989,7 +3686,7 @@ USBEndpointDMAChannel(uint32_t ui32Base, uint32_t ui32Endpoint,
 //! This function changes the mode of the USB controller to host mode.
 //!
 //! \note This function must only be called on microcontrollers that support
-//! OTG operation.
+//! OTG operation and have the DEVMODOTG bit in the USBGPCS register.
 //!
 //! \return None.
 //
@@ -4020,7 +3717,7 @@ USBHostMode(uint32_t ui32Base)
 //! This function changes the mode of the USB controller to device mode.
 //!
 //! \note This function must only be called on microcontrollers that support
-//! OTG operation.
+//! OTG operation and have the DEVMODOTG bit in the USBGPCS register.
 //!
 //! \return None.
 //
@@ -4041,7 +3738,7 @@ USBDevMode(uint32_t ui32Base)
 
 //*****************************************************************************
 //
-//! Changes the mode of the USB controller to OTG.
+//! Change the mode of the USB controller to OTG.
 //!
 //! \param ui32Base specifies the USB module base address.
 //!
@@ -4068,72 +3765,13 @@ USBOTGMode(uint32_t ui32Base)
 
 //*****************************************************************************
 //
-//! Change the operating mode of the USB controller.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui32Mode specifies the operating mode of the USB OTG pins.
-//!
-//! This function changes the operating modes of the USB controller.  When
-//! operating in full OTG mode, the USB controller uses the VBUS and ID pins to
-//! detect mode and voltage changes.  While these pins are primarily used in
-//! OTG mode, they can also affect the operation of host and device modes.  In
-//! device mode, the USB controller can be configured to monitor or ignore
-//! VBUS. Monitoring VBUS allows the controller to determine if it has been
-//! disconnected from the host.  In host mode, the USB controller uses the
-//! VBUS pin to detect loss of VBUS caused by excessive power draw due to a
-//! drop in the VBUS voltage.  This call takes the place of USBHostMode(),
-//! USBDevMode(), and USBOTGMode().  The \e ui32Mode value should be one of
-//! the following values:
-//!
-//! - \b USB_MODE_OTG enables operating in full OTG mode, VBUS and ID are
-//!   used by the controller.
-//! - \b USB_MODE_HOST enables operating only as a host with no monitoring of
-//!   VBUS or ID pins.
-//! - \b USB_MODE_HOST_VBUS enables operating only as a host with monitoring of
-//!   VBUS pin.  This configuration enables detection of VBUS droop while still
-//!   forcing host mode.
-//! - \b USB_MODE_DEVICE enables operating only as a device with no monitoring
-//!   of VBUS or ID pins.
-//! - \b USB_MODE_DEVICE_VBUS enables operating only as a device with
-//!   monitoring of VBUS pin.  This configuration enables disconnect detection
-//!   while still forcing device mode.
-//!
-//! \note Some of the options above are not available on some Tiva devices.
-//! Please check the data sheet to determine if the USB controller supports a
-//! particular mode.
-//!
-//! \b Example: Force device mode but allow monitoring of the USB VBUS pin.
-//!
-//! \verbatim
-//! //
-//! // Force device mode but allow monitoring of VBUS for disconnect.
-//! //
-//! USBModeConfig(USB_MODE_DEVICE_VBUS);
-//! \endverbatim
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBModeConfig(uint32_t ui32Base, uint32_t ui32Mode)
-{
-    //
-    // Check the arguments.
-    //
-    ASSERT(ui32Base == USB0_BASE);
-
-    HWREG(ui32Base + USB_O_GPCS) = ui32Mode;
-}
-
-//*****************************************************************************
-//
-//! Powers off the internal USB PHY.
+//! Powers off the USB PHY.
 //!
 //! \param ui32Base specifies the USB module base address.
 //!
-//! This function powers off the internal USB PHY, reducing the current
-//! consumption of the device.  While in the powered-off state, the USB
-//! controller is unable to operate.
+//! This function powers off the USB PHY, reducing the current consuption
+//! of the device.  While in the powered-off state, the USB controller is
+//! unable to operate.
 //!
 //! \return None.
 //
@@ -4149,11 +3787,11 @@ USBPHYPowerOff(uint32_t ui32Base)
 
 //*****************************************************************************
 //
-//! Powers on the internal USB PHY.
+//! Powers on the USB PHY.
 //!
 //! \param ui32Base specifies the USB module base address.
 //!
-//! This function powers on the internal USB PHY, enabling it return to normal
+//! This function powers on the USB PHY, enabling it return to normal
 //! operation.  By default, the PHY is powered on, so this function must
 //! only be called if USBPHYPowerOff() has previously been called.
 //!
@@ -4222,1689 +3860,3 @@ USBNumEndpointsGet(uint32_t ui32Base)
     return(HWREGB(ui32Base + USB_O_EPINFO) & USB_EPINFO_TXEP_M);
 }
 
-//*****************************************************************************
-//
-//! Returns the version of the USB controller.
-//!
-//! \param ui32Base specifies the USB module base address.
-//!
-//! This function returns the version number of the USB controller, which can
-//! be be used to adjust for slight differences between the USB controllers in
-//! the Tiva family.  The values that are returned are
-//! \b USB_CONTROLLER_VER_0 and \b USB_CONTROLLER_VER_1.
-//!
-//! \note The most significant difference between \b USB_CONTROLLER_VER_0 and
-//! \b USB_CONTROLLER_VER_1 is that \b USB_CONTROLLER_VER_1 supports the USB
-//! controller's own bus master DMA controller, while the
-//! \b USB_CONTROLLER_VER_0 only supports using the uDMA controller with the
-//! USB module.
-//!
-//! \b Example: Get the version of the Tiva USB controller.
-//!
-//! \verbatim
-//! uint32_t ui32Version;
-//!
-//! //
-//! // Retrieve the version of the Tiva USB controller.
-//! //
-//! ui32Version = USBControllerVersion(USB0_BASE);
-//! \endverbatim
-//!
-//! \return This function returns one of the \b USB_CONTROLLER_VER_ values.
-//
-//*****************************************************************************
-uint32_t
-USBControllerVersion(uint32_t ui32Base)
-{
-    //
-    // Return the type field of the peripheral properties.  This returns
-    // zero for all parts that did not have a peripheral property.
-    //
-    return(HWREG(ui32Base + USB_O_PP) & USB_PP_TYPE_M);
-}
-
-//*****************************************************************************
-//
-//! Configures and enables the clocking to the USB controller's PHY.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui32Div specifies the divider for the internal USB PHY clock.
-//! \param ui32Flags configures the internal USB PHY clock and specifies the
-//!  clock source for a ULPI-connected PHY.
-//!
-//! This function configures and enables the USB PHY clock. In addition, for
-//! systems that use a ULPI-connected external PHY, this function configures
-//! the source for the PHY clock. The \e ui32Flags parameter specifies the
-//! clock source with the following values:
-//!
-//! - \b USB_CLOCK_INTERNAL uses the internal PLL combined with the \e ui32Div
-//! value to generate the USB clock that is used by the internal USB PHY. In
-//! addition, when using an external ULPI-connected USB PHY, the specified
-//! clock is output on the USB0CLK pin.
-//! - \b USB_CLOCK_EXTERNAL specifies that USB0CLK is an input from the
-//! ULPI-connected external PHY.
-//!
-//! The \e ui32Div parameter is used to specify a divider for the internal
-//! clock if the \b USB_CLOCK_INTERNAL is specified and is ignored if
-//! \b USB_CLOCK_EXTERNAL is specified.  When the \b USB_CLOCK_INTERNAL is
-//! specified, the \e ui32Div value must be set so that the PLL_VCO/\e ui32Div
-//! results in a 60-MHz clock.
-//!
-//! \b Example: Enable the USB clock with a 480-MHz PLL setting.
-//!
-//! \verbatim
-//! //
-//! // Enable the USB clock using a 480-MHz PLL.
-//! // (480-MHz/8 = 60-MHz)
-//! //
-//! USBClockEnable(USB0_BASE, 8, USB_CLOCK_INTERNAL);
-//! \endverbatim
-//!
-//! \note The ability to configure the USB PHY clock is not available on
-//! all Tiva devices.  Please consult the data sheet for the Tiva
-//! device that you are using to determine if this feature is available.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBClockEnable(uint32_t ui32Base, uint32_t ui32Div, uint32_t ui32Flags)
-{
-    ASSERT(ui32Base == USB0_BASE);
-
-    //
-    // Configure and enable the USB clock input.
-    //
-    HWREG(ui32Base + USB_O_CC) = (ui32Div - 1) | ui32Flags;
-}
-
-//*****************************************************************************
-//
-//! Disables the clocking of the USB controller's PHY.
-//!
-//! \param ui32Base specifies the USB module base address.
-//!
-//! This function disables the USB PHY clock. This function should not be
-//! called in applications where the USB controller is used.
-//!
-//! \b Example: Disable the USB PHY clock input.
-//!
-//! \verbatim
-//! //
-//! // Disable clocking of the USB controller's PHY.
-//! //
-//! USBClockDisable(USB0_BASE);
-//! \endverbatim
-//!
-//! \note The ability to configure the USB PHY clock is not available on all
-//! Tiva devices.  Please consult the data sheet for the Tiva device
-//! that you are using to determine if this feature is available.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBClockDisable(uint32_t ui32Base)
-{
-    ASSERT(ui32Base == USB0_BASE);
-
-    //
-    // Disable the USB clock input.
-    //
-    HWREG(ui32Base + USB_O_CC) = 0;
-}
-
-//*****************************************************************************
-//
-// Close the Doxygen group.
-//! @}
-//
-//*****************************************************************************
-//*****************************************************************************
-//
-//! \addtogroup usb_dma
-//! @{
-//
-//*****************************************************************************
-
-//*****************************************************************************
-//
-//! Enable interrupts for a specified integrated USB DMA channel.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui32Channel specifies which DMA channel interrupt to enable.
-//!
-//! This function enables the USB DMA channel interrupt based on the
-//! \e ui32Channel parameter.  The \e ui32Channel value is a zero-based
-//! index of the USB DMA channel.  Once enabled, the USBDMAChannelIntStatus()
-//! function returns if a DMA channel has generated an interrupt.
-//!
-//! \b Example: Enable the USB DMA channel 3 interrupt.
-//!
-//! \verbatim
-//! //
-//! // Enable the USB DMA channel 3 interrupt
-//! //
-//! USBDMAChannelIntEnable(USB0_BASE, 3);
-//! \endverbatim
-//!
-//! \note This feature is not available on all Tiva devices.  Please
-//! check the data sheet to determine if the USB controller has a DMA
-//! controller or if it must use the uDMA controller for DMA transfers.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBDMAChannelIntEnable(uint32_t ui32Base, uint32_t ui32Channel)
-{
-    ASSERT(ui32Base == USB0_BASE);
-    ASSERT(ui32Channel < 8);
-
-    //
-    // Enable the specified DMA channel interrupts.
-    //
-    HWREG(ui32Base + USB_O_DMACTL0 + (0x10 * ui32Channel)) |= USB_DMACTL0_IE;
-}
-
-//*****************************************************************************
-//
-//! Disable interrupts for a specified integrated USB DMA channel.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui32Channel specifies which USB DMA channel interrupt to disable.
-//!
-//! This function disables the USB DMA channel interrupt based on the
-//! \e ui32Channel parameter.  The \e ui32Channel value is a zero-based
-//! index of the USB DMA channel.
-//!
-//! \b Example: Disable the USB DMA channel 3 interrupt.
-//!
-//! \verbatim
-//! //
-//! // Disable the USB DMA channel 3 interrupt
-//! //
-//! USBDMAChannelIntDisable(USB0_BASE, 3);
-//! \endverbatim
-//!
-//! \note This feature is not available on all Tiva devices.  Please
-//! check the data sheet to determine if the USB controller has a DMA
-//! controller or if it must use the uDMA controller for DMA transfers.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBDMAChannelIntDisable(uint32_t ui32Base, uint32_t ui32Channel)
-{
-    ASSERT(ui32Base == USB0_BASE);
-    ASSERT(ui32Channel < 8);
-
-    //
-    // Enable the specified DMA channel interrupts.
-    //
-    HWREG(ui32Base + USB_O_DMACTL0 + (0x10 * ui32Channel)) &= ~USB_DMACTL0_IE;
-}
-
-//*****************************************************************************
-//
-//! Return the current status of the integrated USB DMA interrupts.
-//!
-//! \param ui32Base specifies the USB module base address.
-//!
-//! This function returns the current bit-mapped interrupt status for all USB
-//! DMA channel interrupt sources.  Calling this function automatically clears
-//! all currently pending USB DMA interrupts.
-//!
-//! \note This feature is not available on all Tiva devices.  Please
-//! check the data sheet to determine if the USB controller has a DMA
-//! controller or if it must use the uDMA controller for DMA transfers.
-//!
-//! \b Example: Get the pending USB DMA interrupts.
-//!
-//! \verbatim
-//! uint32_t ui32Ints;
-//!
-//! //
-//! // Get the pending USB DMA interrupts.
-//! //
-//! ui32Ints = USBDMAChannelIntStatus(USB0_BASE);
-//! \endverbatim
-//!
-//! \return The bit-mapped interrupts for the DMA channels.
-//
-//*****************************************************************************
-uint32_t
-USBDMAChannelIntStatus(uint32_t ui32Base)
-{
-    ASSERT(ui32Base == USB0_BASE);
-
-    return(HWREG(ui32Base + USB_O_DMAINTR));
-}
-
-//*****************************************************************************
-//
-//! Enables integrated USB DMA for a specified channel.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui32Channel specifies the USB DMA channel to enable.
-//!
-//! This function enables the USB DMA channel passed in the \e ui32Channel
-//! parameter.  The \e ui32Channel value is a zero-based index of the USB DMA
-//! channel.
-//!
-//! \b Example: Enable USB DMA channel 2.
-//!
-//! \verbatim
-//! //
-//! // Enable USB DMA channel 2.
-//! //
-//! USBDMAChannelEnable(2);
-//! \endverbatim
-//!
-//! \note This feature is not available on all Tiva devices.  Please
-//! check the data sheet to determine if the USB controller has a DMA
-//! controller or if it must use the uDMA controller for DMA transfers.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBDMAChannelEnable(uint32_t ui32Base, uint32_t ui32Channel)
-{
-    ASSERT(ui32Base == USB0_BASE);
-    ASSERT(ui32Channel < 8);
-
-    //
-    // Enable the USB DMA channel.
-    //
-    HWREG(ui32Base + USB_O_DMACTL0 + (0x10 * ui32Channel)) |=
-        USB_DMACTL0_ENABLE;
-}
-
-//*****************************************************************************
-//
-//! Disables integrated USB DMA for a specified channel.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui32Channel specifies the USB DMA channel to disable.
-//!
-//! This function disables the USB DMA channel passed in the \e ui32Channel
-//! parameter.  The \e ui32Channel parameter is a zero-based index of the DMA
-//! channel.
-//!
-//! \b Example: Disable USB DMA channel 2.
-//!
-//! \verbatim
-//! //
-//! // Disable USB DMA channel 2.
-//! //
-//! USBDMAChannelDisable(2);
-//! \endverbatim
-//!
-//! \note This feature is not available on all Tiva devices.  Please
-//! check the data sheet to determine if the USB controller has a DMA
-//! controller or if it must use the uDMA controller for DMA transfers.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBDMAChannelDisable(uint32_t ui32Base, uint32_t ui32Channel)
-{
-    ASSERT(ui32Base == USB0_BASE);
-    ASSERT(ui32Channel < 8);
-
-    //
-    // Disable the USB DMA channel.
-    //
-    HWREG(ui32Base + USB_O_DMACTL0 + (0x10 * ui32Channel)) &=
-        ~USB_DMACTL0_ENABLE;
-}
-
-//*****************************************************************************
-//
-//! Assigns and configures an endpoint to a specified integrated USB DMA
-//! channel.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui32Channel specifies which DMA channel to access.
-//! \param ui32Endpoint is the endpoint to assign to the USB DMA channel.
-//! \param ui32Config is used to specify the configuration of the USB DMA
-//! channel.
-//!
-//! This function assigns an endpoint and configures the settings for a
-//! USB DMA channel.  The \e ui32Endpoint parameter is one of the
-//! \b USB_EP_* values and the \e ui32Channel value is a zero-based index of
-//! the DMA channel to configure.  The \e ui32Config parameter is a combination
-//! of the \b USB_DMA_CFG_* values using the following guidelines.
-//!
-//! Use one of the following to set the DMA burst mode:
-//! - \b USB_DMA_CFG_BURST_NONE disables bursting.
-//! - \b USB_DMA_CFG_BURST_4 sets the DMA burst size to 4 words.
-//! - \b USB_DMA_CFG_BURST_8 sets the DMA burst size to 8 words.
-//! - \b USB_DMA_CFG_BURST_16 sets the DMA burst size to 16 words.
-//!
-//! Use one of the following to set the DMA mode:
-//! - \b USB_DMA_CFG_MODE_0 is typically used when only a single packet is
-//!   being sent via DMA and triggers one completion interrupt per packet.
-//! - \b USB_DMA_CFG_MODE_1 is typically used when multiple packets are being
-//!   sent via DMA and triggers one completion interrupt per transfer.
-//!
-//! Use one of the following to set the direction of the transfer:
-//! - \b USB_DMA_CFG_DIR_RX selects a DMA transfer from the endpoint to a
-//!   memory location.
-//! - \b USB_DMA_CFG_DIR_TX selects a DMA transfer to the endpoint from a
-//!   memory location.
-//!
-//! The following two optional settings allow an application to immediately
-//! enable the DMA transfer and/or DMA interrupts when configuring the DMA
-//! channel:
-//! - \b USB_DMA_CFG_INT_EN enables interrupts for this channel immediately so
-//!   that an added call to USBDMAChannelIntEnable() is not necessary.
-//! - \b USB_DMA_CFG_EN enables the DMA channel immediately so that an added
-//!   call to USBDMAChannelEnable() is not necessary.
-//!
-//! \b Example: Assign channel 0 to endpoint 1 in DMA mode 0, 4 word burst,
-//!    enable interrupts and immediately enable the transfer.
-//!
-//! \verbatim
-//! //
-//! // Assign channel 0 to endpoint 1 in DMA mode 0, 4 word bursts,
-//! // enable interrupts and immediately enable the transfer.
-//! //
-//! USBDMAChannelConfigSet(USB0_BASE, 0, USB_EP_1,
-//!                        (USB_DMA_CFG_BURST_4 | USB_DMA_CFG_MODE0 |
-//!                         USB_DMA_CFG_DIR_RX | USB_DMA_CFG_INT_EN |
-//!                         USB_DMA_CFG_EN));
-//! \endverbatim
-//!
-//! \note This feature is not available on all Tiva devices.  Please
-//! check the data sheet to determine if the USB controller has a DMA
-//! controller or if it must use the uDMA controller for DMA transfers.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBDMAChannelConfigSet(uint32_t ui32Base, uint32_t ui32Channel,
-                       uint32_t ui32Endpoint, uint32_t ui32Config)
-{
-    ASSERT(ui32Base == USB0_BASE);
-    ASSERT(ui32Channel < 8);
-    ASSERT((ui32Endpoint & ~USB_EP_7) == 0);
-
-    //
-    // Reset this USB DMA channel.
-    //
-    HWREG(ui32Base + USB_O_DMACTL0 + (0x10 * ui32Channel)) = 0;
-
-    //
-    // Set the configuration of the requested channel.
-    //
-    HWREG(ui32Base + USB_O_DMACTL0 + (0x10 * ui32Channel)) =
-        ui32Config | ui32Endpoint;
-}
-
-//*****************************************************************************
-//
-//! Returns the current status for an integrated USB DMA channel.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui32Channel specifies which DMA channel to query.
-//!
-//! This function returns the current status for the USB DMA channel specified
-//! by the \e ui32Channel parameter.  The \e ui32Channel value is a zero-based
-//! index of the USB DMA channel to query.
-//!
-//! \b Example: Get the current USB DMA status for channel 2.
-//!
-//! \verbatim
-//! uint32_t ui32Status;
-//!
-//! //
-//! // Get the current USB DMA status for channel 2.
-//! //
-//! ui32Status = USBDMAChannelStatus(USB0_BASE, 2);
-//! \endverbatim
-//!
-//! \note This feature is not available on all Tiva devices.  Please
-//! check the data sheet to determine if the USB controller has a DMA
-//! controller or if it must use the uDMA controller for DMA transfers.
-//!
-//! \return Returns zero or \b USB_DMACTL0_ERR if there is a pending error
-//! condition on a DMA channel.
-//
-//*****************************************************************************
-uint32_t
-USBDMAChannelStatus(uint32_t ui32Base, uint32_t ui32Channel)
-{
-    ASSERT(ui32Base == USB0_BASE);
-    ASSERT(ui32Channel < 8);
-
-    //
-    // Return a non-zero value if there is a pending error condition.
-    //
-    return(HWREG(ui32Base + USB_O_DMACTL0 + (0x10 * ui32Channel)) &
-           USB_DMACTL0_ERR);
-}
-
-//*****************************************************************************
-//
-//! Clears the integrated USB DMA status for a specified channel.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui32Channel specifies which DMA channel to clear.
-//! \param ui32Status holds the status bits to clear.
-//!
-//! This function clears the USB DMA channel status for the channel specified
-//! by the \e ui32Channel parameter.  The \e ui32Channel value is a zero-based
-//! index of the USB DMA channel to query.  The \e ui32Status parameter
-//! specifies the status bits to clear and must be the valid values that are
-//! returned from a call to the USBDMAChannelStatus() function.
-//!
-//! \b Example: Clear the current USB DMA status for channel 2.
-//!
-//! \verbatim
-//! //
-//! // Clear the any pending USB DMA status for channel 2.
-//! //
-//! USBDMAChannelStatusClear(USB0_BASE, 2, USBDMAChannelStatus(USB0_BASE, 2));
-//! \endverbatim
-//!
-//! \note This feature is not available on all Tiva devices.  Please
-//! check the data sheet to determine if the USB controller has a DMA
-//! controller or if it must use the uDMA controller for DMA transfers.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBDMAChannelStatusClear(uint32_t ui32Base, uint32_t ui32Channel,
-                         uint32_t ui32Status)
-{
-    ASSERT(ui32Base == USB0_BASE);
-    ASSERT(ui32Channel < 8);
-
-    //
-    // The only status is the error bit.
-    //
-    ui32Status &= USB_DMACTL0_ERR;
-
-    //
-    // Clear the specified error condition.
-    //
-    HWREG(ui32Base + USB_O_DMACTL0 + (0x10 * ui32Channel)) &= ~ui32Status;
-}
-
-//*****************************************************************************
-//
-//! Sets the source or destination address for an integrated USB DMA transfer
-//! on a specified channel.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui32Channel specifies which DMA channel to configure.
-//! \param pvAddress specifies the source or destination address for the USB
-//! DMA transfer.
-//!
-//! This function sets the source or destination address for the USB DMA
-//! channel number specified in the \e ui32Channel parameter.  The
-//! \e ui32Channel value is a zero-based index of the USB DMA channel.  The
-//! \e pvAddress parameter is a source address if the transfer type for the DMA
-//! channel is transmit and a destination address if the transfer type is
-//! receive.
-//!
-//! \b Example: Set the transfer address for USB DMA channel 1.
-//!
-//! \verbatim
-//! void *pvBuffer;
-//!
-//! //
-//! // Set the address for USB DMA channel 1.
-//! //
-//! USBDMAChannelAddressSet(USB0_BASE, 1, pvBuffer);
-//! \endverbatim
-//!
-//! \note This feature is not available on all Tiva devices.  Please
-//! check the data sheet to determine if the USB controller has a DMA
-//! controller or if it must use the uDMA controller for DMA transfers.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBDMAChannelAddressSet(uint32_t ui32Base, uint32_t ui32Channel,
-                        void *pvAddress)
-{
-    ASSERT(ui32Base == USB0_BASE);
-    ASSERT(ui32Channel < 8);
-
-    //
-    // Set the DMA address.
-    //
-    HWREG(ui32Base + USB_O_DMAADDR0 + (0x10 * ui32Channel)) =
-        (uint32_t)pvAddress;
-}
-
-//*****************************************************************************
-//
-//! Returns the source or destination address for the specified integrated USB
-//! DMA channel.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui32Channel specifies the USB DMA channel.
-//!
-//! This function returns the DMA address for the channel number specified
-//! in the \e ui32Channel parameter.  The \e ui32Channel value is a zero-based
-//! index of the DMA channel to query.  This function must not be used on
-//! devices that return \b USB_CONTROLLER_VER_0 from the USBControllerVersion()
-//! function.
-//!
-//! \b Example: Get the transfer address for USB DMA channel 1.
-//!
-//! \verbatim
-//! void *pvBuffer;
-//!
-//! //
-//! // Retrieve the current DMA address for channel 1.
-//! //
-//! pvBuffer = USBDMAChannelAddressGet(USB0_BASE, 1);
-//! \endverbatim
-//!
-//! \note This feature is not available on all Tiva devices.  Please
-//! check the data sheet to determine if the USB controller has a DMA
-//! controller or if it must use the uDMA controller for DMA transfers.
-//!
-//! \return The current DMA address for a USB DMA channel.
-//
-//*****************************************************************************
-void *
-USBDMAChannelAddressGet(uint32_t ui32Base, uint32_t ui32Channel)
-{
-    ASSERT(ui32Base == USB0_BASE);
-    ASSERT(ui32Channel < 8);
-
-    //
-    // Return the current DMA address.
-    //
-    return((void *)HWREG(ui32Base + USB_O_DMAADDR0 + (0x10 * ui32Channel)));
-}
-
-//*****************************************************************************
-//
-//! Sets the transfer count for an integrated USB DMA channel.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui32Channel specifies which DMA channel to access.
-//! \param ui32Count specifies the number of bytes to transfer.
-//!
-//! This function sets the USB DMA transfer count in bytes for the channel
-//! number specified in the \e ui32Channel parameter.  The \e ui32Channel
-//! value is a zero-based index of the DMA channel.
-//!
-//! \b Example: Set the transfer count to 512 bytes for USB DMA channel 1.
-//!
-//! \verbatim
-//! //
-//! // Set the transfer count to 512 bytes for USB DMA channel 1.
-//! //
-//! USBDMAChannelCountSet(USB0_BASE, 1, 512);
-//! \endverbatim
-//!
-//! \note This feature is not available on all Tiva devices.  Please
-//! check the data sheet to determine if the USB controller has a DMA
-//! controller or if it must use the uDMA controller for DMA transfers.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBDMAChannelCountSet(uint32_t ui32Base, uint32_t ui32Channel,
-                      uint32_t ui32Count)
-{
-    ASSERT(ui32Base == USB0_BASE);
-    ASSERT(ui32Channel < 8);
-
-    //
-    // Set the USB DMA count for the channel.
-    //
-    HWREG(ui32Base + USB_O_DMACOUNT0 + (0x10 * ui32Channel)) = ui32Count;
-}
-
-//*****************************************************************************
-//
-//! Returns the transfer count for an integrated USB DMA channel.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui32Channel specifies which DMA channel to access.
-//!
-//! This function returns the USB DMA transfer count in bytes for the channel
-//! number specified in the \e ui32Channel parameter.  The \e ui32Channel value
-//! is a zero-based index of the DMA channel to query.
-//!
-//! \b Example: Get the transfer count for USB DMA channel 1.
-//!
-//! \verbatim
-//! uint32_t ui32Count;
-//!
-//! //
-//! // Get the transfer count for USB DMA channel 1.
-//! //
-//! ui32Count = USBDMAChannelCountGet(USB0_BASE, 1);
-//! \endverbatim
-//!
-//! \note This feature is not available on all Tiva devices.  Please
-//! check the data sheet to determine if the USB controller has a DMA
-//! controller or if it must use the uDMA controller for DMA transfers.
-//!
-//! \return The current count for a USB DMA channel.
-//
-//*****************************************************************************
-uint32_t
-USBDMAChannelCountGet(uint32_t ui32Base, uint32_t ui32Channel)
-{
-    ASSERT(ui32Base == USB0_BASE);
-    ASSERT(ui32Channel < 8);
-
-    //
-    // Return the current DMA count.
-    //
-    return(HWREG(ui32Base + USB_O_DMACOUNT0 + (0x10 * ui32Channel)));
-}
-
-//*****************************************************************************
-//
-//! Returns the available number of integrated USB DMA channels.
-//!
-//! \param ui32Base specifies the USB module base address.
-//!
-//! This function returns the total number of DMA channels available when using
-//! the integrated USB DMA controller.  This function returns 0 if the
-//! integrated controller is not present.
-//!
-//! \b Example: Get the number of integrated DMA channels.
-//!
-//! \verbatim
-//! uint32_t ui32Count;
-//!
-//! //
-//! // Get the number of integrated DMA channels.
-//! //
-//! ui32Count = USBDMANumChannels(USB0_BASE);
-//! \endverbatim
-//!
-//! \return The number of integrated USB DMA channels or zero if the
-//! integrated USB DMA controller is not present.
-//
-//*****************************************************************************
-uint32_t
-USBDMANumChannels(uint32_t ui32Base)
-{
-    ASSERT(ui32Base == USB0_BASE);
-
-    //
-    // Return the number of DMA channels for the integrated DMA controller.
-    //
-    return(HWREG(ui32Base + USB_O_RAMINFO) >> USB_RAMINFO_DMACHAN_S);
-}
-//*****************************************************************************
-//
-// Close the Doxygen group.
-//! @}
-//
-//*****************************************************************************
-//*****************************************************************************
-//
-//! \addtogroup usb_ulpi
-//! @{
-//
-//*****************************************************************************
-
-//*****************************************************************************
-//
-//! Configures the USB controller's ULPI function.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui32Config contains the configuration options.
-//!
-//! This function is used to configure the USB controller's ULPI function.
-//! The configuration options are set in the \e ui32Config parameter and are a
-//! logical OR of the following values:
-//!
-//! - \b USB_ULPI_EXTVBUS enables the external ULPI PHY as the source for VBUS
-//!   signaling.
-//! - \b USB_ULPI_EXTVBUS_IND enables the external ULPI PHY to detect external
-//!   VBUS over-current condition.
-//!
-//! \b Example: Enable ULPI PHY with full VBUS control.
-//!
-//! \verbatim
-//! //
-//! // Enable ULPI PHY with full VBUS control.
-//! //
-//! USBULPIConfig(USB0_BASE, USB_ULPI_EXTVBUS | USB_ULPI_EXTVBUS_IND);
-//! \endverbatim
-//!
-//! \note The USB ULPI feature is not available on all Tiva devices.
-//! Please consult the data sheet for the Tiva device that you
-//! are using to determine if this feature is available.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBULPIConfig(uint32_t ui32Base, uint32_t ui32Config)
-{
-    HWREGB(ui32Base + USB_O_ULPIVBUSCTL) = (uint8_t)ui32Config;
-}
-
-//*****************************************************************************
-//
-//! Enables the USB controller's ULPI function.
-//!
-//! \param ui32Base specifies the USB module base address.
-//!
-//! This function enables the USB controller's ULPI function and must be
-//! called before attempting to access an external ULPI-connected USB PHY.
-//!
-//! \b Example: Enable ULPI function.
-//!
-//! \verbatim
-//! //
-//! // Enable ULPI function.
-//! //
-//! USBULPIEnable(USB0_BASE);
-//! \endverbatim
-//!
-//! \note The USB ULPI feature is not available on all Tiva devices.
-//! Please consult the data sheet for the Tiva device that you
-//! are using to determine if this feature is available.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBULPIEnable(uint32_t ui32Base)
-{
-    HWREG(ui32Base + USB_O_PC) |= USB_PC_ULPIEN;
-}
-
-//*****************************************************************************
-//
-//! Disables the USB controller's ULPI function.
-//!
-//! \param ui32Base specifies the USB module base address.
-//!
-//! This function disables the USB controller's ULPI function.  Accesses to
-//! the external ULPI-connected PHY cannot succeed after this function has been
-//! called.
-//!
-//! \b Example: Disable ULPI function.
-//!
-//! \verbatim
-//! //
-//! // Disable ULPI function.
-//! //
-//! USBULPIDisable(USB0_BASE);
-//! \endverbatim
-//!
-//! \note The USB ULPI feature is not available on all Tiva devices.
-//! Please consult the data sheet for the Tiva device that you
-//! are using to determine if this feature is available.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBULPIDisable(uint32_t ui32Base)
-{
-    HWREG(ui32Base + USB_O_PC) &= ~USB_PC_ULPIEN;
-}
-
-//*****************************************************************************
-//
-//! Reads a register from an external ULPI-connected USB PHY.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui8Reg specifies the register address to read.
-//!
-//! This function reads the register address specified in the \e ui8Reg
-//! parameter using the ULPI function.  This function is blocking and only
-//! returns when the read access completes.  The function does not return if
-//! there is not a ULPI-connected USB PHY present.
-//!
-//! \b Example: Read a register from the ULPI PHY.
-//!
-//! \verbatim
-//! uint8_t ui8Value;
-//!
-//! //
-//! // Read a register from the ULPI PHY register at 0x10.
-//! //
-//! ui8Value = USBULPIRegRead(USB0_BASE, 0x10);
-//! \endverbatim
-//!
-//! \note The USB ULPI feature is not available on all Tiva devices.
-//! Please consult the data sheet for the Tiva device that you
-//! are using to determine if this feature is available.
-//!
-//! \return The value of the requested ULPI register.
-//
-//*****************************************************************************
-uint8_t
-USBULPIRegRead(uint32_t ui32Base, uint8_t ui8Reg)
-{
-    ASSERT(ui32Base == USB0_BASE);
-
-    //
-    // Set the register address and initiate a read access.
-    //
-    HWREGB(ui32Base + USB_O_ULPIREGADDR) = ui8Reg;
-    HWREGB(ui32Base + USB_O_ULPIREGCTL) =
-        USB_ULPIREGCTL_RDWR | USB_ULPIREGCTL_REGACC;
-
-    //
-    // Wait for the access to complete.
-    //
-    while((HWREGB(ui32Base + USB_O_ULPIREGCTL) & USB_ULPIREGCTL_REGCMPLT) == 0)
-    {
-    }
-
-    //
-    // Clear the register access complete flag.
-    //
-    HWREGB(ui32Base + USB_O_ULPIREGCTL) = 0;
-
-    return(HWREGB(ui32Base + USB_O_ULPIREGDATA));
-}
-
-//*****************************************************************************
-//
-//! Writes a value to a register on an external ULPI-connected USB PHY.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui8Reg specifies the register address to write.
-//! \param ui8Data specifies the data to write.
-//!
-//! This function writes the register address specified in the \e ui8Reg
-//! parameter with the value specified in the \e ui8Data parameter using the
-//! ULPI function.  This function is blocking and only returns when the
-//! write access completes.  The function does not return if there is not a
-//! ULPI-connected USB PHY present.
-//!
-//! \b Example: Write a register from the external ULPI PHY.
-//!
-//! \verbatim
-//! //
-//! // Write the ULPI PHY register at 0x10 with 0x20.
-//! //
-//! USBULPIRegWrite(USB0_BASE, 0x10, 0x20);
-//! \endverbatim
-//!
-//! \note The USB ULPI feature is not available on all Tiva devices.
-//! Please consult the data sheet for the Tiva device that you
-//! are using to determine if this feature is available.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBULPIRegWrite(uint32_t ui32Base, uint8_t ui8Reg, uint8_t ui8Data)
-{
-    ASSERT(ui32Base == USB0_BASE);
-
-    //
-    // Set the register address and initiate a read access.
-    //
-    HWREGB(ui32Base + USB_O_ULPIREGADDR) = ui8Reg;
-    HWREGB(ui32Base + USB_O_ULPIREGDATA) = ui8Data;
-    HWREGB(ui32Base + USB_O_ULPIREGCTL) = USB_ULPIREGCTL_REGACC;
-
-    //
-    // Wait for the access to complete.
-    //
-    while((HWREGB(ui32Base + USB_O_ULPIREGCTL) & USB_ULPIREGCTL_REGCMPLT) == 0)
-    {
-    }
-
-    //
-    // Clear the register access complete flag.
-    //
-    HWREGB(ui32Base + USB_O_ULPIREGCTL) = 0;
-}
-
-//*****************************************************************************
-//
-// Close the Doxygen group.
-//! @}
-//
-//*****************************************************************************
-//*****************************************************************************
-//
-//! \addtogroup usb_lpm
-//! @{
-//
-//*****************************************************************************
-
-//*****************************************************************************
-//
-//! Sends an LPM request to a device at a specified address and endpoint number.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui32Address is the target device address for the LPM request.
-//! \param ui32Endpoint is the target endpoint for the LPM request.
-//!
-//! This function sends an LPM request to a connected device in host mode.
-//! The \e ui32Address parameter specifies the device address and has a range
-//! of values from 1 to 127.   The \e ui32Endpoint parameter specifies the
-//! endpoint on the device to which to send the LPM request and must be one of
-//! the \b USB_EP_* values. The function returns before the LPM request is
-//! sent, requiring the caller to poll the USBLPMIntStatus() function or wait
-//! for an interrupt to signal completion of the LPM transaction.  This
-//! function must only be called after the USBHostLPMConfig() has configured
-//! the LPM transaction settings.
-//!
-//! \b Example: Send an LPM request to the device at address 1 on endpoint 0.
-//!
-//! \verbatim
-//! //
-//! // Send an LPM request to the device at address 1 on endpoint 0.
-//! //
-//! USBHostLPMSend(USB0_BASE, 1, USB_EP_0);
-//! \endverbatim
-//!
-//! \note This function must only be called in host mode. The USB LPM feature
-//! is not available on all Tiva devices. Please consult the data sheet for
-//! the Tiva device that you are using to determine if this feature is
-//! available.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBHostLPMSend(uint32_t ui32Base, uint32_t ui32Address, uint32_t ui32Endpoint)
-{
-    uint32_t ui32Reg;
-
-    ASSERT(ui32Base == USB0_BASE);
-    ASSERT(ui32Address < 127);
-
-    //
-    // Set the address and endpoint.
-    //
-    HWREGB(ui32Base + USB_O_LPMFADDR) = ui32Address;
-
-    ui32Reg = HWREGH(ui32Base + USB_O_LPMATTR) & ~USB_LPMATTR_ENDPT_M;
-    ui32Reg |= (USBEPToIndex(ui32Endpoint) << USB_LPMATTR_ENDPT_S);
-
-    HWREGH(ui32Base + USB_O_LPMATTR) = ui32Reg;
-
-    //
-    // Send the LPM transaction.
-    //
-    HWREGB(ui32Base + USB_O_LPMCNTRL) |= USB_LPMCNTRL_TXLPM;
-}
-
-//*****************************************************************************
-//
-//! Sets the global configuration for all LPM requests.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui32ResumeTime specifies the resume signaling duration in 75us
-//! increments.
-//! \param ui32Config specifies the combination of configuration options for
-//! LPM transactions.
-//!
-//! This function sets the global configuration options for LPM transactions
-//! and must be called at least once before ever calling USBHostLPMSend().  The
-//! \e ui32ResumeTime specifies the length of time that the host drives resume
-//! signaling on the bus in microseconds.  The valid values
-//! for \e ui32ResumeTime are from 50us to 1175us in 75us increments.  The
-//! remaining configuration is specified by the \e ui32Config parameter and
-//! includes the following options:
-//!
-//! - \b USB_HOST_LPM_RMTWAKE allows the device to signal a remote wake from
-//!   the LPM state.
-//! - \b USB_HOST_LPM_L1 is the LPM mode to enter and must always be included
-//!   in the configuration.
-//!
-//! \b Example: Set the LPM configuration to allow remote wake with a resume
-//! duration of 500us.
-//!
-//! \verbatim
-//! //
-//! // Set the LPM configuration to allow remote wake with a resume
-//! // duration of 500us.
-//! //
-//! USBHostLPMConfig(USB0_BASE, 500, USB_HOST_LPM_RMTWAKE | USB_HOST_LPM_L1);
-//! \endverbatim
-//!
-//! \note This function must only be called in host mode. The USB LPM feature
-//! is not available on all Tiva devices. Please consult the data sheet for
-//! the Tiva device that you are using to determine if this feature is
-//! available.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBHostLPMConfig(uint32_t ui32Base, uint32_t ui32ResumeTime,
-                 uint32_t ui32Config)
-{
-    ASSERT(ui32Base == USB0_BASE);
-    ASSERT(ui32ResumeTime <= 1175);
-    ASSERT(ui32ResumeTime >= 50);
-
-    //
-    // Set the Host Initiated Resume Duration, Remote wake and Suspend mode.
-    //
-    HWREGH(ui32Base + USB_O_LPMATTR) =
-        ui32Config | ((ui32ResumeTime - 50) / 75) << USB_LPMATTR_HIRD_S;
-}
-
-//*****************************************************************************
-//
-//! Initiates resume signaling to wake a device from LPM suspend mode.
-//!
-//! \param ui32Base specifies the USB module base address.
-//!
-//! In host mode, this function initiates resume signaling to wake a device
-//! that has entered an LPM-triggered low power mode.  This LPM-triggered low
-//! power mode is entered when the USBHostLPMSend() is called to put a specific
-//! device into a low power state.
-//!
-//! \b Example: Initiate resume signaling.
-//!
-//! \verbatim
-//! //
-//! // Initiate resume signaling.
-//! //
-//! USBHostLPMResume(USB0_BASE);
-//! \endverbatim
-//!
-//! \note This function must only be called in host mode. The USB LPM feature
-//! is not available on all Tiva devices. Please consult the data sheet for
-//! the Tiva device that you are using to determine if this feature is
-//! available.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBHostLPMResume(uint32_t ui32Base)
-{
-    ASSERT(ui32Base == USB0_BASE);
-
-    //
-    // Send Resume signaling.
-    //
-    HWREGB(ui32Base + USB_O_LPMCNTRL) |= USB_LPMCNTRL_RES;
-}
-
-//*****************************************************************************
-//
-//! Initiates remote wake signaling to request the device to leave LPM
-//! suspend mode.
-//!
-//! \param ui32Base specifies the USB module base address.
-//!
-//! This function initiates remote wake signaling to request that the host
-//! wake a device that has entered an LPM-triggered low power mode.
-//!
-//! \b Example: Initiate remote wake signaling.
-//!
-//! \verbatim
-//! //
-//! // Initiate remote wake signaling.
-//! //
-//! USBDevLPMRemoteWake(USB0_BASE);
-//! \endverbatim
-//!
-//! \note This function must only be called in device mode. The USB LPM feature
-//! is not available on all Tiva devices. Please consult the data sheet for
-//! the Tiva device that you are using to determine if this feature is
-//! available.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBDevLPMRemoteWake(uint32_t ui32Base)
-{
-    ASSERT(ui32Base == USB0_BASE);
-
-    //
-    // Send remote wake signaling.
-    //
-    HWREGB(ui32Base + USB_O_LPMCNTRL) |= USB_LPMCNTRL_RES;
-}
-
-//*****************************************************************************
-//
-//! Configures the USB device mode response to LPM requests.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui32Config is the combination of configuration options for LPM
-//! transactions in device mode.
-//!
-//! This function sets the global configuration options for LPM
-//! transactions in device mode and must be called before ever calling
-//! USBDevLPMEnable() to set the configuration for LPM transactions.  The
-//! configuration options in device mode are specified in the \e ui32Config
-//! parameter and include one of the following:
-//!
-//! - \b USB_DEV_LPM_NONE disables the USB controller from responding to LPM
-//!   transactions.
-//! - \b USB_DEV_LPM_EN enables the USB controller to respond to LPM
-//!   and extended transactions.
-//! - \b USB_DEV_LPM_EXTONLY enables the USB controller to respond to
-//!   extended transactions, but not LPM transactions.
-//!
-//! The \e ui32Config option can also optionally include the
-//! \b USB_DEV_LPM_NAK value to cause the USB controller to NAK all
-//! transactions other than an LPM transaction once the USB controller is in
-//! LPM suspend mode.  If this value is not included in the \e ui32Config
-//! parameter, the USB controller does not respond in suspend mode.
-//!
-//! The USB controller does not enter LPM suspend mode until the application
-//! calls the USBDevLPMEnable() function.
-//!
-//! \b Example: Enable LPM transactions and NAK while in LPM suspend mode.
-//!
-//! \verbatim
-//! //
-//! // Enable LPM transactions and NAK while in LPM suspend mode.
-//! //
-//! USBDevLPMConfig(USB0_BASE, USB_DEV_LPM_NAK | USB_DEV_LPM_EN);
-//! \endverbatim
-//!
-//! \note This function must only be called in device mode. The USB LPM feature
-//! is not available on all Tiva devices. Please consult the data sheet for
-//! the Tiva device that you are using to determine if this feature is
-//! available.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBDevLPMConfig(uint32_t ui32Base, uint32_t ui32Config)
-{
-    ASSERT(ui32Base == USB0_BASE);
-
-    //
-    // Set the device LPM configuration.
-    //
-    HWREGB(ui32Base + USB_O_LPMCNTRL) = ui32Config;
-}
-
-//*****************************************************************************
-//
-//! Enables the USB controller to respond to LPM suspend requests.
-//!
-//! \param ui32Base specifies the USB module base address.
-//!
-//! This function is used to automatically respond to an LPM sleep request from
-//! the USB host controller.  If there is no data pending in any transmit
-//! FIFOs, then the USB controller acknowledges the packet and enters the
-//! LPM L1 state and generates the \b USB_INTLPM_ACK interrupt.  If the USB
-//! controller has pending transmit data in at least one FIFO, then the USB
-//! controller responds with NYET and signals the \b USB_INTLPM_INCOMPLETE or
-//! \b USB_INTLPM_NYET depending on if data is pending in receive or transmit
-//! FIFOs.  A call to USBDevLPMEnable() is required after every
-//! LPM resume event to re-enable LPM mode.
-//!
-//! \b Example: Enable LPM suspend mode.
-//!
-//! \verbatim
-//!     //
-//!     // Enable LPM suspend mode.
-//!     //
-//!     USBDevLPMEnable(USB0_BASE);
-//! \endverbatim
-//!
-//! \note This function must only be called in device mode. The USB LPM feature
-//! is not available on all Tiva devices. Please consult the data sheet for
-//! the Tiva device that you are using to determine if this feature is
-//! available.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBDevLPMEnable(uint32_t ui32Base)
-{
-    ASSERT(ui32Base == USB0_BASE);
-
-    //
-    // Enable L1 mode on the next LPM transaction.
-    //
-    HWREGB(ui32Base + USB_O_LPMCNTRL) |=
-        USB_LPMCNTRL_EN_LPMEXT | USB_LPMCNTRL_TXLPM;
-}
-
-//*****************************************************************************
-//
-//! Disables the USB controller from responding to LPM suspend requests.
-//!
-//! \param ui32Base specifies the USB module base address.
-//!
-//! This function disables the USB controller from responding to LPM
-//! transactions.  When the device enters LPM L1 mode, the USB controller
-//! automatically disables responding to further LPM transactions.
-//!
-//! \note If LPM transactions were enabled before calling this function, then
-//! an LPM request can still occur before this function returns.  As a result,
-//! the application must continue to handle LPM requests until this function
-//! returns.
-//!
-//! \b Example: Disable LPM suspend mode.
-//!
-//! \verbatim
-//!     //
-//!     // Disable LPM suspend mode.
-//!     //
-//!     USBDevLPMDisable(USB0_BASE);
-//! \endverbatim
-//!
-//! \note This function must only be called in device mode. The USB LPM feature
-//! is not available on all Tiva devices. Please consult the data sheet for
-//! the Tiva device that you are using to determine if this feature is
-//! available.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBDevLPMDisable(uint32_t ui32Base)
-{
-    ASSERT(ui32Base == USB0_BASE);
-
-    //
-    // Disable auto entering L1 mode on LPM transactions.
-    //
-    HWREGB(ui32Base + USB_O_LPMCNTRL) &= ~USB_LPMCNTRL_TXLPM;
-}
-
-//*****************************************************************************
-//
-//! Returns the current link state setting.
-//!
-//! \param ui32Base specifies the USB module base address.
-//!
-//! This function returns the current link state setting for the USB
-//! controller.  When the controller is operating as a host, this link
-//! state is sent with an LPM request.  When the controller is acting
-//! as a device, this link state was received by the last LPM transaction
-//! whether it was acknowledged or stalled because the requested
-//! LPM mode is not supported.
-//!
-//! \b Example: Get the link state for the last LPM transaction.
-//!
-//! \verbatim
-//! uint32_t ui32LinkState;
-//!
-//! //
-//! // Get the endpoint number that received the LPM request.
-//! //
-//! ui32LinkState = USBLPMLinkStateGet(USB0_BASE);
-//!
-//! //
-//! // Check if this was a supported link state.
-//! //
-//! if(ui32LinkState == USB_HOST_LPM_L1)
-//! {
-//!     //
-//!     // Handle the supported L1 link state.
-//!     //
-//! }
-//! else
-//! {
-//!     //
-//!     // Handle the unsupported link state.
-//!     //
-//! }
-//! \endverbatim
-//!
-//! \note The USB LPM feature is not available on all Tiva devices.
-//! Please consult the data sheet for the Tiva device that you
-//! are using to determine if this feature is available.
-//!
-//! \return The current LPM link state.
-//
-//*****************************************************************************
-uint32_t
-USBLPMLinkStateGet(uint32_t ui32Base)
-{
-    ASSERT(ui32Base == USB0_BASE);
-
-    return(HWREGH(ui32Base + USB_O_LPMATTR) & USB_LPMATTR_LS_M);
-}
-
-//*****************************************************************************
-//
-//! Returns the current LPM endpoint value.
-//!
-//! \param ui32Base specifies the USB module base address.
-//!
-//! This function returns the current LPM endpoint value.  The meaning of the
-//! value depends on the mode of operation of the USB controller.  When in
-//! device mode, the value returned is the endpoint that received the last
-//! LPM transaction.  When in host mode this is the endpoint that was last
-//! sent an LPM transaction, or the endpoint that is configured to be sent when
-//! the LPM transaction is triggered.  The value returned is in the
-//! \b USB_EP_[0-7] value and a direct endpoint index.
-//!
-//! \b Example: Get the endpoint for the last LPM transaction.
-//!
-//! \verbatim
-//! uint32_t ui32Endpoint;
-//!
-//! //
-//! // Get the endpoint number that received the LPM request.
-//! //
-//! ui32LinkState = USBLPMEndpointGet(USB0_BASE);
-//!
-//! \endverbatim
-//!
-//! \note The USB LPM feature is not available on all Tiva devices. Please
-//! consult the data sheet for the Tiva device that you are using to determine
-//! if this feature is available.
-//!
-//! \return The last endpoint to receive an LPM request in device mode or the
-//! endpoint that the host sends an LPM request as one of the \b USB_EP_[0-7]
-//! values.
-//
-//*****************************************************************************
-uint32_t
-USBLPMEndpointGet(uint32_t ui32Base)
-{
-    uint32_t ui32Endpoint;
-
-    ASSERT(ui32Base == USB0_BASE);
-
-    ui32Endpoint = (HWREGH(ui32Base + USB_O_LPMATTR) & USB_LPMATTR_ENDPT_M) >>
-                   USB_LPMATTR_ENDPT_S;
-
-    return(IndexToUSBEP(ui32Endpoint));
-}
-
-//*****************************************************************************
-//
-//! Returns if remote wake is currently enabled.
-//!
-//! \param ui32Base specifies the USB module base address.
-//!
-//! This function returns the current state of the remote wake setting for host
-//! or device mode operation.  If the controller is acting as a host this
-//! returns the current setting that is sent to devices when LPM requests are
-//! sent to a device.  If the controller is in device mode, this function
-//! returns the state of the last LPM request sent from the host and indicates
-//! if the host enabled remote wakeup.
-//!
-//! \b Example: Issue remote wake if remote wake is enabled.
-//!
-//! \verbatim
-//!
-//! if(USBLPMRemoteWakeEnabled(USB0_BASE))
-//! {
-//!     USBDevLPMRemoteWake(USB0_BASE);
-//! }
-//!
-//! \endverbatim
-//!
-//! \note The USB LPM feature is not available on all Tiva devices.
-//! Please consult the data sheet for the Tiva device that you
-//! are using to determine if this feature is available.
-//!
-//! \return The \b true if remote wake is enabled or \b false if it is not.
-//
-//*****************************************************************************
-bool
-USBLPMRemoteWakeEnabled(uint32_t ui32Base)
-{
-    ASSERT(ui32Base == USB0_BASE);
-
-    if(HWREGH(ui32Base + USB_O_LPMATTR) & USB_LPMATTR_RMTWAK)
-    {
-        return(true);
-    }
-    return(false);
-}
-
-//*****************************************************************************
-//
-//! Returns the current LPM interrupt status.
-//!
-//! \param ui32Base specifies the USB module base address.
-//!
-//! This function returns the current LPM interrupt status for the USB
-//! controller.
-//!
-//! The valid interrupt status bits when the USB controller is acting as a host
-//! are the following:
-//!
-//! - \b USB_INTLPM_ERROR a bus error occurred in the transmission of an LPM
-//!   transaction.
-//! - \b USB_INTLPM_RESUME the USB controller has resumed from the LPM low
-//!   power state.
-//! - \b USB_INTLPM_INCOMPLETE the LPM transaction failed because a timeout
-//!   occurred or there were bit errors in the response for three attempts.
-//! - \b USB_INTLPM_ACK the device has acknowledged an LPM transaction.
-//! - \b USB_INTLPM_NYET the device has responded with a NYET to an LPM
-//!   transaction.
-//! - \b USB_INTLPM_STALL the device has stalled an LPM transaction.
-//!
-//! The valid interrupt status bits when the USB controller is acting as a
-//! device are the following:
-//!
-//! - \b USB_INTLPM_ERROR an LPM transaction was received that has an
-//!   unsupported link state field.  The transaction was stalled, but the
-//!   requested link state can still be read using the USBLPMLinkStateGet()
-//!   function.
-//! - \b USB_INTLPM_RESUME the USB controller has resumed from the LPM low
-//!   power state.
-//! - \b USB_INTLPM_INCOMPLETE the USB controller responded to an LPM
-//!   transaction with a NYET because data was still in the transmit FIFOs.
-//! - \b USB_INTLPM_ACK the USB controller acknowledged an LPM transaction and
-//!   is now in the LPM suspend mode.
-//! - \b USB_INTLPM_NYET the USB controller responded to an LPM transaction
-//!   with a NYET because LPM transactions are not yet enabled by a call to
-//!   USBDevLPMEnable().
-//! - \b USB_INTLPM_STALL the USB controller has stalled an incoming LPM
-//!   transaction.
-//!
-//! \note This call clears the source of all LPM status interrupts, so the
-//! caller must take care to save the value returned because a subsequent call
-//! to USBLPMIntStatus() does not return the previous value.
-//!
-//! \b Example: Get the current LPM interrupt status.
-//!
-//! \verbatim
-//! uint32_t ui32LPMIntStatus;
-//!
-//! //
-//! // Get the current LPM interrupt status.
-//! //
-//! ui32LPMIntStatus = USBLPMIntStatus(USB0_BASE);
-//!
-//! //
-//! // Check if an LPM transaction was acknowledged.
-//! //
-//! if(ui32LPMIntStatus & USB_INTLPM_ACK)
-//! {
-//!     //
-//!     // Handle entering LPM suspend mode.
-//!     //
-//!     ...
-//! }
-//! \endverbatim
-//!
-//! \note The USB LPM feature is not available on all Tiva devices.
-//! Please consult the data sheet for the Tiva device that you
-//! are using to determine if this feature is available.
-//!
-//! \return The current LPM interrupt status.
-//
-//*****************************************************************************
-uint32_t
-USBLPMIntStatus(uint32_t ui32Base)
-{
-    ASSERT(ui32Base == USB0_BASE);
-
-    //
-    // Return the current raw interrupt status.
-    //
-    return(HWREGB(ui32Base + USB_O_LPMRIS));
-}
-
-//*****************************************************************************
-//
-//! Enables LPM interrupts.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui32Ints specifies which LPM interrupts to enable.
-//!
-//! This function enables a set of LPM interrupts so that they can trigger a
-//! USB interrupt.  The \e ui32Ints parameter specifies which of the
-//! \b USB_INTLPM_* to enable.
-//!
-//! The valid interrupt status bits when the USB controller is acting as a host
-//! are the following:
-//!
-//! - \b USB_INTLPM_ERROR a bus error occurred in the transmission of an LPM
-//!   transaction.
-//! - \b USB_INTLPM_RESUME the USB controller has resumed from LPM low power
-//!   state.
-//! - \b USB_INTLPM_INCOMPLETE the LPM transaction failed because a timeout
-//!   occurred or there were bit errors in the response for three attempts.
-//! - \b USB_INTLPM_ACK the device has acknowledged an LPM transaction.
-//! - \b USB_INTLPM_NYET the device has responded with a NYET to an LPM
-//!   transaction.
-//! - \b USB_INTLPM_STALL the device has stalled an LPM transaction.
-//!
-//! The valid interrupt status bits when the USB controller is acting as a
-//! device are the following:
-//!
-//! - \b USB_INTLPM_ERROR an LPM transaction was received that has an
-//!   unsupported link state field.  The transaction was stalled, but the
-//!   requested link state can still be read using the USBLPMLinkStateGet()
-//!   function.
-//! - \b USB_INTLPM_RESUME the USB controller has resumed from the LPM low
-//!   power state.
-//! - \b USB_INTLPM_INCOMPLETE the USB controller responded to an LPM
-//!   transaction with a NYET because data was still in the transmit FIFOs.
-//! - \b USB_INTLPM_ACK the USB controller acknowledged an LPM transaction and
-//!   is now in the LPM suspend mode.
-//! - \b USB_INTLPM_NYET the USB controller responded to an LPM transaction
-//!   with a NYET because LPM transactions are not yet enabled by a call to
-//!   USBDevLPMEnable().
-//! - \b USB_INTLPM_STALL the USB controller has stalled an incoming LPM
-//!   transaction.
-//!
-//! \b Example: Enable all LPM interrupt sources.
-//!
-//! \verbatim
-//! //
-//! // Enable all LPM interrupt sources.
-//! //
-//! USBLPMIntEnable(USB0_BASE, USB_INTLPM_ERROR | USB_INTLPM_RESUME |
-//!                            USB_INTLPM_INCOMPLETE | USB_INTLPM_ACK |
-//!                            USB_INTLPM_NYET | USB_INTLPM_STALL);
-//! \endverbatim
-//!
-//! \note The USB LPM feature is not available on all Tiva devices.
-//! Please consult the data sheet for the Tiva device that you
-//! are using to determine if this feature is available.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBLPMIntEnable(uint32_t ui32Base, uint32_t ui32Ints)
-{
-    ASSERT(ui32Base == USB0_BASE);
-
-    //
-    // Enable the requested interrupts.
-    //
-    HWREGB(ui32Base + USB_O_LPMIM) |= ui32Ints;
-}
-
-//*****************************************************************************
-//
-//! Disables LPM interrupts.
-//!
-//! \param ui32Base specifies the USB module base address.
-//! \param ui32Ints specifies which LPM interrupts to disable.
-//!
-//! This function disables the LPM interrupts specified in the \e ui32Ints
-//! parameter, preventing them from triggering a USB interrupt.
-//!
-//! The valid interrupt status bits when the USB controller is acting as a host
-//! are the following:
-//!
-//! - \b USB_INTLPM_ERROR a bus error occurred in the transmission of an LPM
-//!   transaction.
-//! - \b USB_INTLPM_RESUME the USB controller has resumed from LPM low power
-//!   state.
-//! - \b USB_INTLPM_INCOMPLETE the LPM transaction failed because a timeout
-//!   occurred or there were bit errors in the response for three attempts.
-//! - \b USB_INTLPM_ACK the device has acknowledged an LPM transaction.
-//! - \b USB_INTLPM_NYET the device has responded with a NYET to an LPM
-//!   transaction.
-//! - \b USB_INTLPM_STALL the device has stalled an LPM transaction.
-//!
-//! The valid interrupt status bits when the USB controller is acting as a
-//! device are the following:
-//!
-//! - \b USB_INTLPM_ERROR an LPM transaction was received that has an
-//!   unsupported link state field.  The transaction was stalled, but the
-//!   requested link state can still be read using the USBLPMLinkStateGet()
-//!   function.
-//! - \b USB_INTLPM_RESUME the USB controller has resumed from the LPM low
-//!   power state.
-//! - \b USB_INTLPM_INCOMPLETE the USB controller responded to an LPM
-//!   transaction with a NYET because data was still in the transmit FIFOs.
-//! - \b USB_INTLPM_ACK the USB controller acknowledged an LPM transaction and
-//!   is now in the LPM suspend mode.
-//! - \b USB_INTLPM_NYET the USB controller responded to an LPM transaction
-//!   with a NYET because LPM transactions are not yet enabled by a call to
-//!   USBDevLPMEnable().
-//! - \b USB_INTLPM_STALL the USB controller has stalled an incoming LPM
-//!   transaction.
-//!
-//! \b Example: Disable all LPM interrupt sources.
-//!
-//! \verbatim
-//! //
-//! // Disable all LPM interrupt sources.
-//! //
-//! USBLPMIntDisable(USB0_BASE, USB_INTLPM_ERROR | USB_INTLPM_RESUME |
-//!                             USB_INTLPM_INCOMPLETE | USB_INTLPM_ACK |
-//!                             USB_INTLPM_NYET | USB_INTLPM_STALL);
-//! \endverbatim
-//!
-//! \note The USB LPM feature is not available on all Tiva devices.
-//! Please consult the data sheet for the Tiva device that you
-//! are using to determine if this feature is available.
-//!
-//! \return None.
-//
-//*****************************************************************************
-void
-USBLPMIntDisable(uint32_t ui32Base, uint32_t ui32Ints)
-{
-    ASSERT(ui32Base == USB0_BASE);
-
-    //
-    // Disable the requested interrupts.
-    //
-    HWREGB(ui32Base + USB_O_LPMIM) &= ~ui32Ints;
-}
-
-//*****************************************************************************
-//
-// Close the Doxygen group.
-//! @}
-//
-//*****************************************************************************

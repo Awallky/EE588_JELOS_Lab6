@@ -10,29 +10,24 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include <stdarg.h>
 
 #include <stdbool.h>
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/inc/hw_memmap.h"  
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/debug.h" 
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/gpio.h" 
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/rom.h" 
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/sysctl.h" 
+#include "./../include/jelos.h"
 
 #include "./../include/ti/TivaWare_C_Series-2.1.4.178/inc/hw_ints.h"
-#include "./../include/ti/TivaWare_C_Series-2.1.4.178/inc/hw_memmap.h"
-#include "./../include/ti/TivaWare_C_Series-2.1.4.178/inc/hw_types.h"
-#include "./../include/ti/TivaWare_C_Series-2.1.4.178/inc/hw_uart.h"
-#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/debug.h"
-#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/interrupt.h"
-#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/rom.h" 
-#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/rom_map.h"
-#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/sysctl.h" 
-#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/uart.h"
-#include "./../include/ti/TivaWare_C_Series-2.1.4.178/utils/uartstdio.h"
-
-#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/gpio.h" 
 #include "./../include/ti/TivaWare_C_Series-2.1.4.178/inc/hw_nvic.h"
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/inc/hw_types.h"
 #include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/fpu.h"
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/interrupt.h"
 #include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/pin_map.h"
 #include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/systick.h"
-#include "./../include/jelos.h"
-#include "./../include/UART.h"
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/uart.h"
+#include "./../include/ti/TivaWare_C_Series-2.1.4.178/utils/uartstdio.h"
 
 //
 // Base Address for Data Registers

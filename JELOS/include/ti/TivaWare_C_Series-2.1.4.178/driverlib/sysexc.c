@@ -2,7 +2,7 @@
 //
 // sysexc.c - Routines for the System Exception Module.
 //
-// Copyright (c) 2011-2017 Texas Instruments Incorporated.  All rights reserved.
+// Copyright (c) 2011-2013 Texas Instruments Incorporated.  All rights reserved.
 // Software License Agreement
 // 
 //   Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
-// This is part of revision 2.1.4.178 of the Tiva Peripheral Driver Library.
+// This is part of revision 1.1 of the Tiva Peripheral Driver Library.
 //
 //*****************************************************************************
 
@@ -70,13 +70,9 @@ _SysExcIntNumberGet(void)
     //
     // Get the interrupt number based on the class.
     //
-    if(CLASS_IS_TM4C123)
+    if(CLASS_IS_BLIZZARD)
     {
-        ui32Int = INT_SYSEXC_TM4C123;
-    }
-    else if(CLASS_IS_TM4C129)
-    {
-        ui32Int = INT_SYSEXC_TM4C129;
+        ui32Int = INT_SYSEXC_BLIZZARD;
     }
     else
     {

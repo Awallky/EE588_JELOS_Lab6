@@ -3,7 +3,7 @@
 // rom_map.h - Macros to facilitate calling functions in the ROM when they are
 //             available and in flash otherwise.
 //
-// Copyright (c) 2008-2017 Texas Instruments Incorporated.  All rights reserved.
+// Copyright (c) 2008-2013 Texas Instruments Incorporated.  All rights reserved.
 // Software License Agreement
 // 
 //   Redistribution and use in source and binary forms, with or without
@@ -34,7 +34,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
-// This is part of revision 2.1.4.178 of the Tiva Peripheral Driver Library.
+// This is part of revision 1.1 of the Tiva Peripheral Driver Library.
 //
 //*****************************************************************************
 
@@ -228,222 +228,6 @@
 #define MAP_ADCPhaseDelayGet                                                  \
         ADCPhaseDelayGet
 #endif
-#ifdef ROM_ADCIntClearEx
-#define MAP_ADCIntClearEx                                                     \
-        ROM_ADCIntClearEx
-#else
-#define MAP_ADCIntClearEx                                                     \
-        ADCIntClearEx
-#endif
-#ifdef ROM_ADCIntDisableEx
-#define MAP_ADCIntDisableEx                                                   \
-        ROM_ADCIntDisableEx
-#else
-#define MAP_ADCIntDisableEx                                                   \
-        ADCIntDisableEx
-#endif
-#ifdef ROM_ADCIntEnableEx
-#define MAP_ADCIntEnableEx                                                    \
-        ROM_ADCIntEnableEx
-#else
-#define MAP_ADCIntEnableEx                                                    \
-        ADCIntEnableEx
-#endif
-#ifdef ROM_ADCIntStatusEx
-#define MAP_ADCIntStatusEx                                                    \
-        ROM_ADCIntStatusEx
-#else
-#define MAP_ADCIntStatusEx                                                    \
-        ADCIntStatusEx
-#endif
-#ifdef ROM_ADCSequenceDMAEnable
-#define MAP_ADCSequenceDMAEnable                                              \
-        ROM_ADCSequenceDMAEnable
-#else
-#define MAP_ADCSequenceDMAEnable                                              \
-        ADCSequenceDMAEnable
-#endif
-#ifdef ROM_ADCSequenceDMADisable
-#define MAP_ADCSequenceDMADisable                                             \
-        ROM_ADCSequenceDMADisable
-#else
-#define MAP_ADCSequenceDMADisable                                             \
-        ADCSequenceDMADisable
-#endif
-#ifdef ROM_ADCBusy
-#define MAP_ADCBusy                                                           \
-        ROM_ADCBusy
-#else
-#define MAP_ADCBusy                                                           \
-        ADCBusy
-#endif
-
-//*****************************************************************************
-//
-// Macros for the AES API.
-//
-//*****************************************************************************
-#ifdef ROM_AESIntStatus
-#define MAP_AESIntStatus                                                      \
-        ROM_AESIntStatus
-#else
-#define MAP_AESIntStatus                                                      \
-        AESIntStatus
-#endif
-#ifdef ROM_AESAuthLengthSet
-#define MAP_AESAuthLengthSet                                                  \
-        ROM_AESAuthLengthSet
-#else
-#define MAP_AESAuthLengthSet                                                  \
-        AESAuthLengthSet
-#endif
-#ifdef ROM_AESConfigSet
-#define MAP_AESConfigSet                                                      \
-        ROM_AESConfigSet
-#else
-#define MAP_AESConfigSet                                                      \
-        AESConfigSet
-#endif
-#ifdef ROM_AESDataAuth
-#define MAP_AESDataAuth                                                       \
-        ROM_AESDataAuth
-#else
-#define MAP_AESDataAuth                                                       \
-        AESDataAuth
-#endif
-#ifdef ROM_AESDataProcess
-#define MAP_AESDataProcess                                                    \
-        ROM_AESDataProcess
-#else
-#define MAP_AESDataProcess                                                    \
-        AESDataProcess
-#endif
-#ifdef ROM_AESDataProcessAuth
-#define MAP_AESDataProcessAuth                                                \
-        ROM_AESDataProcessAuth
-#else
-#define MAP_AESDataProcessAuth                                                \
-        AESDataProcessAuth
-#endif
-#ifdef ROM_AESDataRead
-#define MAP_AESDataRead                                                       \
-        ROM_AESDataRead
-#else
-#define MAP_AESDataRead                                                       \
-        AESDataRead
-#endif
-#ifdef ROM_AESDataReadNonBlocking
-#define MAP_AESDataReadNonBlocking                                            \
-        ROM_AESDataReadNonBlocking
-#else
-#define MAP_AESDataReadNonBlocking                                            \
-        AESDataReadNonBlocking
-#endif
-#ifdef ROM_AESDataWrite
-#define MAP_AESDataWrite                                                      \
-        ROM_AESDataWrite
-#else
-#define MAP_AESDataWrite                                                      \
-        AESDataWrite
-#endif
-#ifdef ROM_AESDataWriteNonBlocking
-#define MAP_AESDataWriteNonBlocking                                           \
-        ROM_AESDataWriteNonBlocking
-#else
-#define MAP_AESDataWriteNonBlocking                                           \
-        AESDataWriteNonBlocking
-#endif
-#ifdef ROM_AESDMADisable
-#define MAP_AESDMADisable                                                     \
-        ROM_AESDMADisable
-#else
-#define MAP_AESDMADisable                                                     \
-        AESDMADisable
-#endif
-#ifdef ROM_AESDMAEnable
-#define MAP_AESDMAEnable                                                      \
-        ROM_AESDMAEnable
-#else
-#define MAP_AESDMAEnable                                                      \
-        AESDMAEnable
-#endif
-#ifdef ROM_AESIntClear
-#define MAP_AESIntClear                                                       \
-        ROM_AESIntClear
-#else
-#define MAP_AESIntClear                                                       \
-        AESIntClear
-#endif
-#ifdef ROM_AESIntDisable
-#define MAP_AESIntDisable                                                     \
-        ROM_AESIntDisable
-#else
-#define MAP_AESIntDisable                                                     \
-        AESIntDisable
-#endif
-#ifdef ROM_AESIntEnable
-#define MAP_AESIntEnable                                                      \
-        ROM_AESIntEnable
-#else
-#define MAP_AESIntEnable                                                      \
-        AESIntEnable
-#endif
-#ifdef ROM_AESIVSet
-#define MAP_AESIVSet                                                          \
-        ROM_AESIVSet
-#else
-#define MAP_AESIVSet                                                          \
-        AESIVSet
-#endif
-#ifdef ROM_AESKey1Set
-#define MAP_AESKey1Set                                                        \
-        ROM_AESKey1Set
-#else
-#define MAP_AESKey1Set                                                        \
-        AESKey1Set
-#endif
-#ifdef ROM_AESKey2Set
-#define MAP_AESKey2Set                                                        \
-        ROM_AESKey2Set
-#else
-#define MAP_AESKey2Set                                                        \
-        AESKey2Set
-#endif
-#ifdef ROM_AESKey3Set
-#define MAP_AESKey3Set                                                        \
-        ROM_AESKey3Set
-#else
-#define MAP_AESKey3Set                                                        \
-        AESKey3Set
-#endif
-#ifdef ROM_AESLengthSet
-#define MAP_AESLengthSet                                                      \
-        ROM_AESLengthSet
-#else
-#define MAP_AESLengthSet                                                      \
-        AESLengthSet
-#endif
-#ifdef ROM_AESReset
-#define MAP_AESReset                                                          \
-        ROM_AESReset
-#else
-#define MAP_AESReset                                                          \
-        AESReset
-#endif
-#ifdef ROM_AESTagRead
-#define MAP_AESTagRead                                                        \
-        ROM_AESTagRead
-#else
-#define MAP_AESTagRead                                                        \
-        AESTagRead
-#endif
-#ifdef ROM_AESIVRead
-#define MAP_AESIVRead                                                         \
-        ROM_AESIVRead
-#else
-#define MAP_AESIVRead                                                         \
-        AESIVRead
-#endif
 
 //*****************************************************************************
 //
@@ -627,165 +411,6 @@
 
 //*****************************************************************************
 //
-// Macros for the CRC API.
-//
-//*****************************************************************************
-#ifdef ROM_CRCConfigSet
-#define MAP_CRCConfigSet                                                      \
-        ROM_CRCConfigSet
-#else
-#define MAP_CRCConfigSet                                                      \
-        CRCConfigSet
-#endif
-#ifdef ROM_CRCDataProcess
-#define MAP_CRCDataProcess                                                    \
-        ROM_CRCDataProcess
-#else
-#define MAP_CRCDataProcess                                                    \
-        CRCDataProcess
-#endif
-#ifdef ROM_CRCDataWrite
-#define MAP_CRCDataWrite                                                      \
-        ROM_CRCDataWrite
-#else
-#define MAP_CRCDataWrite                                                      \
-        CRCDataWrite
-#endif
-#ifdef ROM_CRCResultRead
-#define MAP_CRCResultRead                                                     \
-        ROM_CRCResultRead
-#else
-#define MAP_CRCResultRead                                                     \
-        CRCResultRead
-#endif
-#ifdef ROM_CRCSeedSet
-#define MAP_CRCSeedSet                                                        \
-        ROM_CRCSeedSet
-#else
-#define MAP_CRCSeedSet                                                        \
-        CRCSeedSet
-#endif
-
-//*****************************************************************************
-//
-// Macros for the DES API.
-//
-//*****************************************************************************
-#ifdef ROM_DESIntStatus
-#define MAP_DESIntStatus                                                      \
-        ROM_DESIntStatus
-#else
-#define MAP_DESIntStatus                                                      \
-        DESIntStatus
-#endif
-#ifdef ROM_DESConfigSet
-#define MAP_DESConfigSet                                                      \
-        ROM_DESConfigSet
-#else
-#define MAP_DESConfigSet                                                      \
-        DESConfigSet
-#endif
-#ifdef ROM_DESDataRead
-#define MAP_DESDataRead                                                       \
-        ROM_DESDataRead
-#else
-#define MAP_DESDataRead                                                       \
-        DESDataRead
-#endif
-#ifdef ROM_DESDataReadNonBlocking
-#define MAP_DESDataReadNonBlocking                                            \
-        ROM_DESDataReadNonBlocking
-#else
-#define MAP_DESDataReadNonBlocking                                            \
-        DESDataReadNonBlocking
-#endif
-#ifdef ROM_DESDataProcess
-#define MAP_DESDataProcess                                                    \
-        ROM_DESDataProcess
-#else
-#define MAP_DESDataProcess                                                    \
-        DESDataProcess
-#endif
-#ifdef ROM_DESDataWrite
-#define MAP_DESDataWrite                                                      \
-        ROM_DESDataWrite
-#else
-#define MAP_DESDataWrite                                                      \
-        DESDataWrite
-#endif
-#ifdef ROM_DESDataWriteNonBlocking
-#define MAP_DESDataWriteNonBlocking                                           \
-        ROM_DESDataWriteNonBlocking
-#else
-#define MAP_DESDataWriteNonBlocking                                           \
-        DESDataWriteNonBlocking
-#endif
-#ifdef ROM_DESDMADisable
-#define MAP_DESDMADisable                                                     \
-        ROM_DESDMADisable
-#else
-#define MAP_DESDMADisable                                                     \
-        DESDMADisable
-#endif
-#ifdef ROM_DESDMAEnable
-#define MAP_DESDMAEnable                                                      \
-        ROM_DESDMAEnable
-#else
-#define MAP_DESDMAEnable                                                      \
-        DESDMAEnable
-#endif
-#ifdef ROM_DESIntClear
-#define MAP_DESIntClear                                                       \
-        ROM_DESIntClear
-#else
-#define MAP_DESIntClear                                                       \
-        DESIntClear
-#endif
-#ifdef ROM_DESIntDisable
-#define MAP_DESIntDisable                                                     \
-        ROM_DESIntDisable
-#else
-#define MAP_DESIntDisable                                                     \
-        DESIntDisable
-#endif
-#ifdef ROM_DESIntEnable
-#define MAP_DESIntEnable                                                      \
-        ROM_DESIntEnable
-#else
-#define MAP_DESIntEnable                                                      \
-        DESIntEnable
-#endif
-#ifdef ROM_DESIVSet
-#define MAP_DESIVSet                                                          \
-        ROM_DESIVSet
-#else
-#define MAP_DESIVSet                                                          \
-        DESIVSet
-#endif
-#ifdef ROM_DESKeySet
-#define MAP_DESKeySet                                                         \
-        ROM_DESKeySet
-#else
-#define MAP_DESKeySet                                                         \
-        DESKeySet
-#endif
-#ifdef ROM_DESLengthSet
-#define MAP_DESLengthSet                                                      \
-        ROM_DESLengthSet
-#else
-#define MAP_DESLengthSet                                                      \
-        DESLengthSet
-#endif
-#ifdef ROM_DESReset
-#define MAP_DESReset                                                          \
-        ROM_DESReset
-#else
-#define MAP_DESReset                                                          \
-        DESReset
-#endif
-
-//*****************************************************************************
-//
 // Macros for the EEPROM API.
 //
 //*****************************************************************************
@@ -918,735 +543,106 @@
 
 //*****************************************************************************
 //
-// Macros for the EPI API.
+// Macros for the Fan API.
 //
 //*****************************************************************************
-#ifdef ROM_EPIIntStatus
-#define MAP_EPIIntStatus                                                      \
-        ROM_EPIIntStatus
+#ifdef ROM_FanIntClear
+#define MAP_FanIntClear                                                       \
+        ROM_FanIntClear
 #else
-#define MAP_EPIIntStatus                                                      \
-        EPIIntStatus
+#define MAP_FanIntClear                                                       \
+        FanIntClear
 #endif
-#ifdef ROM_EPIModeSet
-#define MAP_EPIModeSet                                                        \
-        ROM_EPIModeSet
+#ifdef ROM_FanChannelConfigAuto
+#define MAP_FanChannelConfigAuto                                              \
+        ROM_FanChannelConfigAuto
 #else
-#define MAP_EPIModeSet                                                        \
-        EPIModeSet
+#define MAP_FanChannelConfigAuto                                              \
+        FanChannelConfigAuto
 #endif
-#ifdef ROM_EPIDividerSet
-#define MAP_EPIDividerSet                                                     \
-        ROM_EPIDividerSet
+#ifdef ROM_FanChannelConfigManual
+#define MAP_FanChannelConfigManual                                            \
+        ROM_FanChannelConfigManual
 #else
-#define MAP_EPIDividerSet                                                     \
-        EPIDividerSet
+#define MAP_FanChannelConfigManual                                            \
+        FanChannelConfigManual
 #endif
-#ifdef ROM_EPIConfigSDRAMSet
-#define MAP_EPIConfigSDRAMSet                                                 \
-        ROM_EPIConfigSDRAMSet
+#ifdef ROM_FanChannelDisable
+#define MAP_FanChannelDisable                                                 \
+        ROM_FanChannelDisable
 #else
-#define MAP_EPIConfigSDRAMSet                                                 \
-        EPIConfigSDRAMSet
+#define MAP_FanChannelDisable                                                 \
+        FanChannelDisable
 #endif
-#ifdef ROM_EPIConfigGPModeSet
-#define MAP_EPIConfigGPModeSet                                                \
-        ROM_EPIConfigGPModeSet
+#ifdef ROM_FanChannelDutyGet
+#define MAP_FanChannelDutyGet                                                 \
+        ROM_FanChannelDutyGet
 #else
-#define MAP_EPIConfigGPModeSet                                                \
-        EPIConfigGPModeSet
+#define MAP_FanChannelDutyGet                                                 \
+        FanChannelDutyGet
 #endif
-#ifdef ROM_EPIConfigHB8Set
-#define MAP_EPIConfigHB8Set                                                   \
-        ROM_EPIConfigHB8Set
+#ifdef ROM_FanChannelDutySet
+#define MAP_FanChannelDutySet                                                 \
+        ROM_FanChannelDutySet
 #else
-#define MAP_EPIConfigHB8Set                                                   \
-        EPIConfigHB8Set
+#define MAP_FanChannelDutySet                                                 \
+        FanChannelDutySet
 #endif
-#ifdef ROM_EPIConfigHB16Set
-#define MAP_EPIConfigHB16Set                                                  \
-        ROM_EPIConfigHB16Set
+#ifdef ROM_FanChannelEnable
+#define MAP_FanChannelEnable                                                  \
+        ROM_FanChannelEnable
 #else
-#define MAP_EPIConfigHB16Set                                                  \
-        EPIConfigHB16Set
+#define MAP_FanChannelEnable                                                  \
+        FanChannelEnable
 #endif
-#ifdef ROM_EPIAddressMapSet
-#define MAP_EPIAddressMapSet                                                  \
-        ROM_EPIAddressMapSet
+#ifdef ROM_FanChannelRPMGet
+#define MAP_FanChannelRPMGet                                                  \
+        ROM_FanChannelRPMGet
 #else
-#define MAP_EPIAddressMapSet                                                  \
-        EPIAddressMapSet
+#define MAP_FanChannelRPMGet                                                  \
+        FanChannelRPMGet
 #endif
-#ifdef ROM_EPINonBlockingReadConfigure
-#define MAP_EPINonBlockingReadConfigure                                       \
-        ROM_EPINonBlockingReadConfigure
+#ifdef ROM_FanChannelRPMSet
+#define MAP_FanChannelRPMSet                                                  \
+        ROM_FanChannelRPMSet
 #else
-#define MAP_EPINonBlockingReadConfigure                                       \
-        EPINonBlockingReadConfigure
+#define MAP_FanChannelRPMSet                                                  \
+        FanChannelRPMSet
 #endif
-#ifdef ROM_EPINonBlockingReadStart
-#define MAP_EPINonBlockingReadStart                                           \
-        ROM_EPINonBlockingReadStart
+#ifdef ROM_FanChannelStatus
+#define MAP_FanChannelStatus                                                  \
+        ROM_FanChannelStatus
 #else
-#define MAP_EPINonBlockingReadStart                                           \
-        EPINonBlockingReadStart
+#define MAP_FanChannelStatus                                                  \
+        FanChannelStatus
 #endif
-#ifdef ROM_EPINonBlockingReadStop
-#define MAP_EPINonBlockingReadStop                                            \
-        ROM_EPINonBlockingReadStop
+#ifdef ROM_FanChannelsGet
+#define MAP_FanChannelsGet                                                    \
+        ROM_FanChannelsGet
 #else
-#define MAP_EPINonBlockingReadStop                                            \
-        EPINonBlockingReadStop
+#define MAP_FanChannelsGet                                                    \
+        FanChannelsGet
 #endif
-#ifdef ROM_EPINonBlockingReadCount
-#define MAP_EPINonBlockingReadCount                                           \
-        ROM_EPINonBlockingReadCount
+#ifdef ROM_FanIntDisable
+#define MAP_FanIntDisable                                                     \
+        ROM_FanIntDisable
 #else
-#define MAP_EPINonBlockingReadCount                                           \
-        EPINonBlockingReadCount
+#define MAP_FanIntDisable                                                     \
+        FanIntDisable
 #endif
-#ifdef ROM_EPINonBlockingReadAvail
-#define MAP_EPINonBlockingReadAvail                                           \
-        ROM_EPINonBlockingReadAvail
+#ifdef ROM_FanIntEnable
+#define MAP_FanIntEnable                                                      \
+        ROM_FanIntEnable
 #else
-#define MAP_EPINonBlockingReadAvail                                           \
-        EPINonBlockingReadAvail
+#define MAP_FanIntEnable                                                      \
+        FanIntEnable
 #endif
-#ifdef ROM_EPINonBlockingReadGet32
-#define MAP_EPINonBlockingReadGet32                                           \
-        ROM_EPINonBlockingReadGet32
+#ifdef ROM_FanIntStatus
+#define MAP_FanIntStatus                                                      \
+        ROM_FanIntStatus
 #else
-#define MAP_EPINonBlockingReadGet32                                           \
-        EPINonBlockingReadGet32
-#endif
-#ifdef ROM_EPINonBlockingReadGet16
-#define MAP_EPINonBlockingReadGet16                                           \
-        ROM_EPINonBlockingReadGet16
-#else
-#define MAP_EPINonBlockingReadGet16                                           \
-        EPINonBlockingReadGet16
-#endif
-#ifdef ROM_EPINonBlockingReadGet8
-#define MAP_EPINonBlockingReadGet8                                            \
-        ROM_EPINonBlockingReadGet8
-#else
-#define MAP_EPINonBlockingReadGet8                                            \
-        EPINonBlockingReadGet8
-#endif
-#ifdef ROM_EPIFIFOConfig
-#define MAP_EPIFIFOConfig                                                     \
-        ROM_EPIFIFOConfig
-#else
-#define MAP_EPIFIFOConfig                                                     \
-        EPIFIFOConfig
-#endif
-#ifdef ROM_EPIWriteFIFOCountGet
-#define MAP_EPIWriteFIFOCountGet                                              \
-        ROM_EPIWriteFIFOCountGet
-#else
-#define MAP_EPIWriteFIFOCountGet                                              \
-        EPIWriteFIFOCountGet
-#endif
-#ifdef ROM_EPIIntEnable
-#define MAP_EPIIntEnable                                                      \
-        ROM_EPIIntEnable
-#else
-#define MAP_EPIIntEnable                                                      \
-        EPIIntEnable
-#endif
-#ifdef ROM_EPIIntDisable
-#define MAP_EPIIntDisable                                                     \
-        ROM_EPIIntDisable
-#else
-#define MAP_EPIIntDisable                                                     \
-        EPIIntDisable
-#endif
-#ifdef ROM_EPIIntErrorStatus
-#define MAP_EPIIntErrorStatus                                                 \
-        ROM_EPIIntErrorStatus
-#else
-#define MAP_EPIIntErrorStatus                                                 \
-        EPIIntErrorStatus
-#endif
-#ifdef ROM_EPIIntErrorClear
-#define MAP_EPIIntErrorClear                                                  \
-        ROM_EPIIntErrorClear
-#else
-#define MAP_EPIIntErrorClear                                                  \
-        EPIIntErrorClear
-#endif
-#ifdef ROM_EPIDividerCSSet
-#define MAP_EPIDividerCSSet                                                   \
-        ROM_EPIDividerCSSet
-#else
-#define MAP_EPIDividerCSSet                                                   \
-        EPIDividerCSSet
-#endif
-#ifdef ROM_EPIDMATxCount
-#define MAP_EPIDMATxCount                                                     \
-        ROM_EPIDMATxCount
-#else
-#define MAP_EPIDMATxCount                                                     \
-        EPIDMATxCount
-#endif
-#ifdef ROM_EPIConfigHB8CSSet
-#define MAP_EPIConfigHB8CSSet                                                 \
-        ROM_EPIConfigHB8CSSet
-#else
-#define MAP_EPIConfigHB8CSSet                                                 \
-        EPIConfigHB8CSSet
-#endif
-#ifdef ROM_EPIConfigHB16CSSet
-#define MAP_EPIConfigHB16CSSet                                                \
-        ROM_EPIConfigHB16CSSet
-#else
-#define MAP_EPIConfigHB16CSSet                                                \
-        EPIConfigHB16CSSet
-#endif
-#ifdef ROM_EPIConfigHB8TimingSet
-#define MAP_EPIConfigHB8TimingSet                                             \
-        ROM_EPIConfigHB8TimingSet
-#else
-#define MAP_EPIConfigHB8TimingSet                                             \
-        EPIConfigHB8TimingSet
-#endif
-#ifdef ROM_EPIConfigHB16TimingSet
-#define MAP_EPIConfigHB16TimingSet                                            \
-        ROM_EPIConfigHB16TimingSet
-#else
-#define MAP_EPIConfigHB16TimingSet                                            \
-        EPIConfigHB16TimingSet
-#endif
-#ifdef ROM_EPIPSRAMConfigRegSet
-#define MAP_EPIPSRAMConfigRegSet                                              \
-        ROM_EPIPSRAMConfigRegSet
-#else
-#define MAP_EPIPSRAMConfigRegSet                                              \
-        EPIPSRAMConfigRegSet
-#endif
-#ifdef ROM_EPIPSRAMConfigRegRead
-#define MAP_EPIPSRAMConfigRegRead                                             \
-        ROM_EPIPSRAMConfigRegRead
-#else
-#define MAP_EPIPSRAMConfigRegRead                                             \
-        EPIPSRAMConfigRegRead
-#endif
-#ifdef ROM_EPIPSRAMConfigRegGetNonBlocking
-#define MAP_EPIPSRAMConfigRegGetNonBlocking                                   \
-        ROM_EPIPSRAMConfigRegGetNonBlocking
-#else
-#define MAP_EPIPSRAMConfigRegGetNonBlocking                                   \
-        EPIPSRAMConfigRegGetNonBlocking
-#endif
-#ifdef ROM_EPIPSRAMConfigRegGet
-#define MAP_EPIPSRAMConfigRegGet                                              \
-        ROM_EPIPSRAMConfigRegGet
-#else
-#define MAP_EPIPSRAMConfigRegGet                                              \
-        EPIPSRAMConfigRegGet
-#endif
-
-//*****************************************************************************
-//
-// Macros for the EMAC API.
-//
-//*****************************************************************************
-#ifdef ROM_EMACIntStatus
-#define MAP_EMACIntStatus                                                     \
-        ROM_EMACIntStatus
-#else
-#define MAP_EMACIntStatus                                                     \
-        EMACIntStatus
-#endif
-#ifdef ROM_EMACAddrGet
-#define MAP_EMACAddrGet                                                       \
-        ROM_EMACAddrGet
-#else
-#define MAP_EMACAddrGet                                                       \
-        EMACAddrGet
-#endif
-#ifdef ROM_EMACAddrSet
-#define MAP_EMACAddrSet                                                       \
-        ROM_EMACAddrSet
-#else
-#define MAP_EMACAddrSet                                                       \
-        EMACAddrSet
-#endif
-#ifdef ROM_EMACConfigGet
-#define MAP_EMACConfigGet                                                     \
-        ROM_EMACConfigGet
-#else
-#define MAP_EMACConfigGet                                                     \
-        EMACConfigGet
-#endif
-#ifdef ROM_EMACConfigSet
-#define MAP_EMACConfigSet                                                     \
-        ROM_EMACConfigSet
-#else
-#define MAP_EMACConfigSet                                                     \
-        EMACConfigSet
-#endif
-#ifdef ROM_EMACDMAStateGet
-#define MAP_EMACDMAStateGet                                                   \
-        ROM_EMACDMAStateGet
-#else
-#define MAP_EMACDMAStateGet                                                   \
-        EMACDMAStateGet
-#endif
-#ifdef ROM_EMACFrameFilterGet
-#define MAP_EMACFrameFilterGet                                                \
-        ROM_EMACFrameFilterGet
-#else
-#define MAP_EMACFrameFilterGet                                                \
-        EMACFrameFilterGet
-#endif
-#ifdef ROM_EMACFrameFilterSet
-#define MAP_EMACFrameFilterSet                                                \
-        ROM_EMACFrameFilterSet
-#else
-#define MAP_EMACFrameFilterSet                                                \
-        EMACFrameFilterSet
-#endif
-#ifdef ROM_EMACInit
-#define MAP_EMACInit                                                          \
-        ROM_EMACInit
-#else
-#define MAP_EMACInit                                                          \
-        EMACInit
-#endif
-#ifdef ROM_EMACIntClear
-#define MAP_EMACIntClear                                                      \
-        ROM_EMACIntClear
-#else
-#define MAP_EMACIntClear                                                      \
-        EMACIntClear
-#endif
-#ifdef ROM_EMACIntDisable
-#define MAP_EMACIntDisable                                                    \
-        ROM_EMACIntDisable
-#else
-#define MAP_EMACIntDisable                                                    \
-        EMACIntDisable
-#endif
-#ifdef ROM_EMACIntEnable
-#define MAP_EMACIntEnable                                                     \
-        ROM_EMACIntEnable
-#else
-#define MAP_EMACIntEnable                                                     \
-        EMACIntEnable
-#endif
-#ifdef ROM_EMACPHYConfigSet
-#define MAP_EMACPHYConfigSet                                                  \
-        ROM_EMACPHYConfigSet
-#else
-#define MAP_EMACPHYConfigSet                                                  \
-        EMACPHYConfigSet
-#endif
-#ifdef ROM_EMACPHYPowerOff
-#define MAP_EMACPHYPowerOff                                                   \
-        ROM_EMACPHYPowerOff
-#else
-#define MAP_EMACPHYPowerOff                                                   \
-        EMACPHYPowerOff
-#endif
-#ifdef ROM_EMACPHYPowerOn
-#define MAP_EMACPHYPowerOn                                                    \
-        ROM_EMACPHYPowerOn
-#else
-#define MAP_EMACPHYPowerOn                                                    \
-        EMACPHYPowerOn
-#endif
-#ifdef ROM_EMACPHYRead
-#define MAP_EMACPHYRead                                                       \
-        ROM_EMACPHYRead
-#else
-#define MAP_EMACPHYRead                                                       \
-        EMACPHYRead
-#endif
-#ifdef ROM_EMACPHYWrite
-#define MAP_EMACPHYWrite                                                      \
-        ROM_EMACPHYWrite
-#else
-#define MAP_EMACPHYWrite                                                      \
-        EMACPHYWrite
-#endif
-#ifdef ROM_EMACReset
-#define MAP_EMACReset                                                         \
-        ROM_EMACReset
-#else
-#define MAP_EMACReset                                                         \
-        EMACReset
-#endif
-#ifdef ROM_EMACRxDisable
-#define MAP_EMACRxDisable                                                     \
-        ROM_EMACRxDisable
-#else
-#define MAP_EMACRxDisable                                                     \
-        EMACRxDisable
-#endif
-#ifdef ROM_EMACRxDMACurrentBufferGet
-#define MAP_EMACRxDMACurrentBufferGet                                         \
-        ROM_EMACRxDMACurrentBufferGet
-#else
-#define MAP_EMACRxDMACurrentBufferGet                                         \
-        EMACRxDMACurrentBufferGet
-#endif
-#ifdef ROM_EMACRxDMACurrentDescriptorGet
-#define MAP_EMACRxDMACurrentDescriptorGet                                     \
-        ROM_EMACRxDMACurrentDescriptorGet
-#else
-#define MAP_EMACRxDMACurrentDescriptorGet                                     \
-        EMACRxDMACurrentDescriptorGet
-#endif
-#ifdef ROM_EMACRxDMADescriptorListGet
-#define MAP_EMACRxDMADescriptorListGet                                        \
-        ROM_EMACRxDMADescriptorListGet
-#else
-#define MAP_EMACRxDMADescriptorListGet                                        \
-        EMACRxDMADescriptorListGet
-#endif
-#ifdef ROM_EMACRxDMADescriptorListSet
-#define MAP_EMACRxDMADescriptorListSet                                        \
-        ROM_EMACRxDMADescriptorListSet
-#else
-#define MAP_EMACRxDMADescriptorListSet                                        \
-        EMACRxDMADescriptorListSet
-#endif
-#ifdef ROM_EMACRxDMAPollDemand
-#define MAP_EMACRxDMAPollDemand                                               \
-        ROM_EMACRxDMAPollDemand
-#else
-#define MAP_EMACRxDMAPollDemand                                               \
-        EMACRxDMAPollDemand
-#endif
-#ifdef ROM_EMACRxEnable
-#define MAP_EMACRxEnable                                                      \
-        ROM_EMACRxEnable
-#else
-#define MAP_EMACRxEnable                                                      \
-        EMACRxEnable
-#endif
-#ifdef ROM_EMACRxWatchdogTimerSet
-#define MAP_EMACRxWatchdogTimerSet                                            \
-        ROM_EMACRxWatchdogTimerSet
-#else
-#define MAP_EMACRxWatchdogTimerSet                                            \
-        EMACRxWatchdogTimerSet
-#endif
-#ifdef ROM_EMACStatusGet
-#define MAP_EMACStatusGet                                                     \
-        ROM_EMACStatusGet
-#else
-#define MAP_EMACStatusGet                                                     \
-        EMACStatusGet
-#endif
-#ifdef ROM_EMACTxDisable
-#define MAP_EMACTxDisable                                                     \
-        ROM_EMACTxDisable
-#else
-#define MAP_EMACTxDisable                                                     \
-        EMACTxDisable
-#endif
-#ifdef ROM_EMACTxDMACurrentBufferGet
-#define MAP_EMACTxDMACurrentBufferGet                                         \
-        ROM_EMACTxDMACurrentBufferGet
-#else
-#define MAP_EMACTxDMACurrentBufferGet                                         \
-        EMACTxDMACurrentBufferGet
-#endif
-#ifdef ROM_EMACTxDMACurrentDescriptorGet
-#define MAP_EMACTxDMACurrentDescriptorGet                                     \
-        ROM_EMACTxDMACurrentDescriptorGet
-#else
-#define MAP_EMACTxDMACurrentDescriptorGet                                     \
-        EMACTxDMACurrentDescriptorGet
-#endif
-#ifdef ROM_EMACTxDMADescriptorListGet
-#define MAP_EMACTxDMADescriptorListGet                                        \
-        ROM_EMACTxDMADescriptorListGet
-#else
-#define MAP_EMACTxDMADescriptorListGet                                        \
-        EMACTxDMADescriptorListGet
-#endif
-#ifdef ROM_EMACTxDMADescriptorListSet
-#define MAP_EMACTxDMADescriptorListSet                                        \
-        ROM_EMACTxDMADescriptorListSet
-#else
-#define MAP_EMACTxDMADescriptorListSet                                        \
-        EMACTxDMADescriptorListSet
-#endif
-#ifdef ROM_EMACTxDMAPollDemand
-#define MAP_EMACTxDMAPollDemand                                               \
-        ROM_EMACTxDMAPollDemand
-#else
-#define MAP_EMACTxDMAPollDemand                                               \
-        EMACTxDMAPollDemand
-#endif
-#ifdef ROM_EMACTxEnable
-#define MAP_EMACTxEnable                                                      \
-        ROM_EMACTxEnable
-#else
-#define MAP_EMACTxEnable                                                      \
-        EMACTxEnable
-#endif
-#ifdef ROM_EMACTxFlush
-#define MAP_EMACTxFlush                                                       \
-        ROM_EMACTxFlush
-#else
-#define MAP_EMACTxFlush                                                       \
-        EMACTxFlush
-#endif
-#ifdef ROM_EMACAddrFilterGet
-#define MAP_EMACAddrFilterGet                                                 \
-        ROM_EMACAddrFilterGet
-#else
-#define MAP_EMACAddrFilterGet                                                 \
-        EMACAddrFilterGet
-#endif
-#ifdef ROM_EMACAddrFilterSet
-#define MAP_EMACAddrFilterSet                                                 \
-        ROM_EMACAddrFilterSet
-#else
-#define MAP_EMACAddrFilterSet                                                 \
-        EMACAddrFilterSet
-#endif
-#ifdef ROM_EMACHashFilterBitCalculate
-#define MAP_EMACHashFilterBitCalculate                                        \
-        ROM_EMACHashFilterBitCalculate
-#else
-#define MAP_EMACHashFilterBitCalculate                                        \
-        EMACHashFilterBitCalculate
-#endif
-#ifdef ROM_EMACHashFilterGet
-#define MAP_EMACHashFilterGet                                                 \
-        ROM_EMACHashFilterGet
-#else
-#define MAP_EMACHashFilterGet                                                 \
-        EMACHashFilterGet
-#endif
-#ifdef ROM_EMACHashFilterSet
-#define MAP_EMACHashFilterSet                                                 \
-        ROM_EMACHashFilterSet
-#else
-#define MAP_EMACHashFilterSet                                                 \
-        EMACHashFilterSet
-#endif
-#ifdef ROM_EMACNumAddrGet
-#define MAP_EMACNumAddrGet                                                    \
-        ROM_EMACNumAddrGet
-#else
-#define MAP_EMACNumAddrGet                                                    \
-        EMACNumAddrGet
-#endif
-#ifdef ROM_EMACPHYExtendedRead
-#define MAP_EMACPHYExtendedRead                                               \
-        ROM_EMACPHYExtendedRead
-#else
-#define MAP_EMACPHYExtendedRead                                               \
-        EMACPHYExtendedRead
-#endif
-#ifdef ROM_EMACPHYExtendedWrite
-#define MAP_EMACPHYExtendedWrite                                              \
-        ROM_EMACPHYExtendedWrite
-#else
-#define MAP_EMACPHYExtendedWrite                                              \
-        EMACPHYExtendedWrite
-#endif
-#ifdef ROM_EMACPowerManagementControlGet
-#define MAP_EMACPowerManagementControlGet                                     \
-        ROM_EMACPowerManagementControlGet
-#else
-#define MAP_EMACPowerManagementControlGet                                     \
-        EMACPowerManagementControlGet
-#endif
-#ifdef ROM_EMACPowerManagementControlSet
-#define MAP_EMACPowerManagementControlSet                                     \
-        ROM_EMACPowerManagementControlSet
-#else
-#define MAP_EMACPowerManagementControlSet                                     \
-        EMACPowerManagementControlSet
-#endif
-#ifdef ROM_EMACPowerManagementStatusGet
-#define MAP_EMACPowerManagementStatusGet                                      \
-        ROM_EMACPowerManagementStatusGet
-#else
-#define MAP_EMACPowerManagementStatusGet                                      \
-        EMACPowerManagementStatusGet
-#endif
-#ifdef ROM_EMACRemoteWakeUpFrameFilterGet
-#define MAP_EMACRemoteWakeUpFrameFilterGet                                    \
-        ROM_EMACRemoteWakeUpFrameFilterGet
-#else
-#define MAP_EMACRemoteWakeUpFrameFilterGet                                    \
-        EMACRemoteWakeUpFrameFilterGet
-#endif
-#ifdef ROM_EMACRemoteWakeUpFrameFilterSet
-#define MAP_EMACRemoteWakeUpFrameFilterSet                                    \
-        ROM_EMACRemoteWakeUpFrameFilterSet
-#else
-#define MAP_EMACRemoteWakeUpFrameFilterSet                                    \
-        EMACRemoteWakeUpFrameFilterSet
-#endif
-#ifdef ROM_EMACTimestampAddendSet
-#define MAP_EMACTimestampAddendSet                                            \
-        ROM_EMACTimestampAddendSet
-#else
-#define MAP_EMACTimestampAddendSet                                            \
-        EMACTimestampAddendSet
-#endif
-#ifdef ROM_EMACTimestampConfigGet
-#define MAP_EMACTimestampConfigGet                                            \
-        ROM_EMACTimestampConfigGet
-#else
-#define MAP_EMACTimestampConfigGet                                            \
-        EMACTimestampConfigGet
-#endif
-#ifdef ROM_EMACTimestampConfigSet
-#define MAP_EMACTimestampConfigSet                                            \
-        ROM_EMACTimestampConfigSet
-#else
-#define MAP_EMACTimestampConfigSet                                            \
-        EMACTimestampConfigSet
-#endif
-#ifdef ROM_EMACTimestampDisable
-#define MAP_EMACTimestampDisable                                              \
-        ROM_EMACTimestampDisable
-#else
-#define MAP_EMACTimestampDisable                                              \
-        EMACTimestampDisable
-#endif
-#ifdef ROM_EMACTimestampEnable
-#define MAP_EMACTimestampEnable                                               \
-        ROM_EMACTimestampEnable
-#else
-#define MAP_EMACTimestampEnable                                               \
-        EMACTimestampEnable
-#endif
-#ifdef ROM_EMACTimestampIntStatus
-#define MAP_EMACTimestampIntStatus                                            \
-        ROM_EMACTimestampIntStatus
-#else
-#define MAP_EMACTimestampIntStatus                                            \
-        EMACTimestampIntStatus
-#endif
-#ifdef ROM_EMACTimestampPPSCommand
-#define MAP_EMACTimestampPPSCommand                                           \
-        ROM_EMACTimestampPPSCommand
-#else
-#define MAP_EMACTimestampPPSCommand                                           \
-        EMACTimestampPPSCommand
-#endif
-#ifdef ROM_EMACTimestampPPSCommandModeSet
-#define MAP_EMACTimestampPPSCommandModeSet                                    \
-        ROM_EMACTimestampPPSCommandModeSet
-#else
-#define MAP_EMACTimestampPPSCommandModeSet                                    \
-        EMACTimestampPPSCommandModeSet
-#endif
-#ifdef ROM_EMACTimestampPPSPeriodSet
-#define MAP_EMACTimestampPPSPeriodSet                                         \
-        ROM_EMACTimestampPPSPeriodSet
-#else
-#define MAP_EMACTimestampPPSPeriodSet                                         \
-        EMACTimestampPPSPeriodSet
-#endif
-#ifdef ROM_EMACTimestampPPSSimpleModeSet
-#define MAP_EMACTimestampPPSSimpleModeSet                                     \
-        ROM_EMACTimestampPPSSimpleModeSet
-#else
-#define MAP_EMACTimestampPPSSimpleModeSet                                     \
-        EMACTimestampPPSSimpleModeSet
-#endif
-#ifdef ROM_EMACTimestampSysTimeGet
-#define MAP_EMACTimestampSysTimeGet                                           \
-        ROM_EMACTimestampSysTimeGet
-#else
-#define MAP_EMACTimestampSysTimeGet                                           \
-        EMACTimestampSysTimeGet
-#endif
-#ifdef ROM_EMACTimestampSysTimeSet
-#define MAP_EMACTimestampSysTimeSet                                           \
-        ROM_EMACTimestampSysTimeSet
-#else
-#define MAP_EMACTimestampSysTimeSet                                           \
-        EMACTimestampSysTimeSet
-#endif
-#ifdef ROM_EMACTimestampSysTimeUpdate
-#define MAP_EMACTimestampSysTimeUpdate                                        \
-        ROM_EMACTimestampSysTimeUpdate
-#else
-#define MAP_EMACTimestampSysTimeUpdate                                        \
-        EMACTimestampSysTimeUpdate
-#endif
-#ifdef ROM_EMACTimestampTargetIntDisable
-#define MAP_EMACTimestampTargetIntDisable                                     \
-        ROM_EMACTimestampTargetIntDisable
-#else
-#define MAP_EMACTimestampTargetIntDisable                                     \
-        EMACTimestampTargetIntDisable
-#endif
-#ifdef ROM_EMACTimestampTargetIntEnable
-#define MAP_EMACTimestampTargetIntEnable                                      \
-        ROM_EMACTimestampTargetIntEnable
-#else
-#define MAP_EMACTimestampTargetIntEnable                                      \
-        EMACTimestampTargetIntEnable
-#endif
-#ifdef ROM_EMACTimestampTargetSet
-#define MAP_EMACTimestampTargetSet                                            \
-        ROM_EMACTimestampTargetSet
-#else
-#define MAP_EMACTimestampTargetSet                                            \
-        EMACTimestampTargetSet
-#endif
-#ifdef ROM_EMACVLANHashFilterBitCalculate
-#define MAP_EMACVLANHashFilterBitCalculate                                    \
-        ROM_EMACVLANHashFilterBitCalculate
-#else
-#define MAP_EMACVLANHashFilterBitCalculate                                    \
-        EMACVLANHashFilterBitCalculate
-#endif
-#ifdef ROM_EMACVLANHashFilterGet
-#define MAP_EMACVLANHashFilterGet                                             \
-        ROM_EMACVLANHashFilterGet
-#else
-#define MAP_EMACVLANHashFilterGet                                             \
-        EMACVLANHashFilterGet
-#endif
-#ifdef ROM_EMACVLANHashFilterSet
-#define MAP_EMACVLANHashFilterSet                                             \
-        ROM_EMACVLANHashFilterSet
-#else
-#define MAP_EMACVLANHashFilterSet                                             \
-        EMACVLANHashFilterSet
-#endif
-#ifdef ROM_EMACVLANRxConfigGet
-#define MAP_EMACVLANRxConfigGet                                               \
-        ROM_EMACVLANRxConfigGet
-#else
-#define MAP_EMACVLANRxConfigGet                                               \
-        EMACVLANRxConfigGet
-#endif
-#ifdef ROM_EMACVLANRxConfigSet
-#define MAP_EMACVLANRxConfigSet                                               \
-        ROM_EMACVLANRxConfigSet
-#else
-#define MAP_EMACVLANRxConfigSet                                               \
-        EMACVLANRxConfigSet
-#endif
-#ifdef ROM_EMACVLANTxConfigGet
-#define MAP_EMACVLANTxConfigGet                                               \
-        ROM_EMACVLANTxConfigGet
-#else
-#define MAP_EMACVLANTxConfigGet                                               \
-        EMACVLANTxConfigGet
-#endif
-#ifdef ROM_EMACVLANTxConfigSet
-#define MAP_EMACVLANTxConfigSet                                               \
-        ROM_EMACVLANTxConfigSet
-#else
-#define MAP_EMACVLANTxConfigSet                                               \
-        EMACVLANTxConfigSet
+#define MAP_FanIntStatus                                                      \
+        FanIntStatus
 #endif
 
 //*****************************************************************************
@@ -2002,68 +998,40 @@
 #define MAP_GPIOADCTriggerDisable                                             \
         GPIOADCTriggerDisable
 #endif
+#ifdef ROM_GPIOPinTypeFan
+#define MAP_GPIOPinTypeFan                                                    \
+        ROM_GPIOPinTypeFan
+#else
+#define MAP_GPIOPinTypeFan                                                    \
+        GPIOPinTypeFan
+#endif
+#ifdef ROM_GPIOPinTypeLPC
+#define MAP_GPIOPinTypeLPC                                                    \
+        ROM_GPIOPinTypeLPC
+#else
+#define MAP_GPIOPinTypeLPC                                                    \
+        GPIOPinTypeLPC
+#endif
+#ifdef ROM_GPIOPinTypePECIRx
+#define MAP_GPIOPinTypePECIRx                                                 \
+        ROM_GPIOPinTypePECIRx
+#else
+#define MAP_GPIOPinTypePECIRx                                                 \
+        GPIOPinTypePECIRx
+#endif
+#ifdef ROM_GPIOPinTypePECITx
+#define MAP_GPIOPinTypePECITx                                                 \
+        ROM_GPIOPinTypePECITx
+#else
+#define MAP_GPIOPinTypePECITx                                                 \
+        GPIOPinTypePECITx
+#endif
 #ifdef ROM_GPIOPinTypeI2CSCL
 #define MAP_GPIOPinTypeI2CSCL                                                 \
         ROM_GPIOPinTypeI2CSCL
 #else
 #define MAP_GPIOPinTypeI2CSCL                                                 \
         GPIOPinTypeI2CSCL
-#endif
-#ifdef ROM_GPIOPinTypeOneWire
-#define MAP_GPIOPinTypeOneWire                                                \
-        ROM_GPIOPinTypeOneWire
-#else
-#define MAP_GPIOPinTypeOneWire                                                \
-        GPIOPinTypeOneWire
-#endif
-#ifdef ROM_GPIOPinTypeWakeHigh
-#define MAP_GPIOPinTypeWakeHigh                                               \
-        ROM_GPIOPinTypeWakeHigh
-#else
-#define MAP_GPIOPinTypeWakeHigh                                               \
-        GPIOPinTypeWakeHigh
-#endif
-#ifdef ROM_GPIOPinTypeWakeLow
-#define MAP_GPIOPinTypeWakeLow                                                \
-        ROM_GPIOPinTypeWakeLow
-#else
-#define MAP_GPIOPinTypeWakeLow                                                \
-        GPIOPinTypeWakeLow
-#endif
-#ifdef ROM_GPIOIntClear
-#define MAP_GPIOIntClear                                                      \
-        ROM_GPIOIntClear
-#else
-#define MAP_GPIOIntClear                                                      \
-        GPIOIntClear
-#endif
-#ifdef ROM_GPIOIntDisable
-#define MAP_GPIOIntDisable                                                    \
-        ROM_GPIOIntDisable
-#else
-#define MAP_GPIOIntDisable                                                    \
-        GPIOIntDisable
-#endif
-#ifdef ROM_GPIOIntEnable
-#define MAP_GPIOIntEnable                                                     \
-        ROM_GPIOIntEnable
-#else
-#define MAP_GPIOIntEnable                                                     \
-        GPIOIntEnable
-#endif
-#ifdef ROM_GPIOIntStatus
-#define MAP_GPIOIntStatus                                                     \
-        ROM_GPIOIntStatus
-#else
-#define MAP_GPIOIntStatus                                                     \
-        GPIOIntStatus
-#endif
-#ifdef ROM_GPIOPinWakeStatus
-#define MAP_GPIOPinWakeStatus                                                 \
-        ROM_GPIOPinWakeStatus
-#else
-#define MAP_GPIOPinWakeStatus                                                 \
-        GPIOPinWakeStatus
 #endif
 
 //*****************************************************************************
@@ -2239,160 +1207,6 @@
 #define MAP_HibernateBatCheckDone                                             \
         HibernateBatCheckDone
 #endif
-#ifdef ROM_HibernateGPIORetentionEnable
-#define MAP_HibernateGPIORetentionEnable                                      \
-        ROM_HibernateGPIORetentionEnable
-#else
-#define MAP_HibernateGPIORetentionEnable                                      \
-        HibernateGPIORetentionEnable
-#endif
-#ifdef ROM_HibernateGPIORetentionDisable
-#define MAP_HibernateGPIORetentionDisable                                     \
-        ROM_HibernateGPIORetentionDisable
-#else
-#define MAP_HibernateGPIORetentionDisable                                     \
-        HibernateGPIORetentionDisable
-#endif
-#ifdef ROM_HibernateGPIORetentionGet
-#define MAP_HibernateGPIORetentionGet                                         \
-        ROM_HibernateGPIORetentionGet
-#else
-#define MAP_HibernateGPIORetentionGet                                         \
-        HibernateGPIORetentionGet
-#endif
-#ifdef ROM_HibernateCounterMode
-#define MAP_HibernateCounterMode                                              \
-        ROM_HibernateCounterMode
-#else
-#define MAP_HibernateCounterMode                                              \
-        HibernateCounterMode
-#endif
-#ifdef ROM_HibernateCalendarSet
-#define MAP_HibernateCalendarSet                                              \
-        ROM_HibernateCalendarSet
-#else
-#define MAP_HibernateCalendarSet                                              \
-        HibernateCalendarSet
-#endif
-#ifdef ROM_HibernateCalendarGet
-#define MAP_HibernateCalendarGet                                              \
-        ROM_HibernateCalendarGet
-#else
-#define MAP_HibernateCalendarGet                                              \
-        HibernateCalendarGet
-#endif
-#ifdef ROM_HibernateCalendarMatchSet
-#define MAP_HibernateCalendarMatchSet                                         \
-        ROM_HibernateCalendarMatchSet
-#else
-#define MAP_HibernateCalendarMatchSet                                         \
-        HibernateCalendarMatchSet
-#endif
-#ifdef ROM_HibernateCalendarMatchGet
-#define MAP_HibernateCalendarMatchGet                                         \
-        ROM_HibernateCalendarMatchGet
-#else
-#define MAP_HibernateCalendarMatchGet                                         \
-        HibernateCalendarMatchGet
-#endif
-#ifdef ROM_HibernateTamperDisable
-#define MAP_HibernateTamperDisable                                            \
-        ROM_HibernateTamperDisable
-#else
-#define MAP_HibernateTamperDisable                                            \
-        HibernateTamperDisable
-#endif
-#ifdef ROM_HibernateTamperEnable
-#define MAP_HibernateTamperEnable                                             \
-        ROM_HibernateTamperEnable
-#else
-#define MAP_HibernateTamperEnable                                             \
-        HibernateTamperEnable
-#endif
-#ifdef ROM_HibernateTamperEventsClear
-#define MAP_HibernateTamperEventsClear                                        \
-        ROM_HibernateTamperEventsClear
-#else
-#define MAP_HibernateTamperEventsClear                                        \
-        HibernateTamperEventsClear
-#endif
-#ifdef ROM_HibernateTamperEventsConfig
-#define MAP_HibernateTamperEventsConfig                                       \
-        ROM_HibernateTamperEventsConfig
-#else
-#define MAP_HibernateTamperEventsConfig                                       \
-        HibernateTamperEventsConfig
-#endif
-#ifdef ROM_HibernateTamperEventsGet
-#define MAP_HibernateTamperEventsGet                                          \
-        ROM_HibernateTamperEventsGet
-#else
-#define MAP_HibernateTamperEventsGet                                          \
-        HibernateTamperEventsGet
-#endif
-#ifdef ROM_HibernateTamperExtOscValid
-#define MAP_HibernateTamperExtOscValid                                        \
-        ROM_HibernateTamperExtOscValid
-#else
-#define MAP_HibernateTamperExtOscValid                                        \
-        HibernateTamperExtOscValid
-#endif
-#ifdef ROM_HibernateTamperExtOscRecover
-#define MAP_HibernateTamperExtOscRecover                                      \
-        ROM_HibernateTamperExtOscRecover
-#else
-#define MAP_HibernateTamperExtOscRecover                                      \
-        HibernateTamperExtOscRecover
-#endif
-#ifdef ROM_HibernateTamperIODisable
-#define MAP_HibernateTamperIODisable                                          \
-        ROM_HibernateTamperIODisable
-#else
-#define MAP_HibernateTamperIODisable                                          \
-        HibernateTamperIODisable
-#endif
-#ifdef ROM_HibernateTamperIOEnable
-#define MAP_HibernateTamperIOEnable                                           \
-        ROM_HibernateTamperIOEnable
-#else
-#define MAP_HibernateTamperIOEnable                                           \
-        HibernateTamperIOEnable
-#endif
-#ifdef ROM_HibernateTamperStatusGet
-#define MAP_HibernateTamperStatusGet                                          \
-        ROM_HibernateTamperStatusGet
-#else
-#define MAP_HibernateTamperStatusGet                                          \
-        HibernateTamperStatusGet
-#endif
-#ifdef ROM_HibernateRTCMatchGet
-#define MAP_HibernateRTCMatchGet                                              \
-        ROM_HibernateRTCMatchGet
-#else
-#define MAP_HibernateRTCMatchGet                                              \
-        HibernateRTCMatchGet
-#endif
-#ifdef ROM_HibernateRTCMatchSet
-#define MAP_HibernateRTCMatchSet                                              \
-        ROM_HibernateRTCMatchSet
-#else
-#define MAP_HibernateRTCMatchSet                                              \
-        HibernateRTCMatchSet
-#endif
-#ifdef ROM_HibernateRTCSSMatchGet
-#define MAP_HibernateRTCSSMatchGet                                            \
-        ROM_HibernateRTCSSMatchGet
-#else
-#define MAP_HibernateRTCSSMatchGet                                            \
-        HibernateRTCSSMatchGet
-#endif
-#ifdef ROM_HibernateRTCSSMatchSet
-#define MAP_HibernateRTCSSMatchSet                                            \
-        ROM_HibernateRTCSSMatchSet
-#else
-#define MAP_HibernateRTCSSMatchSet                                            \
-        HibernateRTCSSMatchSet
-#endif
 
 //*****************************************************************************
 //
@@ -2413,26 +1227,12 @@
 #define MAP_I2CMasterInitExpClk                                               \
         I2CMasterInitExpClk
 #endif
-#ifdef ROM_I2CSlaveInit
-#define MAP_I2CSlaveInit                                                      \
-        ROM_I2CSlaveInit
-#else
-#define MAP_I2CSlaveInit                                                      \
-        I2CSlaveInit
-#endif
 #ifdef ROM_I2CMasterEnable
 #define MAP_I2CMasterEnable                                                   \
         ROM_I2CMasterEnable
 #else
 #define MAP_I2CMasterEnable                                                   \
         I2CMasterEnable
-#endif
-#ifdef ROM_I2CSlaveEnable
-#define MAP_I2CSlaveEnable                                                    \
-        ROM_I2CSlaveEnable
-#else
-#define MAP_I2CSlaveEnable                                                    \
-        I2CSlaveEnable
 #endif
 #ifdef ROM_I2CMasterDisable
 #define MAP_I2CMasterDisable                                                  \
@@ -2441,26 +1241,12 @@
 #define MAP_I2CMasterDisable                                                  \
         I2CMasterDisable
 #endif
-#ifdef ROM_I2CSlaveDisable
-#define MAP_I2CSlaveDisable                                                   \
-        ROM_I2CSlaveDisable
-#else
-#define MAP_I2CSlaveDisable                                                   \
-        I2CSlaveDisable
-#endif
 #ifdef ROM_I2CMasterIntEnable
 #define MAP_I2CMasterIntEnable                                                \
         ROM_I2CMasterIntEnable
 #else
 #define MAP_I2CMasterIntEnable                                                \
         I2CMasterIntEnable
-#endif
-#ifdef ROM_I2CSlaveIntEnable
-#define MAP_I2CSlaveIntEnable                                                 \
-        ROM_I2CSlaveIntEnable
-#else
-#define MAP_I2CSlaveIntEnable                                                 \
-        I2CSlaveIntEnable
 #endif
 #ifdef ROM_I2CMasterIntDisable
 #define MAP_I2CMasterIntDisable                                               \
@@ -2469,13 +1255,6 @@
 #define MAP_I2CMasterIntDisable                                               \
         I2CMasterIntDisable
 #endif
-#ifdef ROM_I2CSlaveIntDisable
-#define MAP_I2CSlaveIntDisable                                                \
-        ROM_I2CSlaveIntDisable
-#else
-#define MAP_I2CSlaveIntDisable                                                \
-        I2CSlaveIntDisable
-#endif
 #ifdef ROM_I2CMasterIntStatus
 #define MAP_I2CMasterIntStatus                                                \
         ROM_I2CMasterIntStatus
@@ -2483,26 +1262,12 @@
 #define MAP_I2CMasterIntStatus                                                \
         I2CMasterIntStatus
 #endif
-#ifdef ROM_I2CSlaveIntStatus
-#define MAP_I2CSlaveIntStatus                                                 \
-        ROM_I2CSlaveIntStatus
-#else
-#define MAP_I2CSlaveIntStatus                                                 \
-        I2CSlaveIntStatus
-#endif
 #ifdef ROM_I2CMasterIntClear
 #define MAP_I2CMasterIntClear                                                 \
         ROM_I2CMasterIntClear
 #else
 #define MAP_I2CMasterIntClear                                                 \
         I2CMasterIntClear
-#endif
-#ifdef ROM_I2CSlaveIntClear
-#define MAP_I2CSlaveIntClear                                                  \
-        ROM_I2CSlaveIntClear
-#else
-#define MAP_I2CSlaveIntClear                                                  \
-        I2CSlaveIntClear
 #endif
 #ifdef ROM_I2CMasterSlaveAddrSet
 #define MAP_I2CMasterSlaveAddrSet                                             \
@@ -2546,55 +1311,6 @@
 #define MAP_I2CMasterDataGet                                                  \
         I2CMasterDataGet
 #endif
-#ifdef ROM_I2CSlaveStatus
-#define MAP_I2CSlaveStatus                                                    \
-        ROM_I2CSlaveStatus
-#else
-#define MAP_I2CSlaveStatus                                                    \
-        I2CSlaveStatus
-#endif
-#ifdef ROM_I2CSlaveDataPut
-#define MAP_I2CSlaveDataPut                                                   \
-        ROM_I2CSlaveDataPut
-#else
-#define MAP_I2CSlaveDataPut                                                   \
-        I2CSlaveDataPut
-#endif
-#ifdef ROM_I2CSlaveDataGet
-#define MAP_I2CSlaveDataGet                                                   \
-        ROM_I2CSlaveDataGet
-#else
-#define MAP_I2CSlaveDataGet                                                   \
-        I2CSlaveDataGet
-#endif
-#ifdef ROM_I2CSlaveIntEnableEx
-#define MAP_I2CSlaveIntEnableEx                                               \
-        ROM_I2CSlaveIntEnableEx
-#else
-#define MAP_I2CSlaveIntEnableEx                                               \
-        I2CSlaveIntEnableEx
-#endif
-#ifdef ROM_I2CSlaveIntDisableEx
-#define MAP_I2CSlaveIntDisableEx                                              \
-        ROM_I2CSlaveIntDisableEx
-#else
-#define MAP_I2CSlaveIntDisableEx                                              \
-        I2CSlaveIntDisableEx
-#endif
-#ifdef ROM_I2CSlaveIntStatusEx
-#define MAP_I2CSlaveIntStatusEx                                               \
-        ROM_I2CSlaveIntStatusEx
-#else
-#define MAP_I2CSlaveIntStatusEx                                               \
-        I2CSlaveIntStatusEx
-#endif
-#ifdef ROM_I2CSlaveIntClearEx
-#define MAP_I2CSlaveIntClearEx                                                \
-        ROM_I2CSlaveIntClearEx
-#else
-#define MAP_I2CSlaveIntClearEx                                                \
-        I2CSlaveIntClearEx
-#endif
 #ifdef ROM_I2CMasterIntEnableEx
 #define MAP_I2CMasterIntEnableEx                                              \
         ROM_I2CMasterIntEnableEx
@@ -2630,131 +1346,12 @@
 #define MAP_I2CMasterTimeoutSet                                               \
         I2CMasterTimeoutSet
 #endif
-#ifdef ROM_I2CSlaveACKOverride
-#define MAP_I2CSlaveACKOverride                                               \
-        ROM_I2CSlaveACKOverride
-#else
-#define MAP_I2CSlaveACKOverride                                               \
-        I2CSlaveACKOverride
-#endif
-#ifdef ROM_I2CSlaveACKValueSet
-#define MAP_I2CSlaveACKValueSet                                               \
-        ROM_I2CSlaveACKValueSet
-#else
-#define MAP_I2CSlaveACKValueSet                                               \
-        I2CSlaveACKValueSet
-#endif
-#ifdef ROM_I2CSlaveAddressSet
-#define MAP_I2CSlaveAddressSet                                                \
-        ROM_I2CSlaveAddressSet
-#else
-#define MAP_I2CSlaveAddressSet                                                \
-        I2CSlaveAddressSet
-#endif
 #ifdef ROM_I2CMasterLineStateGet
 #define MAP_I2CMasterLineStateGet                                             \
         ROM_I2CMasterLineStateGet
 #else
 #define MAP_I2CMasterLineStateGet                                             \
         I2CMasterLineStateGet
-#endif
-#ifdef ROM_I2CTxFIFOConfigSet
-#define MAP_I2CTxFIFOConfigSet                                                \
-        ROM_I2CTxFIFOConfigSet
-#else
-#define MAP_I2CTxFIFOConfigSet                                                \
-        I2CTxFIFOConfigSet
-#endif
-#ifdef ROM_I2CTxFIFOFlush
-#define MAP_I2CTxFIFOFlush                                                    \
-        ROM_I2CTxFIFOFlush
-#else
-#define MAP_I2CTxFIFOFlush                                                    \
-        I2CTxFIFOFlush
-#endif
-#ifdef ROM_I2CRxFIFOConfigSet
-#define MAP_I2CRxFIFOConfigSet                                                \
-        ROM_I2CRxFIFOConfigSet
-#else
-#define MAP_I2CRxFIFOConfigSet                                                \
-        I2CRxFIFOConfigSet
-#endif
-#ifdef ROM_I2CRxFIFOFlush
-#define MAP_I2CRxFIFOFlush                                                    \
-        ROM_I2CRxFIFOFlush
-#else
-#define MAP_I2CRxFIFOFlush                                                    \
-        I2CRxFIFOFlush
-#endif
-#ifdef ROM_I2CFIFOStatus
-#define MAP_I2CFIFOStatus                                                     \
-        ROM_I2CFIFOStatus
-#else
-#define MAP_I2CFIFOStatus                                                     \
-        I2CFIFOStatus
-#endif
-#ifdef ROM_I2CFIFODataPut
-#define MAP_I2CFIFODataPut                                                    \
-        ROM_I2CFIFODataPut
-#else
-#define MAP_I2CFIFODataPut                                                    \
-        I2CFIFODataPut
-#endif
-#ifdef ROM_I2CFIFODataPutNonBlocking
-#define MAP_I2CFIFODataPutNonBlocking                                         \
-        ROM_I2CFIFODataPutNonBlocking
-#else
-#define MAP_I2CFIFODataPutNonBlocking                                         \
-        I2CFIFODataPutNonBlocking
-#endif
-#ifdef ROM_I2CFIFODataGet
-#define MAP_I2CFIFODataGet                                                    \
-        ROM_I2CFIFODataGet
-#else
-#define MAP_I2CFIFODataGet                                                    \
-        I2CFIFODataGet
-#endif
-#ifdef ROM_I2CFIFODataGetNonBlocking
-#define MAP_I2CFIFODataGetNonBlocking                                         \
-        ROM_I2CFIFODataGetNonBlocking
-#else
-#define MAP_I2CFIFODataGetNonBlocking                                         \
-        I2CFIFODataGetNonBlocking
-#endif
-#ifdef ROM_I2CMasterBurstLengthSet
-#define MAP_I2CMasterBurstLengthSet                                           \
-        ROM_I2CMasterBurstLengthSet
-#else
-#define MAP_I2CMasterBurstLengthSet                                           \
-        I2CMasterBurstLengthSet
-#endif
-#ifdef ROM_I2CMasterBurstCountGet
-#define MAP_I2CMasterBurstCountGet                                            \
-        ROM_I2CMasterBurstCountGet
-#else
-#define MAP_I2CMasterBurstCountGet                                            \
-        I2CMasterBurstCountGet
-#endif
-#ifdef ROM_I2CSlaveFIFODisable
-#define MAP_I2CSlaveFIFODisable                                               \
-        ROM_I2CSlaveFIFODisable
-#else
-#define MAP_I2CSlaveFIFODisable                                               \
-        I2CSlaveFIFODisable
-#endif
-#ifdef ROM_I2CSlaveFIFOEnable
-#define MAP_I2CSlaveFIFOEnable                                                \
-        ROM_I2CSlaveFIFOEnable
-#else
-#define MAP_I2CSlaveFIFOEnable                                                \
-        I2CSlaveFIFOEnable
-#endif
-#ifdef ROM_I2CMasterGlitchFilterConfigSet
-#define MAP_I2CMasterGlitchFilterConfigSet                                    \
-        ROM_I2CMasterGlitchFilterConfigSet
-#else
-#define MAP_I2CMasterGlitchFilterConfigSet                                    \
-        I2CMasterGlitchFilterConfigSet
 #endif
 
 //*****************************************************************************
@@ -2853,214 +1450,270 @@
 #define MAP_IntIsEnabled                                                      \
         IntIsEnabled
 #endif
-#ifdef ROM_IntTrigger
-#define MAP_IntTrigger                                                        \
-        ROM_IntTrigger
-#else
-#define MAP_IntTrigger                                                        \
-        IntTrigger
-#endif
 
 //*****************************************************************************
 //
-// Macros for the LCD API.
+// Macros for the LPC API.
 //
 //*****************************************************************************
-#ifdef ROM_LCDIntStatus
-#define MAP_LCDIntStatus                                                      \
-        ROM_LCDIntStatus
+#ifdef ROM_LPCIntClear
+#define MAP_LPCIntClear                                                       \
+        ROM_LPCIntClear
 #else
-#define MAP_LCDIntStatus                                                      \
-        LCDIntStatus
+#define MAP_LPCIntClear                                                       \
+        LPCIntClear
 #endif
-#ifdef ROM_LCDClockReset
-#define MAP_LCDClockReset                                                     \
-        ROM_LCDClockReset
+#ifdef ROM_LPCByteRead
+#define MAP_LPCByteRead                                                       \
+        ROM_LPCByteRead
 #else
-#define MAP_LCDClockReset                                                     \
-        LCDClockReset
+#define MAP_LPCByteRead                                                       \
+        LPCByteRead
 #endif
-#ifdef ROM_LCDDMAConfigSet
-#define MAP_LCDDMAConfigSet                                                   \
-        ROM_LCDDMAConfigSet
+#ifdef ROM_LPCByteWrite
+#define MAP_LPCByteWrite                                                      \
+        ROM_LPCByteWrite
 #else
-#define MAP_LCDDMAConfigSet                                                   \
-        LCDDMAConfigSet
+#define MAP_LPCByteWrite                                                      \
+        LPCByteWrite
 #endif
-#ifdef ROM_LCDIDDCommandWrite
-#define MAP_LCDIDDCommandWrite                                                \
-        ROM_LCDIDDCommandWrite
+#ifdef ROM_LPCChannelConfigCOMxSet
+#define MAP_LPCChannelConfigCOMxSet                                           \
+        ROM_LPCChannelConfigCOMxSet
 #else
-#define MAP_LCDIDDCommandWrite                                                \
-        LCDIDDCommandWrite
+#define MAP_LPCChannelConfigCOMxSet                                           \
+        LPCChannelConfigCOMxSet
 #endif
-#ifdef ROM_LCDIDDConfigSet
-#define MAP_LCDIDDConfigSet                                                   \
-        ROM_LCDIDDConfigSet
+#ifdef ROM_LPCChannelConfigGet
+#define MAP_LPCChannelConfigGet                                               \
+        ROM_LPCChannelConfigGet
 #else
-#define MAP_LCDIDDConfigSet                                                   \
-        LCDIDDConfigSet
+#define MAP_LPCChannelConfigGet                                               \
+        LPCChannelConfigGet
 #endif
-#ifdef ROM_LCDIDDDataRead
-#define MAP_LCDIDDDataRead                                                    \
-        ROM_LCDIDDDataRead
+#ifdef ROM_LPCChannelConfigEPSet
+#define MAP_LPCChannelConfigEPSet                                             \
+        ROM_LPCChannelConfigEPSet
 #else
-#define MAP_LCDIDDDataRead                                                    \
-        LCDIDDDataRead
+#define MAP_LPCChannelConfigEPSet                                             \
+        LPCChannelConfigEPSet
 #endif
-#ifdef ROM_LCDIDDDataWrite
-#define MAP_LCDIDDDataWrite                                                   \
-        ROM_LCDIDDDataWrite
+#ifdef ROM_LPCChannelConfigMBSet
+#define MAP_LPCChannelConfigMBSet                                             \
+        ROM_LPCChannelConfigMBSet
 #else
-#define MAP_LCDIDDDataWrite                                                   \
-        LCDIDDDataWrite
+#define MAP_LPCChannelConfigMBSet                                             \
+        LPCChannelConfigMBSet
 #endif
-#ifdef ROM_LCDIDDDMADisable
-#define MAP_LCDIDDDMADisable                                                  \
-        ROM_LCDIDDDMADisable
+#ifdef ROM_LPCChannelDMAConfigGet
+#define MAP_LPCChannelDMAConfigGet                                            \
+        ROM_LPCChannelDMAConfigGet
 #else
-#define MAP_LCDIDDDMADisable                                                  \
-        LCDIDDDMADisable
+#define MAP_LPCChannelDMAConfigGet                                            \
+        LPCChannelDMAConfigGet
 #endif
-#ifdef ROM_LCDIDDDMAWrite
-#define MAP_LCDIDDDMAWrite                                                    \
-        ROM_LCDIDDDMAWrite
+#ifdef ROM_LPCChannelDMAConfigSet
+#define MAP_LPCChannelDMAConfigSet                                            \
+        ROM_LPCChannelDMAConfigSet
 #else
-#define MAP_LCDIDDDMAWrite                                                    \
-        LCDIDDDMAWrite
+#define MAP_LPCChannelDMAConfigSet                                            \
+        LPCChannelDMAConfigSet
 #endif
-#ifdef ROM_LCDIDDIndexedRead
-#define MAP_LCDIDDIndexedRead                                                 \
-        ROM_LCDIDDIndexedRead
+#ifdef ROM_LPCChannelDisable
+#define MAP_LPCChannelDisable                                                 \
+        ROM_LPCChannelDisable
 #else
-#define MAP_LCDIDDIndexedRead                                                 \
-        LCDIDDIndexedRead
+#define MAP_LPCChannelDisable                                                 \
+        LPCChannelDisable
 #endif
-#ifdef ROM_LCDIDDIndexedWrite
-#define MAP_LCDIDDIndexedWrite                                                \
-        ROM_LCDIDDIndexedWrite
+#ifdef ROM_LPCChannelEnable
+#define MAP_LPCChannelEnable                                                  \
+        ROM_LPCChannelEnable
 #else
-#define MAP_LCDIDDIndexedWrite                                                \
-        LCDIDDIndexedWrite
+#define MAP_LPCChannelEnable                                                  \
+        LPCChannelEnable
 #endif
-#ifdef ROM_LCDIDDStatusRead
-#define MAP_LCDIDDStatusRead                                                  \
-        ROM_LCDIDDStatusRead
+#ifdef ROM_LPCChannelStatusClear
+#define MAP_LPCChannelStatusClear                                             \
+        ROM_LPCChannelStatusClear
 #else
-#define MAP_LCDIDDStatusRead                                                  \
-        LCDIDDStatusRead
+#define MAP_LPCChannelStatusClear                                             \
+        LPCChannelStatusClear
 #endif
-#ifdef ROM_LCDIDDTimingSet
-#define MAP_LCDIDDTimingSet                                                   \
-        ROM_LCDIDDTimingSet
+#ifdef ROM_LPCChannelStatusGet
+#define MAP_LPCChannelStatusGet                                               \
+        ROM_LPCChannelStatusGet
 #else
-#define MAP_LCDIDDTimingSet                                                   \
-        LCDIDDTimingSet
+#define MAP_LPCChannelStatusGet                                               \
+        LPCChannelStatusGet
 #endif
-#ifdef ROM_LCDIntClear
-#define MAP_LCDIntClear                                                       \
-        ROM_LCDIntClear
+#ifdef ROM_LPCChannelStatusSet
+#define MAP_LPCChannelStatusSet                                               \
+        ROM_LPCChannelStatusSet
 #else
-#define MAP_LCDIntClear                                                       \
-        LCDIntClear
+#define MAP_LPCChannelStatusSet                                               \
+        LPCChannelStatusSet
 #endif
-#ifdef ROM_LCDIntDisable
-#define MAP_LCDIntDisable                                                     \
-        ROM_LCDIntDisable
+#ifdef ROM_LPCCOMxIntClear
+#define MAP_LPCCOMxIntClear                                                   \
+        ROM_LPCCOMxIntClear
 #else
-#define MAP_LCDIntDisable                                                     \
-        LCDIntDisable
+#define MAP_LPCCOMxIntClear                                                   \
+        LPCCOMxIntClear
 #endif
-#ifdef ROM_LCDIntEnable
-#define MAP_LCDIntEnable                                                      \
-        ROM_LCDIntEnable
+#ifdef ROM_LPCCOMxIntDisable
+#define MAP_LPCCOMxIntDisable                                                 \
+        ROM_LPCCOMxIntDisable
 #else
-#define MAP_LCDIntEnable                                                      \
-        LCDIntEnable
+#define MAP_LPCCOMxIntDisable                                                 \
+        LPCCOMxIntDisable
 #endif
-#ifdef ROM_LCDModeSet
-#define MAP_LCDModeSet                                                        \
-        ROM_LCDModeSet
+#ifdef ROM_LPCCOMxIntEnable
+#define MAP_LPCCOMxIntEnable                                                  \
+        ROM_LPCCOMxIntEnable
 #else
-#define MAP_LCDModeSet                                                        \
-        LCDModeSet
+#define MAP_LPCCOMxIntEnable                                                  \
+        LPCCOMxIntEnable
 #endif
-#ifdef ROM_LCDRasterACBiasIntCountSet
-#define MAP_LCDRasterACBiasIntCountSet                                        \
-        ROM_LCDRasterACBiasIntCountSet
+#ifdef ROM_LPCCOMxIntStatus
+#define MAP_LPCCOMxIntStatus                                                  \
+        ROM_LPCCOMxIntStatus
 #else
-#define MAP_LCDRasterACBiasIntCountSet                                        \
-        LCDRasterACBiasIntCountSet
+#define MAP_LPCCOMxIntStatus                                                  \
+        LPCCOMxIntStatus
 #endif
-#ifdef ROM_LCDRasterConfigSet
-#define MAP_LCDRasterConfigSet                                                \
-        ROM_LCDRasterConfigSet
+#ifdef ROM_LPCConfigGet
+#define MAP_LPCConfigGet                                                      \
+        ROM_LPCConfigGet
 #else
-#define MAP_LCDRasterConfigSet                                                \
-        LCDRasterConfigSet
+#define MAP_LPCConfigGet                                                      \
+        LPCConfigGet
 #endif
-#ifdef ROM_LCDRasterDisable
-#define MAP_LCDRasterDisable                                                  \
-        ROM_LCDRasterDisable
+#ifdef ROM_LPCConfigSet
+#define MAP_LPCConfigSet                                                      \
+        ROM_LPCConfigSet
 #else
-#define MAP_LCDRasterDisable                                                  \
-        LCDRasterDisable
+#define MAP_LPCConfigSet                                                      \
+        LPCConfigSet
 #endif
-#ifdef ROM_LCDRasterEnable
-#define MAP_LCDRasterEnable                                                   \
-        ROM_LCDRasterEnable
+#ifdef ROM_LPCHalfWordRead
+#define MAP_LPCHalfWordRead                                                   \
+        ROM_LPCHalfWordRead
 #else
-#define MAP_LCDRasterEnable                                                   \
-        LCDRasterEnable
+#define MAP_LPCHalfWordRead                                                   \
+        LPCHalfWordRead
 #endif
-#ifdef ROM_LCDRasterFrameBufferSet
-#define MAP_LCDRasterFrameBufferSet                                           \
-        ROM_LCDRasterFrameBufferSet
+#ifdef ROM_LPCHalfWordWrite
+#define MAP_LPCHalfWordWrite                                                  \
+        ROM_LPCHalfWordWrite
 #else
-#define MAP_LCDRasterFrameBufferSet                                           \
-        LCDRasterFrameBufferSet
+#define MAP_LPCHalfWordWrite                                                  \
+        LPCHalfWordWrite
 #endif
-#ifdef ROM_LCDRasterPaletteSet
-#define MAP_LCDRasterPaletteSet                                               \
-        ROM_LCDRasterPaletteSet
+#ifdef ROM_LPCIRQClear
+#define MAP_LPCIRQClear                                                       \
+        ROM_LPCIRQClear
 #else
-#define MAP_LCDRasterPaletteSet                                               \
-        LCDRasterPaletteSet
+#define MAP_LPCIRQClear                                                       \
+        LPCIRQClear
 #endif
-#ifdef ROM_LCDRasterSubPanelConfigSet
-#define MAP_LCDRasterSubPanelConfigSet                                        \
-        ROM_LCDRasterSubPanelConfigSet
+#ifdef ROM_LPCIRQConfig
+#define MAP_LPCIRQConfig                                                      \
+        ROM_LPCIRQConfig
 #else
-#define MAP_LCDRasterSubPanelConfigSet                                        \
-        LCDRasterSubPanelConfigSet
+#define MAP_LPCIRQConfig                                                      \
+        LPCIRQConfig
 #endif
-#ifdef ROM_LCDRasterSubPanelDisable
-#define MAP_LCDRasterSubPanelDisable                                          \
-        ROM_LCDRasterSubPanelDisable
+#ifdef ROM_LPCIRQGet
+#define MAP_LPCIRQGet                                                         \
+        ROM_LPCIRQGet
 #else
-#define MAP_LCDRasterSubPanelDisable                                          \
-        LCDRasterSubPanelDisable
+#define MAP_LPCIRQGet                                                         \
+        LPCIRQGet
 #endif
-#ifdef ROM_LCDRasterSubPanelEnable
-#define MAP_LCDRasterSubPanelEnable                                           \
-        ROM_LCDRasterSubPanelEnable
+#ifdef ROM_LPCIRQSend
+#define MAP_LPCIRQSend                                                        \
+        ROM_LPCIRQSend
 #else
-#define MAP_LCDRasterSubPanelEnable                                           \
-        LCDRasterSubPanelEnable
+#define MAP_LPCIRQSend                                                        \
+        LPCIRQSend
 #endif
-#ifdef ROM_LCDRasterTimingSet
-#define MAP_LCDRasterTimingSet                                                \
-        ROM_LCDRasterTimingSet
+#ifdef ROM_LPCIRQSet
+#define MAP_LPCIRQSet                                                         \
+        ROM_LPCIRQSet
 #else
-#define MAP_LCDRasterTimingSet                                                \
-        LCDRasterTimingSet
+#define MAP_LPCIRQSet                                                         \
+        LPCIRQSet
 #endif
-#ifdef ROM_LCDRasterEnabled
-#define MAP_LCDRasterEnabled                                                  \
-        ROM_LCDRasterEnabled
+#ifdef ROM_LPCIntDisable
+#define MAP_LPCIntDisable                                                     \
+        ROM_LPCIntDisable
 #else
-#define MAP_LCDRasterEnabled                                                  \
-        LCDRasterEnabled
+#define MAP_LPCIntDisable                                                     \
+        LPCIntDisable
+#endif
+#ifdef ROM_LPCIntEnable
+#define MAP_LPCIntEnable                                                      \
+        ROM_LPCIntEnable
+#else
+#define MAP_LPCIntEnable                                                      \
+        LPCIntEnable
+#endif
+#ifdef ROM_LPCIntStatus
+#define MAP_LPCIntStatus                                                      \
+        ROM_LPCIntStatus
+#else
+#define MAP_LPCIntStatus                                                      \
+        LPCIntStatus
+#endif
+#ifdef ROM_LPCSCIAssert
+#define MAP_LPCSCIAssert                                                      \
+        ROM_LPCSCIAssert
+#else
+#define MAP_LPCSCIAssert                                                      \
+        LPCSCIAssert
+#endif
+#ifdef ROM_LPCStatusGet
+#define MAP_LPCStatusGet                                                      \
+        ROM_LPCStatusGet
+#else
+#define MAP_LPCStatusGet                                                      \
+        LPCStatusGet
+#endif
+#ifdef ROM_LPCWordRead
+#define MAP_LPCWordRead                                                       \
+        ROM_LPCWordRead
+#else
+#define MAP_LPCWordRead                                                       \
+        LPCWordRead
+#endif
+#ifdef ROM_LPCWordWrite
+#define MAP_LPCWordWrite                                                      \
+        ROM_LPCWordWrite
+#else
+#define MAP_LPCWordWrite                                                      \
+        LPCWordWrite
+#endif
+#ifdef ROM_LPCChannelPoolAddressGet
+#define MAP_LPCChannelPoolAddressGet                                          \
+        ROM_LPCChannelPoolAddressGet
+#else
+#define MAP_LPCChannelPoolAddressGet                                          \
+        LPCChannelPoolAddressGet
+#endif
+#ifdef ROM_LPCStatusBlockAddressGet
+#define MAP_LPCStatusBlockAddressGet                                          \
+        ROM_LPCStatusBlockAddressGet
+#else
+#define MAP_LPCStatusBlockAddressGet                                          \
+        LPCStatusBlockAddressGet
+#endif
+#ifdef ROM_LPCStatusBlockAddressSet
+#define MAP_LPCStatusBlockAddressSet                                          \
+        ROM_LPCStatusBlockAddressSet
+#else
+#define MAP_LPCStatusBlockAddressSet                                          \
+        LPCStatusBlockAddressSet
 #endif
 
 //*****************************************************************************
@@ -3120,92 +1773,141 @@
 
 //*****************************************************************************
 //
-// Macros for the OneWire API.
+// Macros for the PECI API.
 //
 //*****************************************************************************
-#ifdef ROM_OneWireIntStatus
-#define MAP_OneWireIntStatus                                                  \
-        ROM_OneWireIntStatus
+#ifdef ROM_PECIIntClear
+#define MAP_PECIIntClear                                                      \
+        ROM_PECIIntClear
 #else
-#define MAP_OneWireIntStatus                                                  \
-        OneWireIntStatus
+#define MAP_PECIIntClear                                                      \
+        PECIIntClear
 #endif
-#ifdef ROM_OneWireBusReset
-#define MAP_OneWireBusReset                                                   \
-        ROM_OneWireBusReset
+#ifdef ROM_PECIAdvCmdSend
+#define MAP_PECIAdvCmdSend                                                    \
+        ROM_PECIAdvCmdSend
 #else
-#define MAP_OneWireBusReset                                                   \
-        OneWireBusReset
+#define MAP_PECIAdvCmdSend                                                    \
+        PECIAdvCmdSend
 #endif
-#ifdef ROM_OneWireBusStatus
-#define MAP_OneWireBusStatus                                                  \
-        ROM_OneWireBusStatus
+#ifdef ROM_PECIAdvCmdSendNonBlocking
+#define MAP_PECIAdvCmdSendNonBlocking                                         \
+        ROM_PECIAdvCmdSendNonBlocking
 #else
-#define MAP_OneWireBusStatus                                                  \
-        OneWireBusStatus
+#define MAP_PECIAdvCmdSendNonBlocking                                         \
+        PECIAdvCmdSendNonBlocking
 #endif
-#ifdef ROM_OneWireDataGet
-#define MAP_OneWireDataGet                                                    \
-        ROM_OneWireDataGet
+#ifdef ROM_PECIAdvCmdStatusGet
+#define MAP_PECIAdvCmdStatusGet                                               \
+        ROM_PECIAdvCmdStatusGet
 #else
-#define MAP_OneWireDataGet                                                    \
-        OneWireDataGet
+#define MAP_PECIAdvCmdStatusGet                                               \
+        PECIAdvCmdStatusGet
 #endif
-#ifdef ROM_OneWireDataGetNonBlocking
-#define MAP_OneWireDataGetNonBlocking                                         \
-        ROM_OneWireDataGetNonBlocking
+#ifdef ROM_PECIConfigGet
+#define MAP_PECIConfigGet                                                     \
+        ROM_PECIConfigGet
 #else
-#define MAP_OneWireDataGetNonBlocking                                         \
-        OneWireDataGetNonBlocking
+#define MAP_PECIConfigGet                                                     \
+        PECIConfigGet
 #endif
-#ifdef ROM_OneWireInit
-#define MAP_OneWireInit                                                       \
-        ROM_OneWireInit
+#ifdef ROM_PECIConfigSet
+#define MAP_PECIConfigSet                                                     \
+        ROM_PECIConfigSet
 #else
-#define MAP_OneWireInit                                                       \
-        OneWireInit
+#define MAP_PECIConfigSet                                                     \
+        PECIConfigSet
 #endif
-#ifdef ROM_OneWireIntClear
-#define MAP_OneWireIntClear                                                   \
-        ROM_OneWireIntClear
+#ifdef ROM_PECIDomainMaxReadClear
+#define MAP_PECIDomainMaxReadClear                                            \
+        ROM_PECIDomainMaxReadClear
 #else
-#define MAP_OneWireIntClear                                                   \
-        OneWireIntClear
+#define MAP_PECIDomainMaxReadClear                                            \
+        PECIDomainMaxReadClear
 #endif
-#ifdef ROM_OneWireIntDisable
-#define MAP_OneWireIntDisable                                                 \
-        ROM_OneWireIntDisable
+#ifdef ROM_PECIDomainValueClear
+#define MAP_PECIDomainValueClear                                              \
+        ROM_PECIDomainValueClear
 #else
-#define MAP_OneWireIntDisable                                                 \
-        OneWireIntDisable
+#define MAP_PECIDomainValueClear                                              \
+        PECIDomainValueClear
 #endif
-#ifdef ROM_OneWireIntEnable
-#define MAP_OneWireIntEnable                                                  \
-        ROM_OneWireIntEnable
+#ifdef ROM_PECIDomainConfigGet
+#define MAP_PECIDomainConfigGet                                               \
+        ROM_PECIDomainConfigGet
 #else
-#define MAP_OneWireIntEnable                                                  \
-        OneWireIntEnable
+#define MAP_PECIDomainConfigGet                                               \
+        PECIDomainConfigGet
 #endif
-#ifdef ROM_OneWireTransaction
-#define MAP_OneWireTransaction                                                \
-        ROM_OneWireTransaction
+#ifdef ROM_PECIDomainConfigSet
+#define MAP_PECIDomainConfigSet                                               \
+        ROM_PECIDomainConfigSet
 #else
-#define MAP_OneWireTransaction                                                \
-        OneWireTransaction
+#define MAP_PECIDomainConfigSet                                               \
+        PECIDomainConfigSet
 #endif
-#ifdef ROM_OneWireDMADisable
-#define MAP_OneWireDMADisable                                                 \
-        ROM_OneWireDMADisable
+#ifdef ROM_PECIDomainDisable
+#define MAP_PECIDomainDisable                                                 \
+        ROM_PECIDomainDisable
 #else
-#define MAP_OneWireDMADisable                                                 \
-        OneWireDMADisable
+#define MAP_PECIDomainDisable                                                 \
+        PECIDomainDisable
 #endif
-#ifdef ROM_OneWireDMAEnable
-#define MAP_OneWireDMAEnable                                                  \
-        ROM_OneWireDMAEnable
+#ifdef ROM_PECIDomainEnable
+#define MAP_PECIDomainEnable                                                  \
+        ROM_PECIDomainEnable
 #else
-#define MAP_OneWireDMAEnable                                                  \
-        OneWireDMAEnable
+#define MAP_PECIDomainEnable                                                  \
+        PECIDomainEnable
+#endif
+#ifdef ROM_PECIDomainMaxReadGet
+#define MAP_PECIDomainMaxReadGet                                              \
+        ROM_PECIDomainMaxReadGet
+#else
+#define MAP_PECIDomainMaxReadGet                                              \
+        PECIDomainMaxReadGet
+#endif
+#ifdef ROM_PECIDomainValueGet
+#define MAP_PECIDomainValueGet                                                \
+        ROM_PECIDomainValueGet
+#else
+#define MAP_PECIDomainValueGet                                                \
+        PECIDomainValueGet
+#endif
+#ifdef ROM_PECIIntDisable
+#define MAP_PECIIntDisable                                                    \
+        ROM_PECIIntDisable
+#else
+#define MAP_PECIIntDisable                                                    \
+        PECIIntDisable
+#endif
+#ifdef ROM_PECIIntEnable
+#define MAP_PECIIntEnable                                                     \
+        ROM_PECIIntEnable
+#else
+#define MAP_PECIIntEnable                                                     \
+        PECIIntEnable
+#endif
+#ifdef ROM_PECIIntStatus
+#define MAP_PECIIntStatus                                                     \
+        ROM_PECIIntStatus
+#else
+#define MAP_PECIIntStatus                                                     \
+        PECIIntStatus
+#endif
+#ifdef ROM_PECIBypassEnable
+#define MAP_PECIBypassEnable                                                  \
+        ROM_PECIBypassEnable
+#else
+#define MAP_PECIBypassEnable                                                  \
+        PECIBypassEnable
+#endif
+#ifdef ROM_PECIBypassDisable
+#define MAP_PECIBypassDisable                                                 \
+        ROM_PECIBypassDisable
+#else
+#define MAP_PECIBypassDisable                                                 \
+        PECIBypassDisable
 #endif
 
 //*****************************************************************************
@@ -3416,27 +2118,6 @@
 #define MAP_PWMGenFaultClear                                                  \
         PWMGenFaultClear
 #endif
-#ifdef ROM_PWMClockSet
-#define MAP_PWMClockSet                                                       \
-        ROM_PWMClockSet
-#else
-#define MAP_PWMClockSet                                                       \
-        PWMClockSet
-#endif
-#ifdef ROM_PWMClockGet
-#define MAP_PWMClockGet                                                       \
-        ROM_PWMClockGet
-#else
-#define MAP_PWMClockGet                                                       \
-        PWMClockGet
-#endif
-#ifdef ROM_PWMOutputUpdateMode
-#define MAP_PWMOutputUpdateMode                                               \
-        ROM_PWMOutputUpdateMode
-#else
-#define MAP_PWMOutputUpdateMode                                               \
-        PWMOutputUpdateMode
-#endif
 
 //*****************************************************************************
 //
@@ -3547,131 +2228,6 @@
 #else
 #define MAP_QEIIntClear                                                       \
         QEIIntClear
-#endif
-
-//*****************************************************************************
-//
-// Macros for the SHAMD5 API.
-//
-//*****************************************************************************
-#ifdef ROM_SHAMD5IntStatus
-#define MAP_SHAMD5IntStatus                                                   \
-        ROM_SHAMD5IntStatus
-#else
-#define MAP_SHAMD5IntStatus                                                   \
-        SHAMD5IntStatus
-#endif
-#ifdef ROM_SHAMD5ConfigSet
-#define MAP_SHAMD5ConfigSet                                                   \
-        ROM_SHAMD5ConfigSet
-#else
-#define MAP_SHAMD5ConfigSet                                                   \
-        SHAMD5ConfigSet
-#endif
-#ifdef ROM_SHAMD5DataProcess
-#define MAP_SHAMD5DataProcess                                                 \
-        ROM_SHAMD5DataProcess
-#else
-#define MAP_SHAMD5DataProcess                                                 \
-        SHAMD5DataProcess
-#endif
-#ifdef ROM_SHAMD5DataWrite
-#define MAP_SHAMD5DataWrite                                                   \
-        ROM_SHAMD5DataWrite
-#else
-#define MAP_SHAMD5DataWrite                                                   \
-        SHAMD5DataWrite
-#endif
-#ifdef ROM_SHAMD5DataWriteNonBlocking
-#define MAP_SHAMD5DataWriteNonBlocking                                        \
-        ROM_SHAMD5DataWriteNonBlocking
-#else
-#define MAP_SHAMD5DataWriteNonBlocking                                        \
-        SHAMD5DataWriteNonBlocking
-#endif
-#ifdef ROM_SHAMD5DMADisable
-#define MAP_SHAMD5DMADisable                                                  \
-        ROM_SHAMD5DMADisable
-#else
-#define MAP_SHAMD5DMADisable                                                  \
-        SHAMD5DMADisable
-#endif
-#ifdef ROM_SHAMD5DMAEnable
-#define MAP_SHAMD5DMAEnable                                                   \
-        ROM_SHAMD5DMAEnable
-#else
-#define MAP_SHAMD5DMAEnable                                                   \
-        SHAMD5DMAEnable
-#endif
-#ifdef ROM_SHAMD5HashLengthSet
-#define MAP_SHAMD5HashLengthSet                                               \
-        ROM_SHAMD5HashLengthSet
-#else
-#define MAP_SHAMD5HashLengthSet                                               \
-        SHAMD5HashLengthSet
-#endif
-#ifdef ROM_SHAMD5HMACKeySet
-#define MAP_SHAMD5HMACKeySet                                                  \
-        ROM_SHAMD5HMACKeySet
-#else
-#define MAP_SHAMD5HMACKeySet                                                  \
-        SHAMD5HMACKeySet
-#endif
-#ifdef ROM_SHAMD5HMACPPKeyGenerate
-#define MAP_SHAMD5HMACPPKeyGenerate                                           \
-        ROM_SHAMD5HMACPPKeyGenerate
-#else
-#define MAP_SHAMD5HMACPPKeyGenerate                                           \
-        SHAMD5HMACPPKeyGenerate
-#endif
-#ifdef ROM_SHAMD5HMACPPKeySet
-#define MAP_SHAMD5HMACPPKeySet                                                \
-        ROM_SHAMD5HMACPPKeySet
-#else
-#define MAP_SHAMD5HMACPPKeySet                                                \
-        SHAMD5HMACPPKeySet
-#endif
-#ifdef ROM_SHAMD5HMACProcess
-#define MAP_SHAMD5HMACProcess                                                 \
-        ROM_SHAMD5HMACProcess
-#else
-#define MAP_SHAMD5HMACProcess                                                 \
-        SHAMD5HMACProcess
-#endif
-#ifdef ROM_SHAMD5IntClear
-#define MAP_SHAMD5IntClear                                                    \
-        ROM_SHAMD5IntClear
-#else
-#define MAP_SHAMD5IntClear                                                    \
-        SHAMD5IntClear
-#endif
-#ifdef ROM_SHAMD5IntDisable
-#define MAP_SHAMD5IntDisable                                                  \
-        ROM_SHAMD5IntDisable
-#else
-#define MAP_SHAMD5IntDisable                                                  \
-        SHAMD5IntDisable
-#endif
-#ifdef ROM_SHAMD5IntEnable
-#define MAP_SHAMD5IntEnable                                                   \
-        ROM_SHAMD5IntEnable
-#else
-#define MAP_SHAMD5IntEnable                                                   \
-        SHAMD5IntEnable
-#endif
-#ifdef ROM_SHAMD5Reset
-#define MAP_SHAMD5Reset                                                       \
-        ROM_SHAMD5Reset
-#else
-#define MAP_SHAMD5Reset                                                       \
-        SHAMD5Reset
-#endif
-#ifdef ROM_SHAMD5ResultRead
-#define MAP_SHAMD5ResultRead                                                  \
-        ROM_SHAMD5ResultRead
-#else
-#define MAP_SHAMD5ResultRead                                                  \
-        SHAMD5ResultRead
 #endif
 
 //*****************************************************************************
@@ -4071,187 +2627,6 @@
 #define MAP_SMBusSlaveDataSend                                                \
         SMBusSlaveDataSend
 #endif
-#ifdef ROM_SMBusFIFOEnable
-#define MAP_SMBusFIFOEnable                                                   \
-        ROM_SMBusFIFOEnable
-#else
-#define MAP_SMBusFIFOEnable                                                   \
-        SMBusFIFOEnable
-#endif
-#ifdef ROM_SMBusFIFODisable
-#define MAP_SMBusFIFODisable                                                  \
-        ROM_SMBusFIFODisable
-#else
-#define MAP_SMBusFIFODisable                                                  \
-        SMBusFIFODisable
-#endif
-#ifdef ROM_SMBusDMAEnable
-#define MAP_SMBusDMAEnable                                                    \
-        ROM_SMBusDMAEnable
-#else
-#define MAP_SMBusDMAEnable                                                    \
-        SMBusDMAEnable
-#endif
-#ifdef ROM_SMBusDMADisable
-#define MAP_SMBusDMADisable                                                   \
-        ROM_SMBusDMADisable
-#else
-#define MAP_SMBusDMADisable                                                   \
-        SMBusDMADisable
-#endif
-
-//*****************************************************************************
-//
-// Macros for the SPIFlash API.
-//
-//*****************************************************************************
-#ifdef ROM_SPIFlashIntHandler
-#define MAP_SPIFlashIntHandler                                                \
-        ROM_SPIFlashIntHandler
-#else
-#define MAP_SPIFlashIntHandler                                                \
-        SPIFlashIntHandler
-#endif
-#ifdef ROM_SPIFlashInit
-#define MAP_SPIFlashInit                                                      \
-        ROM_SPIFlashInit
-#else
-#define MAP_SPIFlashInit                                                      \
-        SPIFlashInit
-#endif
-#ifdef ROM_SPIFlashWriteStatus
-#define MAP_SPIFlashWriteStatus                                               \
-        ROM_SPIFlashWriteStatus
-#else
-#define MAP_SPIFlashWriteStatus                                               \
-        SPIFlashWriteStatus
-#endif
-#ifdef ROM_SPIFlashPageProgram
-#define MAP_SPIFlashPageProgram                                               \
-        ROM_SPIFlashPageProgram
-#else
-#define MAP_SPIFlashPageProgram                                               \
-        SPIFlashPageProgram
-#endif
-#ifdef ROM_SPIFlashPageProgramNonBlocking
-#define MAP_SPIFlashPageProgramNonBlocking                                    \
-        ROM_SPIFlashPageProgramNonBlocking
-#else
-#define MAP_SPIFlashPageProgramNonBlocking                                    \
-        SPIFlashPageProgramNonBlocking
-#endif
-#ifdef ROM_SPIFlashRead
-#define MAP_SPIFlashRead                                                      \
-        ROM_SPIFlashRead
-#else
-#define MAP_SPIFlashRead                                                      \
-        SPIFlashRead
-#endif
-#ifdef ROM_SPIFlashReadNonBlocking
-#define MAP_SPIFlashReadNonBlocking                                           \
-        ROM_SPIFlashReadNonBlocking
-#else
-#define MAP_SPIFlashReadNonBlocking                                           \
-        SPIFlashReadNonBlocking
-#endif
-#ifdef ROM_SPIFlashWriteDisable
-#define MAP_SPIFlashWriteDisable                                              \
-        ROM_SPIFlashWriteDisable
-#else
-#define MAP_SPIFlashWriteDisable                                              \
-        SPIFlashWriteDisable
-#endif
-#ifdef ROM_SPIFlashReadStatus
-#define MAP_SPIFlashReadStatus                                                \
-        ROM_SPIFlashReadStatus
-#else
-#define MAP_SPIFlashReadStatus                                                \
-        SPIFlashReadStatus
-#endif
-#ifdef ROM_SPIFlashWriteEnable
-#define MAP_SPIFlashWriteEnable                                               \
-        ROM_SPIFlashWriteEnable
-#else
-#define MAP_SPIFlashWriteEnable                                               \
-        SPIFlashWriteEnable
-#endif
-#ifdef ROM_SPIFlashFastRead
-#define MAP_SPIFlashFastRead                                                  \
-        ROM_SPIFlashFastRead
-#else
-#define MAP_SPIFlashFastRead                                                  \
-        SPIFlashFastRead
-#endif
-#ifdef ROM_SPIFlashFastReadNonBlocking
-#define MAP_SPIFlashFastReadNonBlocking                                       \
-        ROM_SPIFlashFastReadNonBlocking
-#else
-#define MAP_SPIFlashFastReadNonBlocking                                       \
-        SPIFlashFastReadNonBlocking
-#endif
-#ifdef ROM_SPIFlashSectorErase
-#define MAP_SPIFlashSectorErase                                               \
-        ROM_SPIFlashSectorErase
-#else
-#define MAP_SPIFlashSectorErase                                               \
-        SPIFlashSectorErase
-#endif
-#ifdef ROM_SPIFlashDualRead
-#define MAP_SPIFlashDualRead                                                  \
-        ROM_SPIFlashDualRead
-#else
-#define MAP_SPIFlashDualRead                                                  \
-        SPIFlashDualRead
-#endif
-#ifdef ROM_SPIFlashDualReadNonBlocking
-#define MAP_SPIFlashDualReadNonBlocking                                       \
-        ROM_SPIFlashDualReadNonBlocking
-#else
-#define MAP_SPIFlashDualReadNonBlocking                                       \
-        SPIFlashDualReadNonBlocking
-#endif
-#ifdef ROM_SPIFlashBlockErase32
-#define MAP_SPIFlashBlockErase32                                              \
-        ROM_SPIFlashBlockErase32
-#else
-#define MAP_SPIFlashBlockErase32                                              \
-        SPIFlashBlockErase32
-#endif
-#ifdef ROM_SPIFlashQuadRead
-#define MAP_SPIFlashQuadRead                                                  \
-        ROM_SPIFlashQuadRead
-#else
-#define MAP_SPIFlashQuadRead                                                  \
-        SPIFlashQuadRead
-#endif
-#ifdef ROM_SPIFlashQuadReadNonBlocking
-#define MAP_SPIFlashQuadReadNonBlocking                                       \
-        ROM_SPIFlashQuadReadNonBlocking
-#else
-#define MAP_SPIFlashQuadReadNonBlocking                                       \
-        SPIFlashQuadReadNonBlocking
-#endif
-#ifdef ROM_SPIFlashReadID
-#define MAP_SPIFlashReadID                                                    \
-        ROM_SPIFlashReadID
-#else
-#define MAP_SPIFlashReadID                                                    \
-        SPIFlashReadID
-#endif
-#ifdef ROM_SPIFlashChipErase
-#define MAP_SPIFlashChipErase                                                 \
-        ROM_SPIFlashChipErase
-#else
-#define MAP_SPIFlashChipErase                                                 \
-        SPIFlashChipErase
-#endif
-#ifdef ROM_SPIFlashBlockErase64
-#define MAP_SPIFlashBlockErase64                                              \
-        ROM_SPIFlashBlockErase64
-#else
-#define MAP_SPIFlashBlockErase64                                              \
-        SPIFlashBlockErase64
-#endif
 
 //*****************************************************************************
 //
@@ -4369,41 +2744,6 @@
 #else
 #define MAP_SSIClockSourceSet                                                 \
         SSIClockSourceSet
-#endif
-#ifdef ROM_SSIAdvModeSet
-#define MAP_SSIAdvModeSet                                                     \
-        ROM_SSIAdvModeSet
-#else
-#define MAP_SSIAdvModeSet                                                     \
-        SSIAdvModeSet
-#endif
-#ifdef ROM_SSIAdvDataPutFrameEnd
-#define MAP_SSIAdvDataPutFrameEnd                                             \
-        ROM_SSIAdvDataPutFrameEnd
-#else
-#define MAP_SSIAdvDataPutFrameEnd                                             \
-        SSIAdvDataPutFrameEnd
-#endif
-#ifdef ROM_SSIAdvDataPutFrameEndNonBlocking
-#define MAP_SSIAdvDataPutFrameEndNonBlocking                                  \
-        ROM_SSIAdvDataPutFrameEndNonBlocking
-#else
-#define MAP_SSIAdvDataPutFrameEndNonBlocking                                  \
-        SSIAdvDataPutFrameEndNonBlocking
-#endif
-#ifdef ROM_SSIAdvFrameHoldEnable
-#define MAP_SSIAdvFrameHoldEnable                                             \
-        ROM_SSIAdvFrameHoldEnable
-#else
-#define MAP_SSIAdvFrameHoldEnable                                             \
-        SSIAdvFrameHoldEnable
-#endif
-#ifdef ROM_SSIAdvFrameHoldDisable
-#define MAP_SSIAdvFrameHoldDisable                                            \
-        ROM_SSIAdvFrameHoldDisable
-#else
-#define MAP_SSIAdvFrameHoldDisable                                            \
-        SSIAdvFrameHoldDisable
 #endif
 
 //*****************************************************************************
@@ -4579,6 +2919,20 @@
 #define MAP_SysCtlPWMClockGet                                                 \
         SysCtlPWMClockGet
 #endif
+#ifdef ROM_SysCtlADCSpeedSet
+#define MAP_SysCtlADCSpeedSet                                                 \
+        ROM_SysCtlADCSpeedSet
+#else
+#define MAP_SysCtlADCSpeedSet                                                 \
+        SysCtlADCSpeedSet
+#endif
+#ifdef ROM_SysCtlADCSpeedGet
+#define MAP_SysCtlADCSpeedGet                                                 \
+        ROM_SysCtlADCSpeedGet
+#else
+#define MAP_SysCtlADCSpeedGet                                                 \
+        SysCtlADCSpeedGet
+#endif
 #ifdef ROM_SysCtlUSBPLLEnable
 #define MAP_SysCtlUSBPLLEnable                                                \
         ROM_SysCtlUSBPLLEnable
@@ -4641,90 +2995,6 @@
 #else
 #define MAP_SysCtlDeepSleepClockSet                                           \
         SysCtlDeepSleepClockSet
-#endif
-#ifdef ROM_SysCtlDeepSleepClockConfigSet
-#define MAP_SysCtlDeepSleepClockConfigSet                                     \
-        ROM_SysCtlDeepSleepClockConfigSet
-#else
-#define MAP_SysCtlDeepSleepClockConfigSet                                     \
-        SysCtlDeepSleepClockConfigSet
-#endif
-#ifdef ROM_SysCtlClockFreqSet
-#define MAP_SysCtlClockFreqSet                                                \
-        ROM_SysCtlClockFreqSet
-#else
-#define MAP_SysCtlClockFreqSet                                                \
-        SysCtlClockFreqSet
-#endif
-#ifdef ROM_SysCtlResetBehaviorSet
-#define MAP_SysCtlResetBehaviorSet                                            \
-        ROM_SysCtlResetBehaviorSet
-#else
-#define MAP_SysCtlResetBehaviorSet                                            \
-        SysCtlResetBehaviorSet
-#endif
-#ifdef ROM_SysCtlResetBehaviorGet
-#define MAP_SysCtlResetBehaviorGet                                            \
-        ROM_SysCtlResetBehaviorGet
-#else
-#define MAP_SysCtlResetBehaviorGet                                            \
-        SysCtlResetBehaviorGet
-#endif
-#ifdef ROM_SysCtlFlashSectorSizeGet
-#define MAP_SysCtlFlashSectorSizeGet                                          \
-        ROM_SysCtlFlashSectorSizeGet
-#else
-#define MAP_SysCtlFlashSectorSizeGet                                          \
-        SysCtlFlashSectorSizeGet
-#endif
-#ifdef ROM_SysCtlVoltageEventConfig
-#define MAP_SysCtlVoltageEventConfig                                          \
-        ROM_SysCtlVoltageEventConfig
-#else
-#define MAP_SysCtlVoltageEventConfig                                          \
-        SysCtlVoltageEventConfig
-#endif
-#ifdef ROM_SysCtlVoltageEventStatus
-#define MAP_SysCtlVoltageEventStatus                                          \
-        ROM_SysCtlVoltageEventStatus
-#else
-#define MAP_SysCtlVoltageEventStatus                                          \
-        SysCtlVoltageEventStatus
-#endif
-#ifdef ROM_SysCtlVoltageEventClear
-#define MAP_SysCtlVoltageEventClear                                           \
-        ROM_SysCtlVoltageEventClear
-#else
-#define MAP_SysCtlVoltageEventClear                                           \
-        SysCtlVoltageEventClear
-#endif
-#ifdef ROM_SysCtlNMIStatus
-#define MAP_SysCtlNMIStatus                                                   \
-        ROM_SysCtlNMIStatus
-#else
-#define MAP_SysCtlNMIStatus                                                   \
-        SysCtlNMIStatus
-#endif
-#ifdef ROM_SysCtlNMIClear
-#define MAP_SysCtlNMIClear                                                    \
-        ROM_SysCtlNMIClear
-#else
-#define MAP_SysCtlNMIClear                                                    \
-        SysCtlNMIClear
-#endif
-#ifdef ROM_SysCtlClockOutConfig
-#define MAP_SysCtlClockOutConfig                                              \
-        ROM_SysCtlClockOutConfig
-#else
-#define MAP_SysCtlClockOutConfig                                              \
-        SysCtlClockOutConfig
-#endif
-#ifdef ROM_SysCtlAltClkConfig
-#define MAP_SysCtlAltClkConfig                                                \
-        ROM_SysCtlAltClkConfig
-#else
-#define MAP_SysCtlAltClkConfig                                                \
-        SysCtlAltClkConfig
 #endif
 
 //*****************************************************************************
@@ -5017,55 +3287,6 @@
 #define MAP_TimerMatchGet64                                                   \
         TimerMatchGet64
 #endif
-#ifdef ROM_TimerClockSourceGet
-#define MAP_TimerClockSourceGet                                               \
-        ROM_TimerClockSourceGet
-#else
-#define MAP_TimerClockSourceGet                                               \
-        TimerClockSourceGet
-#endif
-#ifdef ROM_TimerClockSourceSet
-#define MAP_TimerClockSourceSet                                               \
-        ROM_TimerClockSourceSet
-#else
-#define MAP_TimerClockSourceSet                                               \
-        TimerClockSourceSet
-#endif
-#ifdef ROM_TimerADCEventGet
-#define MAP_TimerADCEventGet                                                  \
-        ROM_TimerADCEventGet
-#else
-#define MAP_TimerADCEventGet                                                  \
-        TimerADCEventGet
-#endif
-#ifdef ROM_TimerADCEventSet
-#define MAP_TimerADCEventSet                                                  \
-        ROM_TimerADCEventSet
-#else
-#define MAP_TimerADCEventSet                                                  \
-        TimerADCEventSet
-#endif
-#ifdef ROM_TimerDMAEventGet
-#define MAP_TimerDMAEventGet                                                  \
-        ROM_TimerDMAEventGet
-#else
-#define MAP_TimerDMAEventGet                                                  \
-        TimerDMAEventGet
-#endif
-#ifdef ROM_TimerDMAEventSet
-#define MAP_TimerDMAEventSet                                                  \
-        ROM_TimerDMAEventSet
-#else
-#define MAP_TimerDMAEventSet                                                  \
-        TimerDMAEventSet
-#endif
-#ifdef ROM_TimerSynchronize
-#define MAP_TimerSynchronize                                                  \
-        ROM_TimerSynchronize
-#else
-#define MAP_TimerSynchronize                                                  \
-        TimerSynchronize
-#endif
 
 //*****************************************************************************
 //
@@ -5323,62 +3544,6 @@
 #else
 #define MAP_UART9BitAddrSend                                                  \
         UART9BitAddrSend
-#endif
-#ifdef ROM_UARTSmartCardDisable
-#define MAP_UARTSmartCardDisable                                              \
-        ROM_UARTSmartCardDisable
-#else
-#define MAP_UARTSmartCardDisable                                              \
-        UARTSmartCardDisable
-#endif
-#ifdef ROM_UARTSmartCardEnable
-#define MAP_UARTSmartCardEnable                                               \
-        ROM_UARTSmartCardEnable
-#else
-#define MAP_UARTSmartCardEnable                                               \
-        UARTSmartCardEnable
-#endif
-#ifdef ROM_UARTModemControlClear
-#define MAP_UARTModemControlClear                                             \
-        ROM_UARTModemControlClear
-#else
-#define MAP_UARTModemControlClear                                             \
-        UARTModemControlClear
-#endif
-#ifdef ROM_UARTModemControlGet
-#define MAP_UARTModemControlGet                                               \
-        ROM_UARTModemControlGet
-#else
-#define MAP_UARTModemControlGet                                               \
-        UARTModemControlGet
-#endif
-#ifdef ROM_UARTModemControlSet
-#define MAP_UARTModemControlSet                                               \
-        ROM_UARTModemControlSet
-#else
-#define MAP_UARTModemControlSet                                               \
-        UARTModemControlSet
-#endif
-#ifdef ROM_UARTModemStatusGet
-#define MAP_UARTModemStatusGet                                                \
-        ROM_UARTModemStatusGet
-#else
-#define MAP_UARTModemStatusGet                                                \
-        UARTModemStatusGet
-#endif
-#ifdef ROM_UARTFlowControlGet
-#define MAP_UARTFlowControlGet                                                \
-        ROM_UARTFlowControlGet
-#else
-#define MAP_UARTFlowControlGet                                                \
-        UARTFlowControlGet
-#endif
-#ifdef ROM_UARTFlowControlSet
-#define MAP_UARTFlowControlSet                                                \
-        ROM_UARTFlowControlSet
-#else
-#define MAP_UARTFlowControlSet                                                \
-        UARTFlowControlSet
 #endif
 
 //*****************************************************************************
@@ -5959,293 +4124,6 @@
 #define MAP_USBNumEndpointsGet                                                \
         USBNumEndpointsGet
 #endif
-#ifdef ROM_USBClockDisable
-#define MAP_USBClockDisable                                                   \
-        ROM_USBClockDisable
-#else
-#define MAP_USBClockDisable                                                   \
-        USBClockDisable
-#endif
-#ifdef ROM_USBClockEnable
-#define MAP_USBClockEnable                                                    \
-        ROM_USBClockEnable
-#else
-#define MAP_USBClockEnable                                                    \
-        USBClockEnable
-#endif
-#ifdef ROM_USBControllerVersion
-#define MAP_USBControllerVersion                                              \
-        ROM_USBControllerVersion
-#else
-#define MAP_USBControllerVersion                                              \
-        USBControllerVersion
-#endif
-#ifdef ROM_USBDevLPMConfig
-#define MAP_USBDevLPMConfig                                                   \
-        ROM_USBDevLPMConfig
-#else
-#define MAP_USBDevLPMConfig                                                   \
-        USBDevLPMConfig
-#endif
-#ifdef ROM_USBDevLPMDisable
-#define MAP_USBDevLPMDisable                                                  \
-        ROM_USBDevLPMDisable
-#else
-#define MAP_USBDevLPMDisable                                                  \
-        USBDevLPMDisable
-#endif
-#ifdef ROM_USBDevLPMEnable
-#define MAP_USBDevLPMEnable                                                   \
-        ROM_USBDevLPMEnable
-#else
-#define MAP_USBDevLPMEnable                                                   \
-        USBDevLPMEnable
-#endif
-#ifdef ROM_USBDevLPMRemoteWake
-#define MAP_USBDevLPMRemoteWake                                               \
-        ROM_USBDevLPMRemoteWake
-#else
-#define MAP_USBDevLPMRemoteWake                                               \
-        USBDevLPMRemoteWake
-#endif
-#ifdef ROM_USBDevSpeedGet
-#define MAP_USBDevSpeedGet                                                    \
-        ROM_USBDevSpeedGet
-#else
-#define MAP_USBDevSpeedGet                                                    \
-        USBDevSpeedGet
-#endif
-#ifdef ROM_USBDMAChannelAddressGet
-#define MAP_USBDMAChannelAddressGet                                           \
-        ROM_USBDMAChannelAddressGet
-#else
-#define MAP_USBDMAChannelAddressGet                                           \
-        USBDMAChannelAddressGet
-#endif
-#ifdef ROM_USBDMAChannelAddressSet
-#define MAP_USBDMAChannelAddressSet                                           \
-        ROM_USBDMAChannelAddressSet
-#else
-#define MAP_USBDMAChannelAddressSet                                           \
-        USBDMAChannelAddressSet
-#endif
-#ifdef ROM_USBDMAChannelConfigSet
-#define MAP_USBDMAChannelConfigSet                                            \
-        ROM_USBDMAChannelConfigSet
-#else
-#define MAP_USBDMAChannelConfigSet                                            \
-        USBDMAChannelConfigSet
-#endif
-#ifdef ROM_USBDMAChannelDisable
-#define MAP_USBDMAChannelDisable                                              \
-        ROM_USBDMAChannelDisable
-#else
-#define MAP_USBDMAChannelDisable                                              \
-        USBDMAChannelDisable
-#endif
-#ifdef ROM_USBDMAChannelEnable
-#define MAP_USBDMAChannelEnable                                               \
-        ROM_USBDMAChannelEnable
-#else
-#define MAP_USBDMAChannelEnable                                               \
-        USBDMAChannelEnable
-#endif
-#ifdef ROM_USBDMAChannelIntDisable
-#define MAP_USBDMAChannelIntDisable                                           \
-        ROM_USBDMAChannelIntDisable
-#else
-#define MAP_USBDMAChannelIntDisable                                           \
-        USBDMAChannelIntDisable
-#endif
-#ifdef ROM_USBDMAChannelIntEnable
-#define MAP_USBDMAChannelIntEnable                                            \
-        ROM_USBDMAChannelIntEnable
-#else
-#define MAP_USBDMAChannelIntEnable                                            \
-        USBDMAChannelIntEnable
-#endif
-#ifdef ROM_USBDMAChannelCountGet
-#define MAP_USBDMAChannelCountGet                                             \
-        ROM_USBDMAChannelCountGet
-#else
-#define MAP_USBDMAChannelCountGet                                             \
-        USBDMAChannelCountGet
-#endif
-#ifdef ROM_USBDMAChannelCountSet
-#define MAP_USBDMAChannelCountSet                                             \
-        ROM_USBDMAChannelCountSet
-#else
-#define MAP_USBDMAChannelCountSet                                             \
-        USBDMAChannelCountSet
-#endif
-#ifdef ROM_USBDMAChannelIntStatus
-#define MAP_USBDMAChannelIntStatus                                            \
-        ROM_USBDMAChannelIntStatus
-#else
-#define MAP_USBDMAChannelIntStatus                                            \
-        USBDMAChannelIntStatus
-#endif
-#ifdef ROM_USBDMAChannelStatus
-#define MAP_USBDMAChannelStatus                                               \
-        ROM_USBDMAChannelStatus
-#else
-#define MAP_USBDMAChannelStatus                                               \
-        USBDMAChannelStatus
-#endif
-#ifdef ROM_USBDMAChannelStatusClear
-#define MAP_USBDMAChannelStatusClear                                          \
-        ROM_USBDMAChannelStatusClear
-#else
-#define MAP_USBDMAChannelStatusClear                                          \
-        USBDMAChannelStatusClear
-#endif
-#ifdef ROM_USBHighSpeed
-#define MAP_USBHighSpeed                                                      \
-        ROM_USBHighSpeed
-#else
-#define MAP_USBHighSpeed                                                      \
-        USBHighSpeed
-#endif
-#ifdef ROM_USBHostEndpointPing
-#define MAP_USBHostEndpointPing                                               \
-        ROM_USBHostEndpointPing
-#else
-#define MAP_USBHostEndpointPing                                               \
-        USBHostEndpointPing
-#endif
-#ifdef ROM_USBHostEndpointSpeed
-#define MAP_USBHostEndpointSpeed                                              \
-        ROM_USBHostEndpointSpeed
-#else
-#define MAP_USBHostEndpointSpeed                                              \
-        USBHostEndpointSpeed
-#endif
-#ifdef ROM_USBHostLPMConfig
-#define MAP_USBHostLPMConfig                                                  \
-        ROM_USBHostLPMConfig
-#else
-#define MAP_USBHostLPMConfig                                                  \
-        USBHostLPMConfig
-#endif
-#ifdef ROM_USBHostLPMResume
-#define MAP_USBHostLPMResume                                                  \
-        ROM_USBHostLPMResume
-#else
-#define MAP_USBHostLPMResume                                                  \
-        USBHostLPMResume
-#endif
-#ifdef ROM_USBHostLPMSend
-#define MAP_USBHostLPMSend                                                    \
-        ROM_USBHostLPMSend
-#else
-#define MAP_USBHostLPMSend                                                    \
-        USBHostLPMSend
-#endif
-#ifdef ROM_USBLPMIntDisable
-#define MAP_USBLPMIntDisable                                                  \
-        ROM_USBLPMIntDisable
-#else
-#define MAP_USBLPMIntDisable                                                  \
-        USBLPMIntDisable
-#endif
-#ifdef ROM_USBLPMIntEnable
-#define MAP_USBLPMIntEnable                                                   \
-        ROM_USBLPMIntEnable
-#else
-#define MAP_USBLPMIntEnable                                                   \
-        USBLPMIntEnable
-#endif
-#ifdef ROM_USBLPMIntStatus
-#define MAP_USBLPMIntStatus                                                   \
-        ROM_USBLPMIntStatus
-#else
-#define MAP_USBLPMIntStatus                                                   \
-        USBLPMIntStatus
-#endif
-#ifdef ROM_USBLPMLinkStateGet
-#define MAP_USBLPMLinkStateGet                                                \
-        ROM_USBLPMLinkStateGet
-#else
-#define MAP_USBLPMLinkStateGet                                                \
-        USBLPMLinkStateGet
-#endif
-#ifdef ROM_USBEndpointPacketCountSet
-#define MAP_USBEndpointPacketCountSet                                         \
-        ROM_USBEndpointPacketCountSet
-#else
-#define MAP_USBEndpointPacketCountSet                                         \
-        USBEndpointPacketCountSet
-#endif
-#ifdef ROM_USBULPIConfig
-#define MAP_USBULPIConfig                                                     \
-        ROM_USBULPIConfig
-#else
-#define MAP_USBULPIConfig                                                     \
-        USBULPIConfig
-#endif
-#ifdef ROM_USBULPIDisable
-#define MAP_USBULPIDisable                                                    \
-        ROM_USBULPIDisable
-#else
-#define MAP_USBULPIDisable                                                    \
-        USBULPIDisable
-#endif
-#ifdef ROM_USBULPIEnable
-#define MAP_USBULPIEnable                                                     \
-        ROM_USBULPIEnable
-#else
-#define MAP_USBULPIEnable                                                     \
-        USBULPIEnable
-#endif
-#ifdef ROM_USBULPIRegRead
-#define MAP_USBULPIRegRead                                                    \
-        ROM_USBULPIRegRead
-#else
-#define MAP_USBULPIRegRead                                                    \
-        USBULPIRegRead
-#endif
-#ifdef ROM_USBULPIRegWrite
-#define MAP_USBULPIRegWrite                                                   \
-        ROM_USBULPIRegWrite
-#else
-#define MAP_USBULPIRegWrite                                                   \
-        USBULPIRegWrite
-#endif
-#ifdef ROM_USBOTGSessionRequest
-#define MAP_USBOTGSessionRequest                                              \
-        ROM_USBOTGSessionRequest
-#else
-#define MAP_USBOTGSessionRequest                                              \
-        USBOTGSessionRequest
-#endif
-#ifdef ROM_USBDMANumChannels
-#define MAP_USBDMANumChannels                                                 \
-        ROM_USBDMANumChannels
-#else
-#define MAP_USBDMANumChannels                                                 \
-        USBDMANumChannels
-#endif
-#ifdef ROM_USBEndpointDMAConfigSet
-#define MAP_USBEndpointDMAConfigSet                                           \
-        ROM_USBEndpointDMAConfigSet
-#else
-#define MAP_USBEndpointDMAConfigSet                                           \
-        USBEndpointDMAConfigSet
-#endif
-#ifdef ROM_USBLPMRemoteWakeEnabled
-#define MAP_USBLPMRemoteWakeEnabled                                           \
-        ROM_USBLPMRemoteWakeEnabled
-#else
-#define MAP_USBLPMRemoteWakeEnabled                                           \
-        USBLPMRemoteWakeEnabled
-#endif
-#ifdef ROM_USBModeConfig
-#define MAP_USBModeConfig                                                     \
-        ROM_USBModeConfig
-#else
-#define MAP_USBModeConfig                                                     \
-        USBModeConfig
-#endif
 
 //*****************************************************************************
 //
@@ -6397,13 +4275,6 @@
 #else
 #define MAP_Crc8CCITT                                                         \
         Crc8CCITT
-#endif
-#ifdef ROM_Crc32
-#define MAP_Crc32                                                             \
-        ROM_Crc32
-#else
-#define MAP_Crc32                                                             \
-        Crc32
 #endif
 
 #endif // __DRIVERLIB_ROM_MAP_H__

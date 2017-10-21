@@ -451,6 +451,11 @@
               <FilePath>.\include\sysctl.h</FilePath>
             </File>
             <File>
+              <FileName>interrupt.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\include\ti\TivaWare_C_Series-2.1.4.178\driverlib\interrupt.h</FilePath>
+            </File>
+            <File>
               <FileName>UART.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\include\UART.h</FilePath>
