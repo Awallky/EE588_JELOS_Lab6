@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\jelos.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\jelos.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Sun Oct 22 01:57:01 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Sun Oct 22 12:39:41 2017
 <BR><P>
 <H3>Maximum Stack Usage =        128 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -13,8 +13,8 @@ shell &rArr; settime &rArr; __2printf
 Functions with no stack information
 </H3><UL>
  <LI><a href="#[84]">Reset_Handler</a>
- <LI><a href="#[95]">DisableInterrupts</a>
- <LI><a href="#[96]">EnableInterrupts</a>
+ <LI><a href="#[96]">DisableInterrupts</a>
+ <LI><a href="#[97]">EnableInterrupts</a>
  <LI><a href="#[ba]">StartCritical</a>
  <LI><a href="#[bb]">EndCritical</a>
  <LI><a href="#[bc]">WaitForInterrupt</a>
@@ -607,17 +607,17 @@ Global Symbols
 
 <P><STRONG><a name="[b9]"></a>__rt_final_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry11a.o(.ARM.Collect$$$$0000000F))
 
-<P><STRONG><a name="[95]"></a>DisableInterrupts</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Init
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Wait
-<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Signal
+<P><STRONG><a name="[96]"></a>DisableInterrupts</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Init
+<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Wait
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Signal
 </UL>
 
-<P><STRONG><a name="[96]"></a>EnableInterrupts</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Init
+<P><STRONG><a name="[97]"></a>EnableInterrupts</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Init
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartScheduler
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Wait
-<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Signal
+<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Wait
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Signal
 </UL>
 
 <P><STRONG><a name="[ba]"></a>StartCritical</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text), UNUSED)
@@ -705,22 +705,22 @@ Global Symbols
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[94]"></a>OS_Sem_Init</STRONG> (Thumb, 18 bytes, Stack size 16 bytes, jelos.o(i.OS_Sem_Init))
+<P><STRONG><a name="[95]"></a>OS_Sem_Init</STRONG> (Thumb, 18 bytes, Stack size 16 bytes, jelos.o(i.OS_Sem_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16 + Unknown Stack Size
 <LI>Call Chain = OS_Sem_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnableInterrupts
-<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisableInterrupts
+<BR>[Calls]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnableInterrupts
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisableInterrupts
 </UL>
 <BR>[Called By]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartScheduler
 </UL>
 
-<P><STRONG><a name="[92]"></a>OS_Sem_Signal</STRONG> (Thumb, 94 bytes, Stack size 8 bytes, jelos.o(i.OS_Sem_Signal))
+<P><STRONG><a name="[93]"></a>OS_Sem_Signal</STRONG> (Thumb, 50 bytes, Stack size 8 bytes, jelos.o(i.OS_Sem_Signal))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
 <LI>Call Chain = OS_Sem_Signal
 </UL>
-<BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnableInterrupts
-<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisableInterrupts
+<BR>[Calls]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnableInterrupts
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisableInterrupts
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NullTask
 <LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Zero
@@ -729,23 +729,24 @@ Global Symbols
 <LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shell
 </UL>
 
-<P><STRONG><a name="[97]"></a>OS_Sem_Wait</STRONG> (Thumb, 42 bytes, Stack size 8 bytes, jelos.o(i.OS_Sem_Wait))
+<P><STRONG><a name="[92]"></a>OS_Sem_Wait</STRONG> (Thumb, 42 bytes, Stack size 8 bytes, jelos.o(i.OS_Sem_Wait))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
 <LI>Call Chain = OS_Sem_Wait
 </UL>
-<BR>[Calls]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Suspend
-<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnableInterrupts
-<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisableInterrupts
+<BR>[Calls]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Suspend
+<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnableInterrupts
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisableInterrupts
 </UL>
-<BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Zero
+<BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NullTask
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Zero
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Two
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;One
 <LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shell
 </UL>
 
-<P><STRONG><a name="[93]"></a>OS_Suspend</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, jelos.o(i.OS_Suspend))
+<P><STRONG><a name="[94]"></a>OS_Suspend</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, jelos.o(i.OS_Suspend))
 <BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NullTask
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Wait
+<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Wait
 </UL>
 
 <P><STRONG><a name="[82]"></a>One</STRONG> (Thumb, 62 bytes, Stack size 0 bytes, ostestmain.o(i.One))
@@ -753,8 +754,8 @@ Global Symbols
 <LI>Call Chain = One &rArr; putc &rArr; fputc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;putc
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Wait
-<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Signal
+<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Wait
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Signal
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> ostestmain.o(i.main)
 </UL>
@@ -762,7 +763,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[9b]"></a>PS_Calcs</STRONG> (Thumb, 288 bytes, Stack size 0 bytes, jelos.o(i.PS_Calcs))
+<P><STRONG><a name="[9b]"></a>PS_Calcs</STRONG> (Thumb, 220 bytes, Stack size 0 bytes, jelos.o(i.PS_Calcs))
 <BR><BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Schedule
 </UL>
 
@@ -772,7 +773,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartScheduler
 </UL>
 
-<P><STRONG><a name="[88]"></a>Schedule</STRONG> (Thumb, 206 bytes, Stack size 24 bytes, jelos.o(i.Schedule))
+<P><STRONG><a name="[88]"></a>Schedule</STRONG> (Thumb, 204 bytes, Stack size 24 bytes, jelos.o(i.Schedule))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48 + Unknown Stack Size
 <LI>Call Chain = Schedule &rArr; __2printf
 </UL>
@@ -790,9 +791,9 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Init
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PortF_Init
-<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Init
+<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Init
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NullTask
-<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnableInterrupts
+<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnableInterrupts
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -808,8 +809,8 @@ Global Symbols
 <LI>Call Chain = Two &rArr; putc &rArr; fputc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;putc
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Wait
-<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Signal
+<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Wait
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Signal
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> ostestmain.o(i.main)
 </UL>
@@ -831,8 +832,8 @@ Global Symbols
 <LI>Call Chain = Zero &rArr; putc &rArr; fputc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;putc
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Wait
-<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Signal
+<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Wait
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Signal
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> ostestmain.o(i.main)
 </UL>
@@ -975,8 +976,8 @@ Global Symbols
 <LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;putc
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;puts
 <LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ps
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Wait
-<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Signal
+<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Wait
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Signal
 <LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;time
 <LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;temp
 <LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;settime
@@ -1022,12 +1023,13 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CreateTask
 </UL>
 
-<P><STRONG><a name="[7e]"></a>NullTask</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, jelos.o(i.NullTask))
+<P><STRONG><a name="[7e]"></a>NullTask</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, jelos.o(i.NullTask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
-<LI>Call Chain = NullTask &rArr; OS_Sem_Signal
+<LI>Call Chain = NullTask &rArr; OS_Sem_Wait
 </UL>
-<BR>[Calls]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Suspend
-<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Signal
+<BR>[Calls]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Suspend
+<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Wait
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Signal
 </UL>
 <BR>[Called By]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartScheduler
 </UL>

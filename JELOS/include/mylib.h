@@ -100,7 +100,7 @@
 // Toggle the proper INTCTRL bit
 //
 #ifndef SYSTICK_TRIGGER
-#define SYSTICK_TRIGGER 0x84000000   // trigger SysTick now, and NMI handler
+#define SYSTICK_TRIGGER 0x04000000   // trigger SysTick now, and NMI handler
 #endif
 
 void ps(void);

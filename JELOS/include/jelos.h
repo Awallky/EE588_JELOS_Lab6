@@ -11,6 +11,10 @@
 #define NUM_TASKS	5
 #endif
 
+#ifndef BLOCKED
+#define BLOCKED	0
+#endif
+
 #define NULL 0
 
 int CreateTask(void (*func)(void), 
@@ -54,9 +58,10 @@ void EndCritical(long sr);    // restore I bit to previous value
 void WaitForInterrupt(void);  // low power mode
 #endif
 
-/* Task States
- */
-enum { T_CREATED, T_READY, T_RUNNING, T_BLOCKED };
+/* 
+		Task States
+*/
+enum { T_CREATED, T_READY, T_RUNNING };
 
 typedef struct TaskControlBlock
 	{

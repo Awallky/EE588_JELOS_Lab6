@@ -111,6 +111,7 @@ static void NullTask(void)
 	{
 
 	while (1){ 
+		OS_Sem_Wait(sem);
 		OS_Sem_Signal(sem);          //  putchar('n');
 		OS_Suspend();
 	}
@@ -126,22 +127,24 @@ static void NullTask(void)
  */
 unsigned char * Schedule(unsigned char * the_sp)  
 	{
-	 unsigned char * sp; // save the current sp and schedule		
-	 //
-	 // AMW
-	 //
-   unsigned int period = ROM_SysTickPeriodGet();
-	 unsigned int tick_val = ROM_SysTickValueGet();
-	 printf("%d\t%d\n", (period - tick_val), CURRENT_TASK->tid);
-	 
+	 unsigned char * sp; // save the current sp and schedule
+   uint32_t period;
+	 uint32_t tick_val;
+	
+	 period = ROM_SysTickPeriodGet();
+	 tick_val = ROM_SysTickValueGet();
+	 printf("%d\t%d\n", (period - tick_val), CURRENT_TASK->tid);	 
 	 CURRENT_TASK->clk_ticks = period - tick_val; // amount of time left after non-SysTick interrupt, AMW
+		
+	 /* Track changes to the stack pointer, Update task state */
 	 CURRENT_TASK->sp = the_sp;
 	 CURRENT_TASK->state = T_READY;
-
-	 task_state[CURRENT_TASK->tid] = T_READY; // AMW
+	 task_state[CURRENT_TASK->tid] = T_READY;
+		
+	 /* Search for a task blocked on *sem */
 	 CURRENT_TASK = CURRENT_TASK->next;
-	 while(CURRENT_TASK->blocked){ // skip task if blocked
-		 CURRENT_TASK = CURRENT_TASK->next;
+	 while(CURRENT_TASK->blocked){ 
+		 CURRENT_TASK = CURRENT_TASK->next; // skip task if blocked
 	 }
 	 
 	 if(CURRENT_TASK->state == T_READY){
@@ -150,13 +153,13 @@ unsigned char * Schedule(unsigned char * the_sp)
 	    sp = CURRENT_TASK->sp;
 			CURRENT_TASK->clk_ticks = 0;
 	 }
-	 else{     /* 
+	 else {     /* 
 									task->state == T_CREATED so make it "ready"
 	                give it an interrupt frame and then launch it
 	    		        (with a blr sith 0xfffffff9 in LR in StartNewTask())
 						 */
 		  CURRENT_TASK->state = T_RUNNING;
-		  task_state[CURRENT_TASK->tid] = 1;
+		  task_state[CURRENT_TASK->tid] = T_RUNNING;
 			sp = StartNewTask(CURRENT_TASK->sp,(uint32_t) CURRENT_TASK->func); // Does not return!
 	 }
 		
@@ -164,10 +167,9 @@ unsigned char * Schedule(unsigned char * the_sp)
 				AMW
 				Determine the ps values for the current tasks
 		*/
-		PS_Calcs();
-		
+		PS_Calcs();		
 		return(sp);
-	}
+}
 
 //	
 //AMW
@@ -211,6 +213,7 @@ void ps(void){
 }
 
 void PS_Calcs(void){
+		TaskControlBlock *tcb_ptr = CURRENT_TASK;
 		total_num_ticks = 0;
 	
 		/* 
@@ -219,19 +222,19 @@ void PS_Calcs(void){
 			Function PS_Calcs
 		*/
 		for(i = 0; i < NUM_TASKS; i++ ){
-			total_num_ticks += (CURRENT_TASK->clk_ticks);
-			task_ticks[CURRENT_TASK->tid] = CURRENT_TASK->clk_ticks;			
+			total_num_ticks += (tcb_ptr->clk_ticks);
+			task_ticks[tcb_ptr->tid] = tcb_ptr->clk_ticks;
+			tcb_ptr = tcb_ptr->next;
 		}
+		tcb_ptr = CURRENT_TASK; // Reset to CURRENT_TASK
 		
 		for(i = 0; i < NUM_TASKS; i++ ){
-			stack_array[CURRENT_TASK->tid] = (int)CURRENT_TASK->sp;	
-			stack_end_array[CURRENT_TASK->tid] = (int)CURRENT_TASK->stack_end;
-			stack_start_array[CURRENT_TASK->tid] = (int)CURRENT_TASK->stack_start;
-			stack_size[CURRENT_TASK->tid] = (stack_end_array[CURRENT_TASK->tid]-stack_start_array[CURRENT_TASK->tid]+1);
-			percent_cpu[CURRENT_TASK->tid] = (100*task_ticks[CURRENT_TASK->tid])/total_num_ticks; /// ((float)total_num_ticks); // / (float)total_num_ticks;
-			percent_stack[CURRENT_TASK->tid] = ((stack_end_array[CURRENT_TASK->tid]-stack_array[CURRENT_TASK->tid])*100) / stack_size[CURRENT_TASK->tid];
-			
-			CURRENT_TASK = CURRENT_TASK->next;
+			stack_array[tcb_ptr->tid] = (int)tcb_ptr->sp;	
+			stack_end_array[tcb_ptr->tid] = (int)tcb_ptr->stack_end;
+			stack_start_array[tcb_ptr->tid] = (int)tcb_ptr->stack_start;
+			stack_size[tcb_ptr->tid] = (stack_end_array[tcb_ptr->tid]-stack_start_array[tcb_ptr->tid]+1);
+			percent_cpu[tcb_ptr->tid] = (100*task_ticks[tcb_ptr->tid])/total_num_ticks; /// ((float)total_num_ticks); // / (float)total_num_ticks;
+			percent_stack[CURRENT_TASK->tid] = ((stack_end_array[tcb_ptr->tid]-stack_array[tcb_ptr->tid])*100) / stack_size[tcb_ptr->tid];
 		}
 }
 
@@ -248,42 +251,38 @@ void OS_Sem_Init(int32_t *sem, int32_t count){
 	EnableInterrupts();
 }
 
-void OS_Sem_Signal(int32_t *sem){
-	//int dl_flg = 0;
-	DisableInterrupts();
-	//
-	// Critical Section of code
-	//
-	*sem += 1;
-	if( *sem <= 0 ){
-		CURRENT_TASK = CURRENT_TASK->next;
-		for( i = 0; i < NUM_TASKS; i++ ){
-			if( CURRENT_TASK->blocked == T_BLOCKED )
-					break;
-			CURRENT_TASK = CURRENT_TASK->next;
-		}
-		CURRENT_TASK->blocked = 0;
-	}
-	EnableInterrupts();
-}
-
 void OS_Sem_Wait(int32_t *sem){
 	DisableInterrupts();
 	*sem -= 1;
 	if( *sem < 0 ){
-		CURRENT_TASK->blocked = T_BLOCKED;
+		CURRENT_TASK->blocked = *sem; // blocked on *sem
 		EnableInterrupts(); // allow scheduler a chance to be called
 		OS_Suspend();
 	}	
 	EnableInterrupts(); // turn off interrupts when we go to exit the loop
 }
 
+void OS_Sem_Signal(int32_t *sem){
+	DisableInterrupts();
+	*sem += 1;
+	if( *sem <= 0 ){
+		TaskControlBlock *task_ptr = CURRENT_TASK->next;		
+		while( task_ptr->blocked != *sem ){
+			task_ptr = task_ptr->next;
+		}
+		task_ptr->blocked = 0; // unblock this task
+	}
+	EnableInterrupts();
+}
 /* 
 		AMW
-		Trigger SysTick Interrupt 
+		Trigger SysTick Interrupt
+		Interrupt Control Reg. Base Address: E000E000
+		Interrupt Control Reg. Address Offset: 0x0D04
 */
 void OS_Suspend(void){
-    HWREG(INTCTRL) = SYSTICK_TRIGGER; // Trigger SysTick Interrupt
+    //HWREG(INTCTRL) = SYSTICK_TRIGGER; // Trigger SysTick Interrupt
+	  INTCTRL = SYSTICK_TRIGGER; // Trigger SysTick Interrupt
 }
 
 
