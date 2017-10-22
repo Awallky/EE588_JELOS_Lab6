@@ -193,7 +193,7 @@ void SysTick_Init(void){
 void ps(void){ 
 	
 	/* Print contents of task list */
-	printf("\nUSER\tTID\t%%CPU\tSTK_SZ\t%%STK\tSTATE\t\tADDR\n");
+	printf("\nUSER\tTID\t%%CPU\tSTK_SZ\t%%STK\tSTATE\tADDR\n");
 	for( i = 0; i < NUM_TASKS; i++ ){
 				printf("ROOT\t");
 				printf("%02d\t", i);				
@@ -207,10 +207,10 @@ void ps(void){
 				}				
 				
 				if( task_state[i] == T_READY ){
-					printf("RDY\t\t0x%x\n", stack_array[i]);
+					printf("RDY\t0x%x\n", stack_array[i]);
 				}
 				else if( task_state[i] == T_RUNNING ){
-					printf("RUN\t\t0x%x\n", stack_array[i]);
+					printf("RUN\t0x%x\n", stack_array[i]);
 				}
 		}
 }

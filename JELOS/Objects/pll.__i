@@ -1,6 +1,0 @@
--c --cpu Cortex-M4 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections
--I.\RTE\_Target_1
--IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123
--IC:\Keil_v5\ARM\CMSIS\Include
--D__UVISION_VERSION="524" -DTM4C123GH6PM
--o .\objects\pll.o --omf_browse .\objects\pll.crf --depend .\objects\pll.d "src\PLL.c"

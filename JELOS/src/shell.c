@@ -106,7 +106,7 @@ void  shell(void)
 		 
      while (1) {                   /* repeat until done ....         */
 					OS_Sem_Wait(sem);
-          printf("jelos# ");     /*   display a prompt             */
+          printf("\njelos# ");     /*   display a prompt             */
 					
 		      gets(line);          // get a line from the user
           parse(line, argv);       /*   parse the line               */

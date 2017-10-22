@@ -28,7 +28,10 @@ void Zero(void)
 										 PIN_1)) );   // toggle LED
 		while(1){
 			OS_Sem_Wait(sem);
-			putchar('0'); //tasks should not end
+			putchar('Z'); //tasks should not end
+			putchar('e'); //tasks should not end
+			putchar('r'); //tasks should not end
+			putchar('o'); //tasks should not end
 			OS_Sem_Signal(sem);
 		}
 	}
@@ -38,10 +41,11 @@ void One(void)
 		ROM_GPIOPinWrite(PORTF_BASE_ADDR, PIN_2 ,  
 										 ~(ROM_GPIOPinRead(PORTF_BASE_ADDR,
 										 PIN_2)) );   // toggle Blue LED 
-		while(1){  
-			
+		while(1){
 			OS_Sem_Wait(sem);
-			putchar('1');
+			putchar('O'); //tasks should not end
+			putchar('n'); //tasks should not end
+			putchar('e'); //tasks should not end
 			OS_Sem_Signal(sem);
 		}
 } 
@@ -53,7 +57,9 @@ void Two(void)
 										 PIN_3)) );   // toggle LED 
 		while (1){ 
 			OS_Sem_Wait(sem);
-			putchar('2'); //tasks should not end
+			putchar('T'); //tasks should not end
+			putchar('w'); //tasks should not end
+			putchar('o'); //tasks should not end
 			OS_Sem_Signal(sem);
 		}
 	
