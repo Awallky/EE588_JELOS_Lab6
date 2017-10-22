@@ -131,7 +131,6 @@ unsigned char * Schedule(unsigned char * the_sp)
 	 unsigned char * sp; // save the current sp and schedule
    uint32_t period;
 	 uint32_t tick_val;
-	 //printf("\n\n");
 	
 	 period = ROM_SysTickPeriodGet();
 	 tick_val = ROM_SysTickValueGet();	 
@@ -174,9 +173,6 @@ unsigned char * Schedule(unsigned char * the_sp)
 		return(sp);
 }
 
-//	
-//AMW
-//
 void PortF_Init(void){
 	ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF); 
 	ROM_SysCtlDelay(1); 
@@ -331,4 +327,22 @@ Delay(uint32_t ui32Seconds)
     }
 }
 
-
+// NEVER USED!!!
+void Priority_Scheduler(unsigned char * the_sp){ // every time slice
+	uint32_t max_priority = MAX_TASK_PRIORITY;   
+	TaskControlBlock *pt;
+	TaskControlBlock *WinnerPt;
+	
+	CURRENT_TASK->sp = the_sp;
+	CURRENT_TASK->state = T_READY;
+	pt = CURRENT_TASK;         // search for highest priority task (not blocked) 
+	do{
+		pt = pt->next;
+		if((pt->priority < max_priority)&&((pt->blocked)==0)){
+			max_priority = pt->priority;
+			WinnerPt = pt;
+		}
+	} while(CURRENT_TASK != pt); // look at all tasks
+	CURRENT_TASK = WinnerPt;// schedule the task found}
+	
+}

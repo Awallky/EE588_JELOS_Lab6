@@ -15,6 +15,10 @@
 #define BLOCKED	0
 #endif
 
+#ifndef MAX_TASK_PRIORITY
+#define MAX_TASK_PRIORITY	0
+#endif
+
 #define NULL 0
 
 int CreateTask(void (*func)(void), 
@@ -33,15 +37,9 @@ void OS_Sem_Signal(int32_t *sem);
 void OS_Sem_Wait(int32_t *sem);
 void OS_Suspend(void);
 void PS_Calcs(void);
-
-void foo_init(void);
-void foo(void); // testing function
+										
+void Priority_Scheduler(unsigned char * the_sp);
 void Delay(uint32_t ui32Seconds);
-void DisplayIntStatus(void);
-void IntGPIOa(void);
-void IntGPIOb(void);
-void IntGPIOc(void);
-void ConfigureUART(void);
 
 /* Minimum stack size for a task function that does not use "any" stack space.
  * This should be the interrupt stack frame, plus some fudge factor for
@@ -71,9 +69,9 @@ typedef struct TaskControlBlock
 	void	(*func)(void);		/* function to call for that task */
 	unsigned char	*stack_start;		/* stack low value */
 	unsigned char	*stack_end;			/* stack high value */
-	//uint32_t	stack_size; 	/* stack high value */
 	unsigned char	*sp;		/* current value of the stack pointer */
 	uint32_t clk_ticks;
 	int32_t *blocked; /* Determines whether the task is blocked // AMW // */
+	int32_t priority;
 	} TaskControlBlock;
 #endif
