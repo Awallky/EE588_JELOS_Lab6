@@ -10,7 +10,7 @@
 void prmsg(char *);
 int strcmp(const char *s1, const char *s2);
 
-extern unsigned int *sem;
+extern int32_t *sem;
 // -----------------------------------------------------------------
 // SHELL BUILT_IN FUNCTIONS
 // -----------------------------------------------------------------

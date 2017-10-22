@@ -16,7 +16,7 @@ unsigned char task_zero_stack[MIN_STACK_SIZE]; // Declare a seperate stack
 unsigned char task_one_stack[MIN_STACK_SIZE];  // for each task
 unsigned char task_two_stack[MIN_STACK_SIZE];
 unsigned char task_shell_stack[1024];
-extern unsigned int *sem;
+extern int32_t *sem;
 
 // Function Prototypes
 void shell(void);
@@ -34,7 +34,7 @@ void Zero(void)
 	}
 
 void One(void)
-	{
+{
 		ROM_GPIOPinWrite(PORTF_BASE_ADDR, PIN_2 ,  
 										 ~(ROM_GPIOPinRead(PORTF_BASE_ADDR,
 										 PIN_2)) );   // toggle Blue LED 
@@ -44,7 +44,7 @@ void One(void)
 			putchar('1');
 			OS_Sem_Signal(sem);
 		}
-	} 
+} 
 	
 void Two(void)
 	{
@@ -54,9 +54,7 @@ void Two(void)
 		while (1){ 
 			OS_Sem_Wait(sem);
 			putchar('2'); //tasks should not end
-			//foo();
 			OS_Sem_Signal(sem);
-			OS_Suspend(); // Trigger SysTick Interrupt
 		}
 	
 	} 

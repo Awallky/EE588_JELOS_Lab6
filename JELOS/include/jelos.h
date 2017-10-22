@@ -24,9 +24,9 @@ static void NullTask(void);
 void EdgeCounter_Init(void);										
 void PortF_Init(void);
 void SysTick_Init(void);
-void OS_Sem_Init(unsigned int *sem, unsigned int count);
-void OS_Sem_Signal(unsigned int *sem);
-void OS_Sem_Wait(unsigned int *sem);
+void OS_Sem_Init(int32_t *sem, int32_t count);
+void OS_Sem_Signal(int32_t *sem);
+void OS_Sem_Wait(int32_t *sem);
 void OS_Suspend(void);
 void PS_Calcs(void);
 

@@ -89,10 +89,24 @@
 #define PORTE_CLOCK_BIT 0x0010
 #define PORTF_CLOCK_BIT 0x0020
 
+//
+// Interrupt Control Register
+//
+#ifndef INTCTRL
+#define INTCTRL (*((volatile unsigned long *)0xE000ED04))
+#endif
+
+//
+// Toggle the proper INTCTRL bit
+//
+#ifndef SYSTICK_TRIGGER
+#define SYSTICK_TRIGGER 0x84000000   // trigger SysTick now, and NMI handler
+#endif
+
 void ps(void);
-void OS_Sem_Init(unsigned int *s, unsigned int count);
-void OS_Sem_Signal(unsigned int *sem);
-void OS_Sem_Wait(unsigned int *sem);
+void OS_Sem_Init(int32_t *s, int32_t count);
+void OS_Sem_Signal(int32_t *sem);
+void OS_Sem_Wait(int32_t *sem);
 float get_percent_cpu(void);
 
 #define TICKS_PER_S	50000000
