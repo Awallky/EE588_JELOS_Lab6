@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\jelos.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\jelos.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Sun Oct 22 14:15:19 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Sun Oct 22 15:04:00 2017
 <BR><P>
 <H3>Maximum Stack Usage =        128 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -19,7 +19,7 @@ Functions with no stack information
  <LI><a href="#[bb]">EndCritical</a>
  <LI><a href="#[bc]">WaitForInterrupt</a>
  <LI><a href="#[28]">GPIOPortF_Handler</a>
- <LI><a href="#[9a]">StartNewTask</a>
+ <LI><a href="#[9b]">StartNewTask</a>
  <LI><a href="#[9]">SysTick_Handler</a>
  <LI><a href="#[7d]">task_exit</a>
 </UL>
@@ -629,20 +629,20 @@ Global Symbols
 <P><STRONG><a name="[bc]"></a>WaitForInterrupt</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text), UNUSED)
 
 <P><STRONG><a name="[28]"></a>GPIOPortF_Handler</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, jelosasm.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 48 + Unknown Stack Size
-<LI>Call Chain = GPIOPortF_Handler &rArr; Schedule &rArr; __2printf
+<BR><BR>[Stack]<UL><LI>Max Depth = 56 + Unknown Stack Size
+<LI>Call Chain = GPIOPortF_Handler &rArr; Schedule &rArr; PS_Calcs &rArr; __2printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Schedule
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
 </UL>
-<P><STRONG><a name="[9a]"></a>StartNewTask</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, jelosasm.o(.text))
+<P><STRONG><a name="[9b]"></a>StartNewTask</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, jelosasm.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Schedule
 </UL>
 
 <P><STRONG><a name="[9]"></a>SysTick_Handler</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, jelosasm.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 48 + Unknown Stack Size
-<LI>Call Chain = SysTick_Handler &rArr; Schedule &rArr; __2printf
+<BR><BR>[Stack]<UL><LI>Max Depth = 56 + Unknown Stack Size
+<LI>Call Chain = SysTick_Handler &rArr; Schedule &rArr; PS_Calcs &rArr; __2printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Schedule
 </UL>
@@ -765,8 +765,10 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[9b]"></a>PS_Calcs</STRONG> (Thumb, 326 bytes, Stack size 20 bytes, jelos.o(i.PS_Calcs))
-<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = PS_Calcs
+<P><STRONG><a name="[99]"></a>PS_Calcs</STRONG> (Thumb, 280 bytes, Stack size 8 bytes, jelos.o(i.PS_Calcs))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = PS_Calcs &rArr; __2printf
+</UL>
+<BR>[Calls]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Schedule
 </UL>
@@ -777,15 +779,14 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartScheduler
 </UL>
 
-<P><STRONG><a name="[88]"></a>Schedule</STRONG> (Thumb, 212 bytes, Stack size 24 bytes, jelos.o(i.Schedule))
-<BR><BR>[Stack]<UL><LI>Max Depth = 48 + Unknown Stack Size
-<LI>Call Chain = Schedule &rArr; __2printf
+<P><STRONG><a name="[88]"></a>Schedule</STRONG> (Thumb, 198 bytes, Stack size 24 bytes, jelos.o(i.Schedule))
+<BR><BR>[Stack]<UL><LI>Max Depth = 56 + Unknown Stack Size
+<LI>Call Chain = Schedule &rArr; PS_Calcs &rArr; __2printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartNewTask
-<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PS_Calcs
+<BR>[Calls]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartNewTask
+<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PS_Calcs
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnableInterrupts
 <LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisableInterrupts
-<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
 <LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPortF_Handler
@@ -849,10 +850,10 @@ Global Symbols
 
 <P><STRONG><a name="[c3]"></a>__1printf$8</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printf8.o(i.__0printf$8), UNUSED)
 
-<P><STRONG><a name="[99]"></a>__2printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printf8.o(i.__0printf$8))
+<P><STRONG><a name="[9a]"></a>__2printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printf8.o(i.__0printf$8))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = __2printf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Schedule
+<BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PS_Calcs
 <LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ps
 <LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;time
 <LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;temp
@@ -872,7 +873,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;putc
 <LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prmsg
-<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shell
 </UL>
@@ -939,7 +940,7 @@ Global Symbols
 <P><STRONG><a name="[ad]"></a>ps</STRONG> (Thumb, 186 bytes, Stack size 8 bytes, jelos.o(i.ps))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = ps &rArr; __2printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<BR>[Calls]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shell
 </UL>
@@ -969,7 +970,7 @@ Global Symbols
 <P><STRONG><a name="[ae]"></a>settime</STRONG> (Thumb, 22 bytes, Stack size 16 bytes, shell.o(i.settime))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = settime &rArr; __2printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<BR>[Calls]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shell
 </UL>
@@ -991,7 +992,7 @@ Global Symbols
 <LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;execute
 <LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcmp
 <LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gets
-<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> ostestmain.o(i.main)
 </UL>
@@ -1004,7 +1005,7 @@ Global Symbols
 <P><STRONG><a name="[b3]"></a>temp</STRONG> (Thumb, 12 bytes, Stack size 8 bytes, shell.o(i.temp))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = temp &rArr; __2printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<BR>[Calls]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shell
 </UL>
@@ -1012,7 +1013,7 @@ Global Symbols
 <P><STRONG><a name="[b2]"></a>time</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, shell.o(i.time))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = time &rArr; __2printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<BR>[Calls]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shell
 </UL>

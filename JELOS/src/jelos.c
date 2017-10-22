@@ -134,8 +134,7 @@ unsigned char * Schedule(unsigned char * the_sp)
 	 //printf("\n\n");
 	
 	 period = ROM_SysTickPeriodGet();
-	 tick_val = ROM_SysTickValueGet();
-	 printf("\n%d\t%d\n", (period - tick_val), CURRENT_TASK->tid);	 
+	 tick_val = ROM_SysTickValueGet();	 
 	 CURRENT_TASK->clk_ticks = period - tick_val; // amount of time left after non-SysTick interrupt, AMW
 		
 	 /* Track changes to the stack pointer, Update task state */
@@ -217,13 +216,7 @@ void ps(void){
 }
 
 void PS_Calcs(void){
-		uint32_t max_ticks, max_ticks_id, prev_tick;
 		TaskControlBlock *tcb_ptr;
-		TaskControlBlock *max_tcb_tick_ptr;
-	
-		total_num_ticks = 0;
-		max_ticks = 0;
-		prev_tick = 0;
 		tcb_ptr = CURRENT_TASK;
 	
 		/* 
@@ -231,29 +224,19 @@ void PS_Calcs(void){
 			Get the total number of ticks among all processes
 			Function PS_Calcs
 		*/
-		// find tcb with the max clk_ticks
-		for(i = 0; i < NUM_TASKS; i++ ){
-			if( tcb_ptr->clk_ticks > max_ticks ){
-				max_ticks = tcb_ptr->clk_ticks;
-				max_ticks_id = tcb_ptr->tid;
-				max_tcb_tick_ptr = tcb_ptr;
-			}
-			tcb_ptr = tcb_ptr->next;
-		}
-		tcb_ptr = max_tcb_tick_ptr; // Reset to CURRENT_TASK
 		
 		// adjust the clocks from theone holding the max ticks
 		for(i = 0; i < NUM_TASKS; i++ ){
-			tcb_ptr->clk_ticks = tcb_ptr->clk_ticks - prev_tick;
-			task_ticks[((max_ticks_id+i) % NUM_TASKS)] = tcb_ptr->clk_ticks - prev_tick;
-			prev_tick = tcb_ptr->clk_ticks - prev_tick;
+			task_ticks[tcb_ptr->tid] = tcb_ptr->clk_ticks;
 			tcb_ptr = tcb_ptr->next;
 		}
+		tcb_ptr = CURRENT_TASK;
 		
 		// count the total number of task ticks
 		for(i = 0; i < NUM_TASKS; i++ ){
 			total_num_ticks += task_ticks[i];
 		}
+		
 		
 		for(i = 0; i < NUM_TASKS; i++ ){
 			stack_array[tcb_ptr->tid] = (int)tcb_ptr->sp;
@@ -262,7 +245,10 @@ void PS_Calcs(void){
 			stack_size[tcb_ptr->tid] = (stack_end_array[tcb_ptr->tid]-stack_start_array[tcb_ptr->tid]+1);
 			percent_cpu[tcb_ptr->tid] = (100*task_ticks[tcb_ptr->tid])/total_num_ticks;
 			percent_stack[CURRENT_TASK->tid] = ((stack_end_array[tcb_ptr->tid]-stack_array[tcb_ptr->tid])*100) / stack_size[tcb_ptr->tid];
+			//printf("stack_end: 0x%x\tstack_sp: 0x%x\n", stack_end_array[tcb_ptr->tid], stack_array[tcb_ptr->tid]);
+			tcb_ptr = tcb_ptr->next;
 		}
+		total_num_ticks = 1;
 }
 
 

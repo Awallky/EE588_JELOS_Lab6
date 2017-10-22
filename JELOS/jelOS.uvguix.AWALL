@@ -3525,11 +3525,11 @@
       </Doc>
       <Doc>
         <Name>.\src\jelos.c</Name>
-        <ColumnNumber>49</ColumnNumber>
-        <TopLine>77</TopLine>
-        <CurrentLine>249</CurrentLine>
+        <ColumnNumber>27</ColumnNumber>
+        <TopLine>121</TopLine>
+        <CurrentLine>248</CurrentLine>
         <Folding>1</Folding>
-        <ContractedFolders>38,59,94,111,129,180,186,193,268,280,291,310,325</ContractedFolders>
+        <ContractedFolders>38,59,94,111,179,185,192,254,266,277,296,311</ContractedFolders>
         <PaneID>0</PaneID>
       </Doc>
       <Doc>
