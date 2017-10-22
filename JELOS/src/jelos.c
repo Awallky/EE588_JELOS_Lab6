@@ -21,6 +21,7 @@ int percent_stack[NUM_TASKS],  percent_cpu[NUM_TASKS];
 //float percent_stack[NUM_TASKS], percent_cpu[NUM_TASKS];
 uint32_t total_num_ticks = 1;
 uint32_t ui32Error, previous_systick_value; // error code for interrupts
+uint32_t deadlock_flag = 0;
 
 static int NEXT_TID;
 static unsigned char null_task_stack[60];  // is not used, null task uses original system stack
@@ -38,7 +39,7 @@ int StartScheduler(void)
 	{
 	if (CURRENT_TASK == NULL)
 		return -1;
-	OS_Sem_Init(sem, 0);
+	OS_Sem_Init(sem, 1);
 	ROM_FPULazyStackingEnable();
 	PortF_Init();
 	SysTick_Init();		
@@ -130,10 +131,11 @@ unsigned char * Schedule(unsigned char * the_sp)
 	 unsigned char * sp; // save the current sp and schedule
    uint32_t period;
 	 uint32_t tick_val;
+	 //printf("\n\n");
 	
 	 period = ROM_SysTickPeriodGet();
 	 tick_val = ROM_SysTickValueGet();
-	 printf("%d\t%d\n", (period - tick_val), CURRENT_TASK->tid);	 
+	 printf("\n%d\t%d\n", (period - tick_val), CURRENT_TASK->tid);	 
 	 CURRENT_TASK->clk_ticks = period - tick_val; // amount of time left after non-SysTick interrupt, AMW
 		
 	 /* Track changes to the stack pointer, Update task state */
@@ -143,8 +145,8 @@ unsigned char * Schedule(unsigned char * the_sp)
 		
 	 /* Search for a task blocked on *sem */
 	 CURRENT_TASK = CURRENT_TASK->next;
-	 while(CURRENT_TASK->blocked){ 
-		 CURRENT_TASK = CURRENT_TASK->next; // skip task if blocked
+	 while(CURRENT_TASK->blocked){
+			CURRENT_TASK = CURRENT_TASK->next; // skip task if blocked
 	 }
 	 
 	 if(CURRENT_TASK->state == T_READY){
@@ -167,7 +169,9 @@ unsigned char * Schedule(unsigned char * the_sp)
 				AMW
 				Determine the ps values for the current tasks
 		*/
+		DisableInterrupts();
 		PS_Calcs();		
+		EnableInterrupts();
 		return(sp);
 }
 
@@ -213,27 +217,50 @@ void ps(void){
 }
 
 void PS_Calcs(void){
-		TaskControlBlock *tcb_ptr = CURRENT_TASK;
+		uint32_t max_ticks, max_ticks_id, prev_tick;
+		TaskControlBlock *tcb_ptr;
+		TaskControlBlock *max_tcb_tick_ptr;
+	
 		total_num_ticks = 0;
+		max_ticks = 0;
+		prev_tick = 0;
+		tcb_ptr = CURRENT_TASK;
 	
 		/* 
 			AMW
 			Get the total number of ticks among all processes
 			Function PS_Calcs
 		*/
+		// find tcb with the max clk_ticks
 		for(i = 0; i < NUM_TASKS; i++ ){
-			total_num_ticks += (tcb_ptr->clk_ticks);
-			task_ticks[tcb_ptr->tid] = tcb_ptr->clk_ticks;
+			if( tcb_ptr->clk_ticks > max_ticks ){
+				max_ticks = tcb_ptr->clk_ticks;
+				max_ticks_id = tcb_ptr->tid;
+				max_tcb_tick_ptr = tcb_ptr;
+			}
 			tcb_ptr = tcb_ptr->next;
 		}
-		tcb_ptr = CURRENT_TASK; // Reset to CURRENT_TASK
+		tcb_ptr = max_tcb_tick_ptr; // Reset to CURRENT_TASK
+		
+		// adjust the clocks from theone holding the max ticks
+		for(i = 0; i < NUM_TASKS; i++ ){
+			tcb_ptr->clk_ticks = tcb_ptr->clk_ticks - prev_tick;
+			task_ticks[((max_ticks_id+i) % NUM_TASKS)] = tcb_ptr->clk_ticks - prev_tick;
+			prev_tick = tcb_ptr->clk_ticks - prev_tick;
+			tcb_ptr = tcb_ptr->next;
+		}
+		
+		// count the total number of task ticks
+		for(i = 0; i < NUM_TASKS; i++ ){
+			total_num_ticks += task_ticks[i];
+		}
 		
 		for(i = 0; i < NUM_TASKS; i++ ){
-			stack_array[tcb_ptr->tid] = (int)tcb_ptr->sp;	
+			stack_array[tcb_ptr->tid] = (int)tcb_ptr->sp;
 			stack_end_array[tcb_ptr->tid] = (int)tcb_ptr->stack_end;
 			stack_start_array[tcb_ptr->tid] = (int)tcb_ptr->stack_start;
 			stack_size[tcb_ptr->tid] = (stack_end_array[tcb_ptr->tid]-stack_start_array[tcb_ptr->tid]+1);
-			percent_cpu[tcb_ptr->tid] = (100*task_ticks[tcb_ptr->tid])/total_num_ticks; /// ((float)total_num_ticks); // / (float)total_num_ticks;
+			percent_cpu[tcb_ptr->tid] = (100*task_ticks[tcb_ptr->tid])/total_num_ticks;
 			percent_stack[CURRENT_TASK->tid] = ((stack_end_array[tcb_ptr->tid]-stack_array[tcb_ptr->tid])*100) / stack_size[tcb_ptr->tid];
 		}
 }
@@ -255,7 +282,7 @@ void OS_Sem_Wait(int32_t *sem){
 	DisableInterrupts();
 	*sem -= 1;
 	if( *sem < 0 ){
-		CURRENT_TASK->blocked = *sem; // blocked on *sem
+		CURRENT_TASK->blocked = sem; // blocked on *sem
 		EnableInterrupts(); // allow scheduler a chance to be called
 		OS_Suspend();
 	}	
@@ -266,9 +293,10 @@ void OS_Sem_Signal(int32_t *sem){
 	DisableInterrupts();
 	*sem += 1;
 	if( *sem <= 0 ){
-		TaskControlBlock *task_ptr = CURRENT_TASK->next;		
-		while( task_ptr->blocked != *sem ){
-			task_ptr = task_ptr->next;
+		TaskControlBlock *task_ptr;
+		task_ptr = CURRENT_TASK->next;		
+		while( task_ptr->blocked != sem ){
+			task_ptr = task_ptr->next;		
 		}
 		task_ptr->blocked = 0; // unblock this task
 	}

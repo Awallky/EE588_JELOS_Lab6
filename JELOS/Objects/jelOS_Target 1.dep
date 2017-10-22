@@ -34,7 +34,7 @@ I (src\./../include/./../include/ti/TivaWare_C_Series-2.1.4.178/inc/hw_nvic.h)(0
 I (src\./../include/./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/fpu.h)(0x54539929)
 I (src\./../include/./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/pin_map.h)(0x5453A11A)
 I (src\./../include/./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/systick.h)(0x5453992A)
-I (src\./../include/./../include/jelos.h)(0x59ECC89A)
+I (src\./../include/./../include/jelos.h)(0x59ECD7CB)
 I (src\./../include/./../include/UART.h)(0x56E6F1B2)
 F (.\src\EdgeInterrupt.c)(0x59EA2D1F)(-c --cpu Cortex-M4 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DTM4C123GH6PM-o .\objects\edgeinterrupt.o --omf_browse .\objects\edgeinterrupt.crf --depend .\objects\edgeinterrupt.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588C2C04)
@@ -44,7 +44,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x588C2C04)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588C2C04)
 I (src\./../include/UART.h)(0x56E6F1B2)
 I (src\./../include/PLL.h)(0x56E6F1B2)
-I (src\./../include/jelos.h)(0x59ECC89A)
+I (src\./../include/jelos.h)(0x59ECD7CB)
 I (src\./../include/mylib.h)(0x59ECA2EF)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x588C2C04)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x588C2C04)
@@ -66,7 +66,7 @@ I (src\./../include/./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/fpu.h)
 I (src\./../include/./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/pin_map.h)(0x5453A11A)
 I (src\./../include/./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/systick.h)(0x5453992A)
 I (src\./../include/./../include/UART.h)(0x56E6F1B2)
-F (.\src\jelos.c)(0x59ECC9C6)(-c --cpu Cortex-M4 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DTM4C123GH6PM-o .\objects\jelos.o --omf_browse .\objects\jelos.crf --depend .\objects\jelos.d)
+F (.\src\jelos.c)(0x59ECE034)(-c --cpu Cortex-M4 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DTM4C123GH6PM-o .\objects\jelos.o --omf_browse .\objects\jelos.crf --depend .\objects\jelos.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x588C2C04)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588C2C04)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x588C2C04)
@@ -90,10 +90,10 @@ I (src\./../include/./../include/ti/TivaWare_C_Series-2.1.4.178/inc/hw_nvic.h)(0
 I (src\./../include/./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/fpu.h)(0x54539929)
 I (src\./../include/./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/pin_map.h)(0x5453A11A)
 I (src\./../include/./../include/ti/TivaWare_C_Series-2.1.4.178/driverlib/systick.h)(0x5453992A)
-I (src\./../include/./../include/jelos.h)(0x59ECC89A)
+I (src\./../include/./../include/jelos.h)(0x59ECD7CB)
 I (src\./../include/./../include/UART.h)(0x56E6F1B2)
 F (.\src\jelosASM.s)(0x59E4131E)(--cpu Cortex-M4 --pd "__EVAL SETA 1" -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123-IC:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 524" --pd "TM4C123GH6PM SETA 1"--list .\listings\jelosasm.lst --xref -o .\objects\jelosasm.o --depend .\objects\jelosasm.d)
-F (.\include\jelos.h)(0x59ECC89A)()
+F (.\include\jelos.h)(0x59ECD7CB)()
 F (.\include\mylib.h)(0x59ECA2EF)()
 F (.\include\PLL.h)(0x56E6F1B2)()
 F (.\include\sysctl.h)(0x5453992A)()

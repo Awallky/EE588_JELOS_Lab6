@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\jelos.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\jelos.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Sun Oct 22 12:39:41 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Sun Oct 22 14:15:19 2017
 <BR><P>
 <H3>Maximum Stack Usage =        128 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -608,13 +608,15 @@ Global Symbols
 <P><STRONG><a name="[b9]"></a>__rt_final_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry11a.o(.ARM.Collect$$$$0000000F))
 
 <P><STRONG><a name="[96]"></a>DisableInterrupts</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Init
+<BR><BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Schedule
+<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Init
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Wait
 <LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Signal
 </UL>
 
 <P><STRONG><a name="[97]"></a>EnableInterrupts</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Init
+<BR><BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Schedule
+<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Init
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartScheduler
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Wait
 <LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_Sem_Signal
@@ -715,7 +717,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartScheduler
 </UL>
 
-<P><STRONG><a name="[93]"></a>OS_Sem_Signal</STRONG> (Thumb, 50 bytes, Stack size 8 bytes, jelos.o(i.OS_Sem_Signal))
+<P><STRONG><a name="[93]"></a>OS_Sem_Signal</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, jelos.o(i.OS_Sem_Signal))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
 <LI>Call Chain = OS_Sem_Signal
 </UL>
@@ -729,7 +731,7 @@ Global Symbols
 <LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shell
 </UL>
 
-<P><STRONG><a name="[92]"></a>OS_Sem_Wait</STRONG> (Thumb, 42 bytes, Stack size 8 bytes, jelos.o(i.OS_Sem_Wait))
+<P><STRONG><a name="[92]"></a>OS_Sem_Wait</STRONG> (Thumb, 40 bytes, Stack size 8 bytes, jelos.o(i.OS_Sem_Wait))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
 <LI>Call Chain = OS_Sem_Wait
 </UL>
@@ -763,8 +765,10 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[9b]"></a>PS_Calcs</STRONG> (Thumb, 220 bytes, Stack size 0 bytes, jelos.o(i.PS_Calcs))
-<BR><BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Schedule
+<P><STRONG><a name="[9b]"></a>PS_Calcs</STRONG> (Thumb, 326 bytes, Stack size 20 bytes, jelos.o(i.PS_Calcs))
+<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = PS_Calcs
+</UL>
+<BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Schedule
 </UL>
 
 <P><STRONG><a name="[9d]"></a>PortF_Init</STRONG> (Thumb, 44 bytes, Stack size 8 bytes, jelos.o(i.PortF_Init))
@@ -773,12 +777,14 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartScheduler
 </UL>
 
-<P><STRONG><a name="[88]"></a>Schedule</STRONG> (Thumb, 204 bytes, Stack size 24 bytes, jelos.o(i.Schedule))
+<P><STRONG><a name="[88]"></a>Schedule</STRONG> (Thumb, 212 bytes, Stack size 24 bytes, jelos.o(i.Schedule))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48 + Unknown Stack Size
 <LI>Call Chain = Schedule &rArr; __2printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartNewTask
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PS_Calcs
+<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnableInterrupts
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisableInterrupts
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
